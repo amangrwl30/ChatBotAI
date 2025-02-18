@@ -1,4 +1,5 @@
-import streamlit as st
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 from langchain_community.vectorstores import FAISS
 from langchain.prompts import PromptTemplate
 from dotenv import load_dotenv
@@ -10,11 +11,10 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.schema import Document
-from langchain_community.document_loaders import PDFMinerLoader  # Loader for single PDF file
+from langchain_community.document_loaders import PDFMinerLoader
 
-st.set_page_config(
-    page_title="Customer Response Generator", page_icon=":bird:"
-)
+app = Flask(__name__)
+CORS(app)
 
 load_dotenv()
 
@@ -22,51 +22,32 @@ api_key = os.getenv("HUGGINGFACE_API_KEY")
 if not api_key:
     raise ValueError("HUGGINGFACE_API_KEY not found in .env file")
 
-@st.cache_resource
 def load_data():
-    # Path to your single static PDF file
-    pdf_file_path = "Data/medanta.pdf"  # Replace with your PDF file path
-    
-    # Load the PDF file
+    pdf_file_path = "data/medanta.pdf"  # Replace with your PDF file path
     pdf_loader = PDFMinerLoader(pdf_file_path)
     documents = pdf_loader.load()
 
-    # Split the documents into smaller chunks
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=500,  # Adjust chunk size based on your model's token limit
-        chunk_overlap=200,  # Overlap to maintain context between chunks
+        chunk_size=500,
+        chunk_overlap=200,
         length_function=len,
     )
     chunks = text_splitter.split_documents(documents)
 
-    print(f"Loaded {len(documents)} documents and split into {len(chunks)} chunks.")
     return chunks
 
 documents = load_data()
 
 embedding_model = HuggingFaceEmbeddings(model_name='sentence-transformers/all-MiniLM-L6-v2')
-
-# Extract text from documents and store in FAISS
 texts = [doc.page_content for doc in documents]
 db = FAISS.from_texts(texts, embedding_model)
-
-# Testing of embedding accuracy
-x = embedding_model.embed_query("vinay")
-y = embedding_model.embed_query("harry potter")
-
-similarity = cosine_similarity([x], [y])
-
-print(f"Cosine similarity between 'x' and 'y': {similarity[0][0]}")
-
-# Initialize LLM
 llm = HuggingFaceEndpoint(
     endpoint_url="https://api-inference.huggingface.co/models/gpt3.5",
-    huggingfacehub_api_token=api_key,  # Pass the API key here
-    temperature=1, 
+    huggingfacehub_api_token=api_key,
+    temperature=.7, 
     task="text-generation"
 )
 
-# Define prompt template
 template = """
 You are a helpful customer support assistant. Based on the following information:
 {context}
@@ -89,39 +70,27 @@ Format your response as follows:
 4. if no context is found, just say provide more info to help you out here.
 
 Important: Base your entire response solely on the information provided in the context. Do not include any external knowledge or assumptions not present in the given text.
-
 """
 
 prompt = PromptTemplate.from_template(template)
-
-# Create chain
 chain = prompt | llm
 
 def generate_response(query):
-    # Retrieve relevant info
     results = db.similarity_search(query, k=10)
     context = "\n".join([doc.page_content for doc in results])
-
-    # Add a delay to avoid rate limiting
     time.sleep(.3)
-
     response = chain.invoke({"context": context, "customer_message": query})
     return response
 
-# Streamlit UI
-def main():
-    st.header("Customer Response Generator :bird:")
-    message = st.text_area("Customer Message")
+@app.route('/generate_response', methods=['POST'])
+def generate_response_endpoint():
+    data = request.json
+    query = data.get('query')
+    if not query:
+        return jsonify({'error': 'No query provided'}), 400
 
-    if st.button("Generate Response"):
-        if message:
-            st.write("Generating the best response...")
-
-            result = generate_response(message)
-
-            st.success(result)
-        else:
-            st.warning("Please enter a customer message.")
+    response = generate_response(query)
+    return jsonify({'response': response})
 
 if __name__ == '__main__':
-    main()
+    app.run(debug=True)

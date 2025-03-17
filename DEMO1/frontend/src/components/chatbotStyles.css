@@ -1,0 +1,40 @@
+.react-chatbot-kit-chat-container {
+    width: 380px !important;
+    max-width: 500px !important;
+    position: relative !important;
+    height: 100%;
+  }
+
+  .react-chatbot-kit-chat-bot-message{
+    width: 260px !important;
+    margin-left: 0 !important;
+  }
+
+  .react-chatbot-kit-chat-header{
+    padding: 10px;
+    background: #376B7E;
+    color: white;
+    font-size: large;
+  }
+
+  .react-chatbot-kit-chat-container {
+    height: 80vh;
+    max-height: 80vh !important;  
+  }
+
+  .chatbot-container{
+    height: auto;
+  }
+
+  .react-chatbot-kit-chat-inner-container {
+    height: 627px;
+  }
+
+  .react-chatbot-kit-chat-message-container {
+    height: 580px;
+    padding-bottom: 60px !important; /* Make space for the home button */
+  }
+
+  .react-chatbot-kit-chat-input-form {
+    display: none;
+  }

@@ -9,14 +9,13 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-# Configuration
-GOOGLE_API_KEY = "AIzaSyAZIfLq7nOUiYo0wWv-MbG9Rqk1b77Z1NI"
-GOOGLE_CSE_ID = "55ade5a9aac4d47cd"
-
-# Get API key from environment variable
+# Get API keys from environment variables
+google_api_key = os.getenv("GOOGLE_API_KEY")
+google_cse_id = os.getenv("GOOGLE_CSE_ID")
 huggingface_api_key = os.getenv("HUGGINGFACE_API_KEY")
-if not huggingface_api_key:
-    raise ValueError("HUGGINGFACE_API_KEY not found in environment variables")
+
+if not all([google_api_key, google_cse_id, huggingface_api_key]):
+    raise ValueError("Required API keys not found in environment variables")
 
 def google_search(query, api_key, cse_id):
     try:
@@ -67,7 +66,7 @@ def chatbot(query, website, use_site_operator):
         primary_query = query
 
     # Perform search
-    search_results = google_search(primary_query, GOOGLE_API_KEY, GOOGLE_CSE_ID)
+    search_results = google_search(primary_query, google_api_key, google_cse_id)
     top_results = search_results.get("items", [])[:6] if search_results else []
     
     if not top_results:

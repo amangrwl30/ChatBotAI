@@ -2,11 +2,16 @@ import streamlit as st
 import requests
 import re
 from langchain_community.llms import HuggingFaceEndpoint
+import os
 
 # Configuration
 GOOGLE_API_KEY = "AIzaSyAZIfLq7nOUiYo0wWv-MbG9Rqk1b77Z1NI"
 GOOGLE_CSE_ID = "55ade5a9aac4d47cd"
-HUGGINGFACE_API_KEY = "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"
+
+# Get API key from environment variable
+api_key = os.getenv("HUGGINGFACE_API_KEY")
+if not api_key:
+    raise ValueError("HUGGINGFACE_API_KEY not found in environment variables")
 
 # Function to perform Google Custom Search
 def google_search(query, api_key, cse_id):
@@ -25,7 +30,7 @@ def setup_deepseek_r1():
     try:
         llm = HuggingFaceEndpoint(
             endpoint_url="https://api-inference.huggingface.co/models/deepseek-ai/deepseek-r1",
-            huggingfacehub_api_token=HUGGINGFACE_API_KEY,
+            huggingfacehub_api_token=api_key,
             temperature=0.7,
             task="text-generation",
         )
@@ -104,14 +109,14 @@ def chatbot(query, website, use_site_operator):
     
     # Fallback if answer is too short or unsatisfactory.
     if len(answer_strip) < 10 or not re.search(r"[A-Za-z]", answer_strip):
-        generated_answer = "Here’s what we found:"
+        generated_answer = "Here's what we found:"
     elif has_repetitive_phrases(answer_strip, n=3, threshold=2):
-        generated_answer = "Here’s what we found:"
+        generated_answer = "Here's what we found:"
 
     # If fallback triggered, only show the fallback message with the links.
-    if generated_answer == "Here’s what we found:":
+    if generated_answer == "Here's what we found:":
         final_response = (
-            f"**Answer:**\nHere’s what we have found:\n\n"
+            f"**Answer:**\nHere's what we have found:\n\n"
             f"**Relevant Links from {website}:**\n{links_text}"
         )
     else:

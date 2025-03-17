@@ -7,12 +7,22 @@ This project is a full-stack application that uses Flask for the backend and Rea
 
 ## Project Structure
 ```
-my_project/
+ChatBotAI/
 │
 ├── backend/
 │   ├── app.py
-│   ├── .env
-│   └── requirements.txt
+│   ├── config.py
+│   ├── __init__.py
+│   ├── services/
+│   │   ├── loaders.py
+│   │   ├── vectorstore.py
+│   │   ├── llm.py
+│   │   ├── utils.py
+│   ├── routes/
+│   │   ├── __init__.py
+│   │   ├── generate_response.py
+├   |-- .env
+├   |-- requirements.txt
 │
 ├── frontend/
 │   ├── public/

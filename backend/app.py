@@ -1,96 +1,84 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-from langchain_community.vectorstores import FAISS
-from langchain.prompts import PromptTemplate
-from dotenv import load_dotenv
-from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_huggingface import HuggingFaceEndpoint
 import os
-import time  
-import numpy as np
-from sklearn.metrics.pairwise import cosine_similarity
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.schema import Document
-from langchain_community.document_loaders import PDFMinerLoader
+import openai
+from flask import Flask, request, jsonify, send_file
+from flask_cors import CORS  # Import CORS
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-CORS(app)
+CORS(app)  # Enable CORS for all routes
 
-load_dotenv()
+# Set OpenAI API Key
+OPENAI_API_KEY = "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"
+openai.api_key = OPENAI_API_KEY
 
-api_key = os.getenv("HUGGINGFACE_API_KEY")
-if not api_key:
-    raise ValueError("HUGGINGFACE_API_KEY not found in .env file")
+UPLOAD_FOLDER = "uploads"
+OUTPUT_FOLDER = "responses"
+ALLOWED_EXTENSIONS = {"wav", "mp3", "m4a"}
 
-def load_data():
-    pdf_file_path = "data/medanta.pdf"  # Replace with your PDF file path
-    pdf_loader = PDFMinerLoader(pdf_file_path)
-    documents = pdf_loader.load()
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
-    text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=500,
-        chunk_overlap=200,
-        length_function=len,
-    )
-    chunks = text_splitter.split_documents(documents)
+def allowed_file(filename):
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
-    return chunks
+@app.route('/', methods=['GET'])
+def index():
+    return "Server is up and running!"
 
-documents = load_data()
+@app.route('/process-audio', methods=['POST'])
+def process_audio():
+    print("Received request at /process-audio")
+    if 'audio' not in request.files:
+        return jsonify({"error": "No audio file uploaded"}), 400
+    
+    audio_file = request.files['audio']
 
-embedding_model = HuggingFaceEmbeddings(model_name='sentence-transformers/all-MiniLM-L6-v2')
-texts = [doc.page_content for doc in documents]
-db = FAISS.from_texts(texts, embedding_model)
-llm = HuggingFaceEndpoint(
-    endpoint_url="https://api-inference.huggingface.co/models/deepseek-ai/deepseek-r1",
-    huggingfacehub_api_token=api_key,
-    temperature=.7, 
-    task="text-generation"
-)
+    if not allowed_file(audio_file.filename):
+        return jsonify({"error": "Invalid file type"}), 400
 
-template = """
-You are a helpful customer support assistant. Based on the following information:
-{context}
+    filename = secure_filename(audio_file.filename)
+    file_path = os.path.join(UPLOAD_FOLDER, filename)
+    audio_file.save(file_path)
+    print(f"Audio file saved at: {file_path}")
 
-Answer the customer's query in a friendly and professional manner:
-{customer_message}
+    try:
+        # Step 1: Transcribe Audio to Text
+        print("Transcribing audio to text...")
+        with open(file_path, "rb") as audio:
+            response = openai.Audio.transcriptions.create(
+                model="whisper-1",
+                file=audio
+            )
+        user_text = response['text']
+        print(f"User: {user_text}")
 
-To answer the question:
-0. If you are asked about any index like list of content , visit that index and fetch the data.
-1. Thoroughly analyze the context, identifying key information or keywords from the files relevant to the question.
-2. if information is somewhat matching to asked question, give those details as well.
-3. Formulate a detailed answer that directly addresses the question, using only the information provided in the context.
-4. Ensure to give response strictly from the files only that has been uploaded. Donot give any information from internet.
-5. If the files  doesn't contain sufficient information or no information to fully answer the question, state this clearly in your response that give more information please.
+        # Step 2: Get GPT-4 Response
+        print("Getting GPT-4 response...")
+        chat_response = openai.Chat.completions.create(
+            model="gpt-4",
+            messages=[{"role": "user", "content": user_text}]
+        )
+        bot_text = chat_response['choices'][0]['message']['content']
+        print(f"Bot: {bot_text}")
 
-Format your response as follows:
-1. Use clear, concise language.
-2. Organize your answer into paragraphs for readability.
-3. Use bullet points or numbered lists where appropriate to break down complex information.
-4. if no context is found, just say provide more info to help you out here.
+        # Step 3: Convert Bot Response to Speech
+        print("Converting bot response to speech...")
+        tts_response = openai.Audio.speech.create(
+            model="tts-1",
+            voice="alloy",
+            input=bot_text
+        )
 
-Important: Base your entire response solely on the information provided in the context. Do not include any external knowledge or assumptions not present in the given text.
-"""
+        response_audio_path = os.path.join(OUTPUT_FOLDER, "response.mp3")
+        with open(response_audio_path, "wb") as f:
+            f.write(tts_response['content'])
 
-prompt = PromptTemplate.from_template(template)
-chain = prompt | llm
+        print(f"Response audio saved at: {response_audio_path}")
+        return send_file(response_audio_path, mimetype="audio/mp3")
 
-def generate_response(query):
-    results = db.similarity_search(query, k=10)
-    context = "\n".join([doc.page_content for doc in results])
-    time.sleep(.3)
-    response = chain.invoke({"context": context, "customer_message": query})
-    return response
-
-@app.route('/generate_response', methods=['POST'])
-def generate_response_endpoint():
-    data = request.json
-    query = data.get('query')
-    if not query:
-        return jsonify({'error': 'No query provided'}), 400
-
-    response = generate_response(query)
-    return jsonify({'response': response})
+    except Exception as e:
+        print("Error processing request:", str(e))
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5000)

@@ -4,6 +4,12 @@ import { faPhone, faEnvelope, faComments } from "@fortawesome/free-solid-svg-ico
 import HomeButton from "./HomeButton";
 
 const AssistantContact = (props) => {
+
+  const email = {
+    to: 'zomato.com',
+    subject: 'Regarding product query',
+    body: 'Regarding personal product query on Product with order Id 101, the food received is contaminated. Required refund'
+  }
   const contactOptions = [
     {
       icon: faPhone,
@@ -16,7 +22,7 @@ const AssistantContact = (props) => {
       icon: faEnvelope,
       text: "Email Support",
       description: "Send us an email",
-      action: "mailto:support@example.com",
+      action: `mailto:${email.to}?subject=${encodeURIComponent(email.subject)}&body=${encodeURIComponent(email.body)}`,
       color: "text-yellow-600"
     },
     {
@@ -25,7 +31,14 @@ const AssistantContact = (props) => {
       description: "Chat with an agent",
       action: "#",
       color: "text-blue-600"
-    }
+    },
+    // {
+    //   icon: faComments,
+    //   text: "Schedule Appointment",
+    //   description: "Schedule apt. with the Agent",
+    //   action: "#",
+    //   color: "text-blue-600"
+    // }
   ];
 
   return (

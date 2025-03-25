@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight, faCheckCircle, faClock } from "@fortawesome/free-solid-svg-icons";
 import HomeButton from "./HomeButton";
-
+import { AppContext } from "../../context/AppContext";
 const OrderList = (props) => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const { sharedState, setSharedState } = useContext(AppContext);
+
 
   useEffect(() => {
     fetchOrders();
@@ -30,7 +32,7 @@ const OrderList = (props) => {
 
   const fetchProductDetail = async (orderId) => {
     try {
-      const response = await fetch(`http://localhost:8080/orders/order?orderId=${orderId}`);
+      const response = await fetch(`http://localhost:8080/order?orderId=${orderId}`);
       if (!response.ok) {
         throw new Error('Failed to fetch product details');
       }
@@ -56,6 +58,7 @@ const OrderList = (props) => {
   };
 
   const orderHandler = async (order) => {
+    setSharedState({...sharedState,selectedOrder: order })
     const productDetail = await fetchProductDetail(order.orderId);
     if (productDetail) {
       props.actionProvider.handleOrderDetail(order, productDetail);

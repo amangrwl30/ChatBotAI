@@ -1,10 +1,11 @@
 import { playMessageSound } from './utils/sound';
-
 class ActionProvider {
   constructor(createChatBotMessage, setStateFunc) {
     this.createChatBotMessage = createChatBotMessage;
     this.setState = setStateFunc;
   }
+
+
 
   // Add new method to handle user messages
   addUserMessage = (text) => {
@@ -38,6 +39,7 @@ class ActionProvider {
 
     if (productDetail.status === "DELIVERED") {
       // For delivered products, show the queries widget with both options
+      
       const message = this.createChatBotMessage(
         `For Order ID: ${order.orderId}, please select your issue:`,
         {
@@ -104,9 +106,9 @@ class ActionProvider {
       // First show loading message
       const loadingMessage = this.createChatBotMessage("Checking return eligibility...");
       this.addMessageToState(loadingMessage);
-
+  
       // Call the API
-      const response = await fetch(`http://localhost:8081/orders/damaged-product-inquiry?orderId=${orderId}`);
+      const response = await fetch(`http://localhost:8080/damagedProductInquiry?orderId=${orderId}`);
       if (!response.ok) throw new Error('Failed to check return eligibility');
       
       const data = await response.json();
@@ -207,7 +209,7 @@ class ActionProvider {
       const loadingMessage = this.createChatBotMessage("Checking if address change is possible...");
       this.addMessageToState(loadingMessage);
 
-      const response = await fetch(`http://localhost:8080/orders/address-change-status?orderId=${orderId}`);
+      const response = await fetch(`http://localhost:3001/orders/address-change-status?orderId=${orderId}`);
       if (!response.ok) throw new Error('Failed to check address change status');
       
       const data = await response.json();

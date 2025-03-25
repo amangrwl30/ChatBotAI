@@ -1,8 +1,9 @@
-import React from "react";
+import React,{useContext} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBox, faUndo, faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
-
+import { AppContext } from "../../context/AppContext";
 const DeliveredProductQueries = (props) => {
+  const { sharedState, setSharedState } = useContext(AppContext);
   const handleOptionClick = (handler) => {
     // First remove the deliveredProductQueries widget
     props.setState((prevState) => ({
@@ -17,7 +18,7 @@ const DeliveredProductQueries = (props) => {
   const options = [
     {
       text: "Damaged Package",
-      handler: () => handleOptionClick(props.actionProvider.handleDamagedPackageQuery),
+      handler: () => handleOptionClick(() => props.actionProvider.handleDamagedPackageQuery(sharedState?.selectedOrder?.orderId)),
       icon: faBox,
       id: 1,
     },

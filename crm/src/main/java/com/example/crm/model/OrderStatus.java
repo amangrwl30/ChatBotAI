@@ -1,6 +1,6 @@
 package com.example.crm.model;
 public enum OrderStatus {
-    SHIPPED,
+    OUT FOR DELIVERY,
     DELIVERED,
     CANCELLED,
     REFUNDED

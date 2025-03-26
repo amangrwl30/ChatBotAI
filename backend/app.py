@@ -1,30 +1,18 @@
 import os
-import openai
 from flask import Flask, request, jsonify, send_file
-from flask_cors import CORS  # Import CORS
+from flask_cors import CORS
 from werkzeug.utils import secure_filename
-import requests
-import re
-from bs4 import BeautifulSoup
-from langchain_community.llms import HuggingFaceEndpoint
+from openai import OpenAI
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app)
 
-# Get API keys from environment variables
-openai_api_key = os.getenv("OPENAI_API_KEY")
-if not openai_api_key:
-    raise ValueError("OPENAI_API_KEY not found in environment variables")
-
-openai.api_key = openai_api_key
-
-# Get API keys from environment variables
-google_api_key = os.getenv("GOOGLE_API_KEY")
-google_cse_id = os.getenv("GOOGLE_CSE_ID")
-huggingface_api_key = os.getenv("HUGGINGFACE_API_KEY")
-
-if not all([google_api_key, google_cse_id, huggingface_api_key]):
-    raise ValueError("Required API keys not found in environment variables")
+# Get OpenAI API Key from environment variable
+client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
 UPLOAD_FOLDER = "uploads"
 OUTPUT_FOLDER = "responses"
@@ -42,7 +30,7 @@ def index():
 
 @app.route('/process-audio', methods=['POST'])
 def process_audio():
-    print("Received request at /process-audio")
+    print("33Received request at /process-audio")
     if 'audio' not in request.files:
         return jsonify({"error": "No audio file uploaded"}), 400
     
@@ -54,39 +42,60 @@ def process_audio():
     filename = secure_filename(audio_file.filename)
     file_path = os.path.join(UPLOAD_FOLDER, filename)
     audio_file.save(file_path)
-    print(f"Audio file saved at: {file_path}")
+    print(f"45Audio file saved at: {file_path}")
 
     try:
         # Step 1: Transcribe Audio to Text
         print("Transcribing audio to text...")
         with open(file_path, "rb") as audio:
-            response = openai.Audio.transcriptions.create(
+            response = client.audio.transcriptions.create(
                 model="whisper-1",
                 file=audio
             )
-        user_text = response['text']
-        print(f"User: {user_text}")
+        user_text = response.text
+        print(f"User56: {user_text}")
 
-        # Step 2: Get GPT-4 Response
-        print("Getting GPT-4 response...")
-        chat_response = openai.Chat.completions.create(
+        # Step 2: Get GPT-4 Response with limited length
+        print("59Getting GPT-4 response...")
+        chat_response = client.chat.completions.create(
             model="gpt-4",
-            messages=[{"role": "user", "content": user_text}]
+            messages=[{"role": "user", "content": user_text}],
+            max_tokens=50,  # Limit response length to get ~5 seconds of audio
+            temperature=0.7
         )
-        bot_text = chat_response['choices'][0]['message']['content']
-        print(f"Bot: {bot_text}")
+        bot_text = chat_response.choices[0].message.content
+        print(f"Bot67: {bot_text}")
 
         # Step 3: Convert Bot Response to Speech
         print("Converting bot response to speech...")
-        tts_response = openai.Audio.speech.create(
+        tts_response = client.audio.speech.create(
             model="tts-1",
-            voice="alloy",
-            input=bot_text
+            voice="shimmer",
+            input=bot_text,
+            speed=1.0,  # Slightly faster speech
+            response_format="mp3"
         )
+
+#         voice="alloy"      # Default neutral voice
+# voice="echo"       # Male voice
+# voice="fable"      # British accent
+# voice="onyx"       # Deep male voice
+# voice="nova"       # Female voice
+# voice="shimmer"
+
+# speed=0.8    # Slower speech
+# speed=1.0    # Default speed
+# speed=1.2    # Faster speech
+# speed=1.5 
+
+# response_format="mp3"    # Standard audio format
+# response_format="opus"   # High-quality audio format
+# response_format="aac"    # Advanced audio coding
+# response_format="flac" 
 
         response_audio_path = os.path.join(OUTPUT_FOLDER, "response.mp3")
         with open(response_audio_path, "wb") as f:
-            f.write(tts_response['content'])
+            f.write(tts_response.content)
 
         print(f"Response audio saved at: {response_audio_path}")
         return send_file(response_audio_path, mimetype="audio/mp3")
@@ -95,127 +104,130 @@ def process_audio():
         print("Error processing request:", str(e))
         return jsonify({"error": str(e)}), 500
 
-def google_search(query, api_key, cse_id):
-    try:
-        url = "https://www.googleapis.com/customsearch/v1"
-        params = {"q": query, "key": api_key, "cx": cse_id}
-        response = requests.get(url, params=params)
-        response.raise_for_status()
-        return response.json()
-    except requests.RequestException as e:
-        print(f"Error during Google search: {e}")
-        return None
-
-def setup_deepseek_r1():
-    try:
-        llm = HuggingFaceEndpoint(
-            endpoint_url="https://api-inference.huggingface.co/models/deepseek-ai/deepseek-r1",
-            huggingfacehub_api_token=huggingface_api_key,
-            temperature=0.4,  # Lowered temperature for less randomness
-            max_tokens=350,  # Limit the number of tokens in the response
-            top_p=0.9,
-            task="text-generation",
-        )
-        return llm
-    except Exception as e:
-        print(f"Error setting up DeepSeek-R1 model: {e}")
-        return None
-
-def has_repetitive_phrases(text, n=3, threshold=2):
-    words = text.split()
-    ngrams = {}
-    for i in range(len(words) - n + 1):
-        phrase = " ".join(words[i:i+n])
-        ngrams[phrase] = ngrams.get(phrase, 0) + 1
-    for phrase, count in ngrams.items():
-        if count > threshold:
-            return True
-    return False
-
-def is_meaningful_text(text):
-    return re.search(r"[A-Za-z]", text) and len(text) > 10
-
-def chatbot(query, website, use_site_operator):
-    # Build the search query with site operator if required.
-    if use_site_operator:
-        clean_site = website.replace("https://", "").replace("http://", "").rstrip("/")
-        primary_query = f"site:{clean_site} {query}"
-    else:
-        primary_query = query
-
-    # Perform search
-    search_results = google_search(primary_query, google_api_key, google_cse_id)
-    top_results = search_results.get("items", [])[:6] if search_results else []
-    
-    if not top_results:
-        if use_site_operator:
-            return {"answer": f"Sorry, I couldn't find any relevant information on {website}.", "links": []}
-        else:
-            return {"answer": "Sorry, I couldn't find any relevant information.", "links": []}
-
-    # Build context and links from search results.
-    context_text = ""
-    links_list = []
-    for i, result in enumerate(top_results, start=1):
-        title = result.get("title", "No Title")
-        snippet = result.get("snippet", "No snippet available.")
-        link = result.get("link", "")
-        context_text += f"{i}. {title}:\n{snippet}\n\n"
-        links_list.append({"title": title, "link": link})
-
-    if not context_text.strip():
-        return {"answer": f"**Relevant Links from {website}:**", "links": links_list}
-
-    # Build prompt for the LLM.
-    prompt = (
-        f"Below is a set of information extracted from {website} that may be relevant to the user's query. "
-        f"Based solely on the following context, provide a concise and accurate answer to the question. "
-        f"Include key details if they are present, and do not add any information that is not supported by the context. "
-        f"If the context does not contain enough relevant information, respond with: "
-        f"I could not find a relevant answer based on the provided information.\n\n"
-        f"Extracted Information:\n{context_text}\n"
-        f"Question: {query}\n\n"
-        f"Answer:"
-    )
-
-    llm = setup_deepseek_r1()
-    if not llm:
-        return {"answer": "LLM is not available at the moment.", "links": links_list}
-
-    try:
-        generated_answer = llm(prompt)
-    except Exception as e:
-        return {"answer": f"Error generating answer: {e}", "links": links_list}
-
-    answer_strip = generated_answer.strip()
-    # Fallback logic for short or unsatisfactory answers.
-    if not is_meaningful_text(answer_strip) or has_repetitive_phrases(answer_strip, n=3, threshold=2):
-        generated_answer = "Here's what we found:"
-
-    if generated_answer == "Here's what we found:":
-        return {
-            "answer": "Here's what we have found:",
-            "links": links_list
-        }
-    else:
-        return {
-            "answer": generated_answer,
-            "links": links_list
-        }
-
-@app.route('/chat', methods=['POST'])
-def chat():
-    # Expecting JSON payload with keys: query, website, use_site_operator (optional).
-    data = request.get_json()
-    query = data.get('query')
-    website = data.get('website')
-    use_site_operator = data.get('use_site_operator', True)
-
-    if not query or not website:
-        return jsonify({'error': 'Both query and website are required.'}), 400
-
-    response_data = chatbot(query, website, use_site_operator)
-    return jsonify(response_data)
-
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
+
+
+
+
+
+# import os
+# from flask import Flask, request, jsonify, send_file
+# from flask_cors import CORS
+# from werkzeug.utils import secure_filename
+# from openai import OpenAI
+# from dotenv import load_dotenv
+
+# # Load environment variables
+# load_dotenv()
+
+# app = Flask(__name__)
+# CORS(app)
+
+# # Get OpenAI API Key from environment variable
+# client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+
+# UPLOAD_FOLDER = "uploads"
+# OUTPUT_FOLDER = "responses"
+# ALLOWED_EXTENSIONS = {"wav", "mp3", "m4a"}
+
+# os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+# os.makedirs(OUTPUT_FOLDER, exist_ok=True)
+
+# def allowed_file(filename):
+#     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
+# @app.route('/', methods=['GET'])
+# def index():
+#     return "Server is up and running!"
+
+# @app.route('/process-audio', methods=['POST'])
+# def process_audio():
+#     print("Received request at /process-audio")
+#     if 'audio' not in request.files:
+#         return jsonify({"error": "No audio file uploaded"}), 400
+    
+#     audio_file = request.files['audio']
+
+#     if not allowed_file(audio_file.filename):
+#         return jsonify({"error": "Invalid file type"}), 400
+
+#     filename = secure_filename(audio_file.filename)
+#     file_path = os.path.join(UPLOAD_FOLDER, filename)
+#     audio_file.save(file_path)
+#     print(f"Audio file saved at: {file_path}")
+
+#     try:
+#         # Step 1: Transcribe Audio to Text
+#         print("Transcribing audio to text...")
+#         with open(file_path, "rb") as audio:
+#             response = client.audio.transcriptions.create(
+#                 model="whisper-1",
+#                 file=audio
+#             )
+#         user_text = response.text
+#         print(f"User: {user_text}")
+
+#         # Step 2: Get GPT-4 Response with limited length
+#         print("Getting GPT-4 response...")
+#         chat_response = client.chat.completions.create(
+#             model="gpt-4",
+#             messages=[{"role": "user", "content": user_text}],
+#             max_tokens=50,  # Limit response length to get ~5 seconds of audio
+#             temperature=0.7
+#         )
+#         bot_text = chat_response.choices[0].message.content
+#         print(f"Bot: {bot_text}")
+
+#         # Step 3: Convert Bot Response to Speech
+#         print("Converting bot response to speech...")
+#         tts_response = client.audio.speech.create(
+#             model="tts-1",
+#             voice="shimmer",
+#             input=bot_text,
+#             speed=1.0,  # Slightly faster speech
+#             response_format="mp3"
+#         )
+
+# #         voice="alloy"      # Default neutral voice
+# # voice="echo"       # Male voice
+# # voice="fable"      # British accent
+# # voice="onyx"       # Deep male voice
+# # voice="nova"       # Female voice
+# # voice="shimmer"
+
+# # speed=0.8    # Slower speech
+# # speed=1.0    # Default speed
+# # speed=1.2    # Faster speech
+# # speed=1.5 
+
+# # response_format="mp3"    # Standard audio format
+# # response_format="opus"   # High-quality audio format
+# # response_format="aac"    # Advanced audio coding
+# # response_format="flac" 
+
+#         response_audio_path = os.path.join(OUTPUT_FOLDER, "response.mp3")
+#         with open(response_audio_path, "wb") as f:
+#             f.write(tts_response.content)
+
+#         print(f"Response audio saved at: {response_audio_path}")
+
+#         # Return STT text, TTS text, and audio file link
+#         return jsonify({
+#             "stt_text": user_text,  # Transcribed Speech-to-Text
+#             "tts_text": bot_text,   # Generated Text-to-Speech Response
+#             "audio_url": f"http://localhost:5000/get-audio"  # URL to fetch audio
+#         })
+
+#     except Exception as e:
+#         print("Error processing request:", str(e))
+#         return jsonify({"error": str(e)}), 500
+
+# # New route to serve the generated audio file
+# @app.route('/get-audio', methods=['GET'])
+# def get_audio():
+#     response_audio_path = os.path.join(OUTPUT_FOLDER, "response.mp3")
+#     return send_file(response_audio_path, mimetype="audio/mp3")
+
+# if __name__ == '__main__':
+#     app.run(debug=True, port=5000)

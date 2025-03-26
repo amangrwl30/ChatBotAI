@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import LandingPage from './LandingPage'; // Import the LandingPage component
 import CRMChatBot from './CRMChatBot';
+import AudioChatbot from '../audioComponent/AudioChatbot';
 // import AnotherComponent from './AnotherComponent'; // Import another component
 
 const InitialPage = () => {
@@ -24,10 +25,16 @@ const InitialPage = () => {
               LLM ChatBot
             </button>
             <button
-              onClick={() => handleTileClick('anotherComponent')}
+              onClick={() => handleTileClick('crmChatbot')}
               className="tile-button bg-blue-500 px-8 py-4 rounded-full text-black font-bold shadow-md hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-110"
             >
               CRM ChatBot
+            </button>
+            <button
+              onClick={() => handleTileClick('audioChatbot')}
+              className="tile-button bg-green-500 px-8 py-4 rounded-full text-black font-bold shadow-md hover:bg-green-600 transition duration-300 ease-in-out transform hover:scale-110"
+            >
+              Audio ChatBot
             </button>
           </div>
         </div>
@@ -35,13 +42,10 @@ const InitialPage = () => {
         <div className="animate-fadeIn">
           {selectedTile === 'landingPage' ? (
             <LandingPage />
+          ) : selectedTile === 'crmChatbot' ? (
+            <CRMChatBot />
           ) : (
-            // <AnotherComponent />
-            <div className="text-center p-8">
-              <h1 className="text-4xl font-extrabold mb-10">CRM ChatBot</h1>
-              {/* <p className="text-xl mb-6 font-light">This is the Another Feature.</p> */}
-              <CRMChatBot />
-            </div>
+            <AudioChatbot />
           )}
         </div>
       )}

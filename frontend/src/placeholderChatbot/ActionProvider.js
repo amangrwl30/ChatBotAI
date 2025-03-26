@@ -209,7 +209,7 @@ class ActionProvider {
       const loadingMessage = this.createChatBotMessage("Checking if address change is possible...");
       this.addMessageToState(loadingMessage);
 
-      const response = await fetch(`http://localhost:3001/orders/address-change-status?orderId=${orderId}`);
+      const response = await fetch(`http://localhost:8080/address-change-status?orderId=${orderId}`);
       if (!response.ok) throw new Error('Failed to check address change status');
       
       const data = await response.json();

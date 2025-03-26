@@ -41,7 +41,7 @@ const DeliveredOrders = (props) => {
 
   const handleOrderClick = async (order) => {
     try {
-      const response = await fetch(`http://localhost:8080/orders/order?orderId=${order.orderId}`);
+      const response = await fetch(`http://localhost:8080/order?orderId=${order.orderId}`);
       if (!response.ok) throw new Error('Failed to fetch product details');
       const productDetail = await response.json();
 

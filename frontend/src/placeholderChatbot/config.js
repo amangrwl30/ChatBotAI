@@ -13,7 +13,7 @@ import AssistantContact from "./components/AssistantContact";
 import DeliveredOrders from "./components/DeliveredOrders";
 import PaymentOptions from "./components/PaymentOptions";
 
-const botName = "Ritesh";
+const botName = "Ema";
 
 const config = {
   botName: botName,

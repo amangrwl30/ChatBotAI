@@ -3,13 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight, faCheckCircle, faClock } from "@fortawesome/free-solid-svg-icons";
 import HomeButton from "./HomeButton";
 import { AppContext } from "../../context/AppContext";
+
 const OrderList = (props) => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [allDisabled, setAllDisabled] = useState(false);
   const { sharedState, setSharedState } = useContext(AppContext);
-
 
   useEffect(() => {
     fetchOrders();
@@ -58,7 +59,8 @@ const OrderList = (props) => {
   };
 
   const orderHandler = async (order) => {
-    setSharedState({...sharedState,selectedOrder: order })
+    setAllDisabled(true);
+    setSharedState({...sharedState, selectedOrder: order });
     const productDetail = await fetchProductDetail(order.orderId);
     if (productDetail) {
       props.actionProvider.handleOrderDetail(order, productDetail);
@@ -117,11 +119,12 @@ const OrderList = (props) => {
           {orders.map((order) => (
             <div 
               key={order.orderId}
-              onClick={() => orderHandler(order)}
+              onClick={() => !allDisabled && orderHandler(order)}
               className={`
                 group flex-none w-72 rounded-xl shadow-md p-5 cursor-pointer 
                 hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 
                 border border-gray-100 relative overflow-hidden
+                ${allDisabled ? 'opacity-50 cursor-not-allowed' : ''}
                 ${order.status === 'DELIVERED' ? 'bg-gradient-to-br from-green-100 to-green-50' :
                   order.status === 'SHIPPED' ? 'bg-gradient-to-br from-blue-100 to-blue-50' :
                   order.status === 'CANCELLED' ? 'bg-gradient-to-br from-red-100 to-red-50' :

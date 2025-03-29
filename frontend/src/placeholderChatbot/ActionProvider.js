@@ -295,9 +295,9 @@ class ActionProvider {
   };
 
   handleVerifyPaymentStatus = () => {
-    this.addUserMessage("Verify Payment Status");
+    this.addUserMessage("Amount debited but order not confirmed");
     const message = this.createChatBotMessage(
-      "Please provide your order details to check payment status:",
+      "You will be notified about the status of your order via email and SMS within 24 hours of the transaction. Upon completion of the transaction, you will receive an order confirmation containing the details of your purchase and the expected delivery date. However, if the transaction is not successful, you will receive a refund.",
       {
         widget: "paymentStatusCheck"
       }

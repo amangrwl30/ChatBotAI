@@ -7,6 +7,7 @@ const RefundStatus = (props) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [refundData, setRefundData] = useState(null);
+  const [showSupportMessage, setShowSupportMessage] = useState(false);
 
   useEffect(() => {
     fetchRefundStatus();
@@ -28,6 +29,14 @@ const RefundStatus = (props) => {
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleString();
+  };
+
+  const handleStillHaveQuery = () => {
+    setShowSupportMessage(true);
+    const supportMessage = "For further queries, please connect with our support team.";
+    props.actionProvider.addMessageToState(props.actionProvider.createChatBotMessage(supportMessage, {
+      widget: "assistantContact"
+    }));
   };
 
   if (loading) {
@@ -97,6 +106,17 @@ const RefundStatus = (props) => {
           </div>
         </div>
       </div>
+      
+      {!showSupportMessage && (
+        <a
+          href="#"
+          onClick={handleStillHaveQuery}
+          className="mt-4 block text-blue-600 font-bold hover:text-blue-700 transition-colors duration-300 cursor-pointer"
+        >
+          Still have a query?
+        </a>
+      )}
+
       <HomeButton {...props} />
     </div>
   );

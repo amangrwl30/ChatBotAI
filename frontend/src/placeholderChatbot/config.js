@@ -1,9 +1,6 @@
 import React from "react";
 import { createChatBotMessage } from "react-chatbot-kit";
 import HomeButton from "./components/HomeButton";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome } from "@fortawesome/free-solid-svg-icons";
-
 import MainMenu from "./components/MainMenu";
 import OrderList from "./components/OrderList";
 import DeliveredProductQueries from "./components/DeliveredProductQueries";
@@ -12,6 +9,10 @@ import RefundStatus from "./components/RefundStatus";
 import AssistantContact from "./components/AssistantContact";
 import DeliveredOrders from "./components/DeliveredOrders";
 import PaymentOptions from "./components/PaymentOptions";
+import AddressChangeChoice from "./components/AddressChangeChoice";
+import CommonPaymentIssues from "./components/CommonPaymentIssues";
+import PaymentStatusCheck from "./components/PaymentStatusCheck";
+import PaymentMethodChangeLink from "./components/PaymentMethodChangeLink";
 
 const botName = "Ema";
 
@@ -213,32 +214,7 @@ const config = {
     },
     {
       widgetName: "addressChangeChoice",
-      widgetFunc: (props) => {
-        const handleClick = () => {
-          props.setState((prevState) => ({
-            ...prevState,
-            messages: prevState.messages.filter(msg => msg.widget !== "addressChangeChoice")
-          }));
-          
-          const orderId = props.payload?.orderId;
-          props.actionProvider.handleAddressChangeCheck(orderId);
-        };
-
-        return (
-          <div>
-            <div className="space-y-2 p-2">
-              <button 
-                onClick={handleClick}
-                className="flex items-center gap-2 w-full p-3 bg-white text-gray-800 rounded-lg shadow-md border border-gray-200 hover:bg-yellow-600 hover:text-white transition-all duration-300"
-              >
-                <span className="text-xl">🏠</span>
-                <span>Change Delivery Address</span>
-              </button>
-            </div>
-            <HomeButton {...props} />
-          </div>
-        );
-      }
+      widgetFunc: (props) => <AddressChangeChoice {...props} />
     },
     {
       widgetName: "addressChangeLink",
@@ -270,58 +246,15 @@ const config = {
     },
     {
       widgetName: "commonPaymentIssues",
-      widgetFunc: (props) => (
-        <div>
-          <div className="space-y-2 p-2">
-            <div className="bg-white rounded-lg shadow-md p-4">
-              <h3 className="font-semibold text-gray-800 mb-3">Common Payment Issues:</h3>
-              <ul className="space-y-3">
-                <li className="flex items-start gap-2">
-                  <span className="text-yellow-600">•</span>
-                  <div>
-                    <p className="font-medium text-black">Payment Failed</p>
-                    <p className="text-sm text-gray-600">Wait for 30 minutes and check your bank statement</p>
-                  </div>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-yellow-600">•</span>
-                  <div>
-                    <p className="font-medium text-black">Amount Deducted Twice</p>
-                    <p className="text-sm text-gray-600">Extra amount will be refunded within 5-7 days</p>
-                  </div>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-yellow-600">•</span>
-                  <div>
-                    <p className="font-medium text-black">Payment Gateway Error</p>
-                    <p className="text-sm text-gray-600">Try again after clearing browser cache</p>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <HomeButton {...props} />
-        </div>
-      )
+      widgetFunc: (props) => <CommonPaymentIssues {...props} />
+    },
+    {
+      widgetName: "paymentStatusCheck",
+      widgetFunc: (props) => <PaymentStatusCheck {...props} />
     },
     {
       widgetName: "paymentMethodChangeLink",
-      widgetFunc: (props) => (
-        <div>
-          <div className="p-2">
-            <a 
-              href={props.payload?.link} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 w-full p-3 bg-white text-gray-800 rounded-lg shadow-md border border-gray-200 hover:bg-yellow-600 hover:text-white transition-all duration-300"
-            >
-              <span className="text-xl">🔗</span>
-              <span>Click here to change payment method</span>
-            </a>
-          </div>
-          <HomeButton {...props} />
-        </div>
-      )
+      widgetFunc: (props) => <PaymentMethodChangeLink {...props} />
     },
     {
       widgetName: "liveAssistant",

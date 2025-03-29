@@ -123,7 +123,7 @@ const ChatBot = ({ website }) => {
 			) : (
 				<div className="container mx-auto flex flex-col lg:flex-row p-6 gap-36 animate-slideIn">
 					{/* Side Form */}
-					<div className="bg-white dark:bg-gray-900 border mt-24 border-gray-200 dark:border-gray-700 rounded-2xl p-3 shadow-lg w-[80%] m-auto">
+					<div className="bg-white dark:bg-gray-900 border mt-24 border-gray-200 dark:border-gray-700 rounded-2xl p-3 shadow-lg w-[80%] md:w-[60%] lg:w-[40%] xl:w-[30%] m-auto">
 						{/* Header Section */}
 						<div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg mb-4">
 							<p className="text-gray-700 dark:text-gray-300 text-sm">

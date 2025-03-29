@@ -7,6 +7,7 @@ const QueryForm = (props) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [query, setQuery] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [showSupportMessage, setShowSupportMessage] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,28 +16,40 @@ const QueryForm = (props) => {
       return;
     }
 
-    const message = "Thank you for submitting your query. Our team will get back to you shortly.";
-    props.actionProvider.addMessageToState(props.actionProvider.createChatBotMessage(message));
+    // const message = "Thank you for submitting your query. Our team will get back to you shortly.";
+    // props.actionProvider.addMessageToState(props.actionProvider.createChatBotMessage(message));
 
-    // Add message to connect with the support team
+    setIsSubmitted(true);
+  };
+
+  const handleStillHaveQuery = () => {
+    setShowSupportMessage(true);
     const supportMessage = "For further queries, please connect with our support team.";
     props.actionProvider.addMessageToState(props.actionProvider.createChatBotMessage(supportMessage, {
       widget: "assistantContact"
     }));
-
-    setIsSubmitted(true);
   };
 
   return (
     <div>
       {isSubmitted ? (
-        <div className="p-4 bg-white rounded-lg shadow-md text-center">
-          <div className="flex items-center justify-center mb-4">
-            <FontAwesomeIcon icon={faCheckCircle} className="text-green-500 text-3xl" />
+        <div>
+          <div className="p-4 mb-4 bg-white rounded-lg shadow-md text-center">
+            <div className="flex items-center justify-center mb-4">
+              <FontAwesomeIcon icon={faCheckCircle} className="text-green-500 text-3xl" />
+            </div>
+            <h2 className="text-xl font-semibold text-gray-800">Query Submitted</h2>
+            <p className="text-gray-600 mt-2">Thank you for submitting your query. Our team will get back to you shortly.</p>
           </div>
-          <h2 className="text-xl font-semibold text-gray-800">Query Submitted</h2>
-          <p className="text-gray-600 mt-2">Thank you for submitting your query. Our team will get back to you shortly.</p>
-          <p className="text-gray-600 mt-2">For further queries, please connect with our support team.</p>
+          {!showSupportMessage && (
+            <a
+              href="#"
+              onClick={handleStillHaveQuery}
+              className="mt-4 text-blue-600 font-bold hover:text-blue-700 transition-colors duration-300 cursor-pointer"
+            >
+              Still have a query?
+            </a>
+          )}
         </div>
       ) : (
         <div className="p-4 bg-white rounded-lg shadow-md">

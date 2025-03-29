@@ -47,6 +47,9 @@ const DeliveredOrders = (props) => {
 
   const handleOnScroll = () => {
     const container = document.getElementById('delivered-orders-container');
+    setScrollPosition(container.scrollLeft);
+
+    // Check if the end is reached
     const isEnd = container.scrollWidth - container.scrollLeft === container.clientWidth;
     setIsEndReached(isEnd);
   };
@@ -89,7 +92,7 @@ const DeliveredOrders = (props) => {
   return (
     <div className="relative">
       <div className="bg-[#3F6679] ml-12 mb-2 text-white text-sm font-medium px-4 py-2 rounded-xl text-center w-fit">
-      Select the delivered order you have queries about:
+        Select the delivered order you have queries about:
       </div>
       
       <div className="relative">
@@ -165,6 +168,15 @@ const DeliveredOrders = (props) => {
             </div>
           ))}
         </div>
+
+        {scrollPosition > 0 && (
+          <button 
+            onClick={() => handleScroll('left')}
+            className="absolute -left-2 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm rounded-full shadow-lg p-3 z-10 hover:bg-white hover:shadow-xl transition-all duration-300"
+          >
+            <FontAwesomeIcon icon={faChevronLeft} className="text-gray-700" />
+          </button>
+        )}
 
         {!isEndReached && (
           <button 

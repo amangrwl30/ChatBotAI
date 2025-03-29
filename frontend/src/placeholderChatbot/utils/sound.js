@@ -1,4 +1,4 @@
-import ding from '../../assets/ding.mp3'
+import ding from '../../assets/pop.mp3'
 
 // Create audio element with notification sound
 const notificationSound = new Audio(ding);  // You'll need to add this MP3 file to your public folder

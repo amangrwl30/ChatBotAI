@@ -279,26 +279,45 @@ const config = {
                 <li className="flex items-start gap-2">
                   <span className="text-yellow-600">•</span>
                   <div>
-                    <p className="font-medium">Payment Failed</p>
+                    <p className="font-medium text-black">Payment Failed</p>
                     <p className="text-sm text-gray-600">Wait for 30 minutes and check your bank statement</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-yellow-600">•</span>
                   <div>
-                    <p className="font-medium">Amount Deducted Twice</p>
+                    <p className="font-medium text-black">Amount Deducted Twice</p>
                     <p className="text-sm text-gray-600">Extra amount will be refunded within 5-7 days</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-yellow-600">•</span>
                   <div>
-                    <p className="font-medium">Payment Gateway Error</p>
+                    <p className="font-medium text-black">Payment Gateway Error</p>
                     <p className="text-sm text-gray-600">Try again after clearing browser cache</p>
                   </div>
                 </li>
               </ul>
             </div>
+          </div>
+          <HomeButton {...props} />
+        </div>
+      )
+    },
+    {
+      widgetName: "paymentMethodChangeLink",
+      widgetFunc: (props) => (
+        <div>
+          <div className="p-2">
+            <a 
+              href={props.payload?.link} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 w-full p-3 bg-white text-gray-800 rounded-lg shadow-md border border-gray-200 hover:bg-yellow-600 hover:text-white transition-all duration-300"
+            >
+              <span className="text-xl">🔗</span>
+              <span>Click here to change payment method</span>
+            </a>
           </div>
           <HomeButton {...props} />
         </div>

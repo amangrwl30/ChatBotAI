@@ -8,6 +8,7 @@ const DeliveredOrders = (props) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [isOrderSelected, setIsOrderSelected] = useState(false);
 
   useEffect(() => {
     fetchDeliveredOrders();
@@ -45,11 +46,8 @@ const DeliveredOrders = (props) => {
       if (!response.ok) throw new Error('Failed to fetch product details');
       const productDetail = await response.json();
 
-      // Remove current widget
-      props.setState((prevState) => ({
-        ...prevState,
-        messages: prevState.messages.filter(msg => msg.widget !== "deliveredOrders")
-      }));
+      // Set the order selected state to true
+      setIsOrderSelected(true);
 
       // Show the two main options: Damaged Package or Return/Refund Issues
       const message = props.createChatBotMessage(
@@ -105,8 +103,10 @@ const DeliveredOrders = (props) => {
           {orders.map((order) => (
             <div 
               key={order.orderId}
-              onClick={() => handleOrderClick(order)}
-              className="group flex-none w-72 rounded-xl shadow-md p-5 cursor-pointer hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 border border-gray-100 relative overflow-hidden bg-gradient-to-br from-green-100 to-green-50"
+              onClick={() => !isOrderSelected && handleOrderClick(order)}
+              className={`group flex-none w-72 rounded-xl shadow-md p-5 cursor-pointer hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 border border-gray-100 relative overflow-hidden bg-gradient-to-br from-green-100 to-green-50 ${
+                isOrderSelected ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
             >
               <div className="absolute -right-8 -top-8 w-16 h-16 rounded-full opacity-40 group-hover:scale-150 transition-transform duration-500 bg-gradient-to-br from-green-300 to-green-200"></div>
               
@@ -165,4 +165,4 @@ const DeliveredOrders = (props) => {
   );
 };
 
-export default DeliveredOrders; 
+export default DeliveredOrders;

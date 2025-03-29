@@ -1,39 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { faPaperPlane, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import HomeButton from "./HomeButton";
 
 const QueryForm = (props) => {
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const message = "Thank you for submitting your query. Our team will get back to you shortly.";
-    props.actionProvider.addMessageToState(props.createChatBotMessage(message));
+  
+    // Add message to connect with the support team
+    const supportMessage = "For further queries, please connect with our support team.";
+    props.actionProvider.addMessageToState(props.actionProvider.createChatBotMessage(supportMessage, {
+      widget: "assistantContact"
+    }));
+
+    setIsSubmitted(true);
   };
 
   return (
     <div>
-      <div className="p-4 bg-white rounded-lg shadow-md">
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">Describe your issue</label>
-            <textarea 
-              className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-gray-700"
-              rows="3"
-              placeholder="Tell us what's wrong with the return process"
-            />
+      {isSubmitted ? (
+        <div className="p-4 bg-white rounded-lg shadow-md text-center">
+          <div className="flex items-center justify-center mb-4">
+            <FontAwesomeIcon icon={faCheckCircle} className="text-green-500 text-3xl" />
           </div>
-          <button 
-            type="submit"
-            className="w-full bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-700 transition-colors duration-300 flex items-center justify-center gap-2"
-          >
-            <FontAwesomeIcon icon={faPaperPlane} />
-            <span>Submit Query</span>
-          </button>
-        </form>
-      </div>
+          <h2 className="text-xl font-semibold text-gray-800">Query Submitted</h2>
+          <p className="text-gray-600 mt-2">Thank you for submitting your query. Our team will get back to you shortly.</p>
+          {/* <p className="text-gray-600 mt-2">For further queries, please connect with our support team.</p> */}
+        </div>
+      ) : (
+        <div className="p-4 bg-white rounded-lg shadow-md">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-1">Describe your issue</label>
+              <textarea 
+                className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-gray-700"
+                rows="3"
+                placeholder="Tell us what's wrong with the return process"
+              />
+            </div>
+            <button 
+              type="submit"
+              className="w-full bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-700 transition-colors duration-300 flex items-center justify-center gap-2"
+            >
+              <FontAwesomeIcon icon={faPaperPlane} />
+              <span>Submit Query</span>
+            </button>
+          </form>
+        </div>
+      )}
       <HomeButton {...props} />
     </div>
   );
 };
 
-export default QueryForm; 
+export default QueryForm;

@@ -274,10 +274,10 @@ class ActionProvider {
   handleChangePaymentMethod = () => {
     this.addUserMessage("Change Payment Method");
     const message = this.createChatBotMessage(
-      "To change your payment method, please select an order:",
+      "To change your payment method, please click on the link below:",
       {
-        widget: "orderList",
-        payload: { context: "payment" }
+        widget: "paymentMethodChangeLink",
+        payload: { link: "https://example.com/change-payment-method" }
       }
     );
     this.addMessageToState(message);

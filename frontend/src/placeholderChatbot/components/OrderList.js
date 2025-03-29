@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faChevronRight, faCheckCircle, faClock } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faChevronRight, faCheckCircle, faClock, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import HomeButton from "./HomeButton";
 import { AppContext } from "../../context/AppContext";
 
@@ -10,6 +10,7 @@ const OrderList = (props) => {
   const [error, setError] = useState(null);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [allDisabled, setAllDisabled] = useState(false);
+  const [isEndReached, setIsEndReached] = useState(false);
   const { sharedState, setSharedState } = useContext(AppContext);
 
   useEffect(() => {
@@ -56,10 +57,29 @@ const OrderList = (props) => {
     }
     
     setScrollPosition(container.scrollLeft);
+
+    // Check if the end is reached
+    const isEnd = container.scrollWidth - container.scrollLeft === container.clientWidth;
+    setIsEndReached(isEnd);
+  };
+
+  const handleOnScroll = () => {
+    const container = document.getElementById('orders-scroll-container');
+    const isEnd = container.scrollWidth - container.scrollLeft === container.clientWidth;
+    setIsEndReached(isEnd);
   };
 
   const orderHandler = async (order) => {
     setAllDisabled(true);
+    if (order.status === 'CANCELLED') {
+      props.actionProvider.addMessageToState(
+        props.actionProvider.createChatBotMessage(
+          `For cancelled orders, please connect with our Assistant for more info at 123-456-7890.`
+        )
+      );
+      return;
+    }
+
     setSharedState({...sharedState, selectedOrder: order });
     const productDetail = await fetchProductDetail(order.orderId);
     if (productDetail) {
@@ -93,9 +113,9 @@ const OrderList = (props) => {
 
   return (
     <div className="relative">
-      <div className="text-sm text-gray-600 mb-3 font-medium">
-        Here are your recent orders:
-      </div>
+      <div className="bg-[#3F6679] ml-14 mb-2 text-white text-sm font-medium px-4 py-2 rounded-xl text-center w-fit">
+      Here are your recent orders:
+    </div>
       
       <div className="relative">
         {scrollPosition > 0 && (
@@ -115,6 +135,7 @@ const OrderList = (props) => {
             msOverflowStyle: 'none', 
             scrollbarWidth: 'none' 
           }}
+          onScroll={handleOnScroll}
         >
           {orders.map((order) => (
             <div 
@@ -177,7 +198,7 @@ const OrderList = (props) => {
                 <div className="flex items-center text-xs text-gray-500 pt-3 border-t border-gray-100">
                   <div className="relative">
                     <FontAwesomeIcon 
-                      icon={order.status === 'DELIVERED' ? faCheckCircle : faClock} 
+                      icon={order.status === 'DELIVERED' ? faCheckCircle : order.status === 'CANCELLED' ? faTimesCircle : faClock} 
                       className={`text-lg ${order.status === 'DELIVERED' ? 'text-green-500' : 
                         order.status === 'SHIPPED' ? 'text-blue-500' :
                         order.status === 'CANCELLED' ? 'text-red-500' :
@@ -193,7 +214,8 @@ const OrderList = (props) => {
                   </div>
                   <div className="ml-3">
                     <span className="text-gray-400">
-                      {order.status === 'DELIVERED' ? 'Delivered on: ' : 'Ordered on: '}
+                      {order.status === 'DELIVERED' ? 'Delivered on: ' : 
+                        order.status === 'CANCELLED' ? 'Cancelled on: ' : 'Ordered on: '}
                     </span>
                     <span className="font-medium text-gray-600">{formatDate(order.created_on)}</span>
                   </div>
@@ -217,12 +239,14 @@ const OrderList = (props) => {
           ))}
         </div>
 
-        <button 
-          onClick={() => handleScroll('right')}
-          className="absolute -right-2 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm rounded-full shadow-lg p-3 z-10 hover:bg-white hover:shadow-xl transition-all duration-300"
-        >
-          <FontAwesomeIcon icon={faChevronRight} className="text-gray-700" />
-        </button>
+        {!isEndReached && (
+          <button 
+            onClick={() => handleScroll('right')}
+            className="absolute -right-2 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm rounded-full shadow-lg p-3 z-10 hover:bg-white hover:shadow-xl transition-all duration-300"
+          >
+            <FontAwesomeIcon icon={faChevronRight} className="text-gray-700" />
+          </button>
+        )}
       </div>
     </div>
   );

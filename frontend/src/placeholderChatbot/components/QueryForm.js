@@ -5,10 +5,19 @@ import HomeButton from "./HomeButton";
 
 const QueryForm = (props) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [query, setQuery] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+    if (query.trim() === "") {
+      setErrorMessage("Please describe your issue before submitting.");
+      return;
+    }
+
+    const message = "Thank you for submitting your query. Our team will get back to you shortly.";
+    props.actionProvider.addMessageToState(props.actionProvider.createChatBotMessage(message));
+
     // Add message to connect with the support team
     const supportMessage = "For further queries, please connect with our support team.";
     props.actionProvider.addMessageToState(props.actionProvider.createChatBotMessage(supportMessage, {
@@ -27,7 +36,7 @@ const QueryForm = (props) => {
           </div>
           <h2 className="text-xl font-semibold text-gray-800">Query Submitted</h2>
           <p className="text-gray-600 mt-2">Thank you for submitting your query. Our team will get back to you shortly.</p>
-          {/* <p className="text-gray-600 mt-2">For further queries, please connect with our support team.</p> */}
+          <p className="text-gray-600 mt-2">For further queries, please connect with our support team.</p>
         </div>
       ) : (
         <div className="p-4 bg-white rounded-lg shadow-md">
@@ -38,7 +47,10 @@ const QueryForm = (props) => {
                 className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-gray-700"
                 rows="3"
                 placeholder="Tell us what's wrong with the return process"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
               />
+              {errorMessage && <p className="text-red-500 text-sm mt-1">{errorMessage}</p>}
             </div>
             <button 
               type="submit"

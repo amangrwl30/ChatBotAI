@@ -49,7 +49,7 @@ const MainMenu = (props) => {
   ];
 
   return (
-    <div className=" p-1">
+    <div className=" p-1 px-4">
       {options.map((option) => (
         <button
           key={option.id}

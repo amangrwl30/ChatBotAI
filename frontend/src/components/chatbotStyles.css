@@ -1,23 +1,23 @@
 .react-chatbot-kit-chat-container {
-    width: 380px !important;
+    width: 430px !important;
     max-width: 500px !important;
     position: relative !important;
     height: 100%;
   }
 
   .react-chatbot-kit-chat-bot-message{
-    width: 260px !important;
+    width: 290px !important;
     margin-left: 0 !important;
-    border-radius: 20px;
+    border-radius: 10px;
   }
 
   .initial-page-container .chatbot {
     background-color: #E2EFFF;
   }
 
-  .initial-page-container  {
+  /* .initial-page-container  {
 
-  }
+  } */
 
   .chat-option:hover {
     background: #8DCAB6;
@@ -26,6 +26,8 @@
   .react-chatbot-kit-user-chat-message{
     background-color: white;
     border-radius: 20px;
+    margin-top: 15px;
+    margin-bottom: 15px;
   }
   .react-chatbot-kit-user-chat-message-arrow {
     background-color: white;
@@ -61,4 +63,12 @@
 
   .react-chatbot-kit-chat-input-form {
     display: none;
+  }
+
+  .react-chatbot-kit-user-avatar-container{
+     margin-top: 15px;
+  }
+
+  .react-chatbot-kit-chat-header {
+    padding: 16px !important;
   }

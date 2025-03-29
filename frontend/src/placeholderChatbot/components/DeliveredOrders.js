@@ -9,6 +9,7 @@ const DeliveredOrders = (props) => {
   const [error, setError] = useState(null);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isOrderSelected, setIsOrderSelected] = useState(false);
+  const [isEndReached, setIsEndReached] = useState(false);
 
   useEffect(() => {
     fetchDeliveredOrders();
@@ -38,6 +39,16 @@ const DeliveredOrders = (props) => {
       container.scrollLeft += scrollAmount;
     }
     setScrollPosition(container.scrollLeft);
+
+    // Check if the end is reached
+    const isEnd = container.scrollWidth - container.scrollLeft === container.clientWidth;
+    setIsEndReached(isEnd);
+  };
+
+  const handleOnScroll = () => {
+    const container = document.getElementById('delivered-orders-container');
+    const isEnd = container.scrollWidth - container.scrollLeft === container.clientWidth;
+    setIsEndReached(isEnd);
   };
 
   const handleOrderClick = async (order) => {
@@ -77,8 +88,8 @@ const DeliveredOrders = (props) => {
 
   return (
     <div className="relative">
-      <div className="text-sm text-gray-600 mb-3 font-medium">
-        Select the delivered order you have queries about:
+      <div className="bg-[#3F6679] ml-12 mb-2 text-white text-sm font-medium px-4 py-2 rounded-xl text-center w-fit">
+      Select the delivered order you have queries about:
       </div>
       
       <div className="relative">
@@ -99,6 +110,7 @@ const DeliveredOrders = (props) => {
             msOverflowStyle: 'none', 
             scrollbarWidth: 'none' 
           }}
+          onScroll={handleOnScroll}
         >
           {orders.map((order) => (
             <div 
@@ -154,12 +166,14 @@ const DeliveredOrders = (props) => {
           ))}
         </div>
 
-        <button 
-          onClick={() => handleScroll('right')}
-          className="absolute -right-2 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm rounded-full shadow-lg p-3 z-10 hover:bg-white hover:shadow-xl transition-all duration-300"
-        >
-          <FontAwesomeIcon icon={faChevronRight} className="text-gray-700" />
-        </button>
+        {!isEndReached && (
+          <button 
+            onClick={() => handleScroll('right')}
+            className="absolute -right-2 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm rounded-full shadow-lg p-3 z-10 hover:bg-white hover:shadow-xl transition-all duration-300"
+          >
+            <FontAwesomeIcon icon={faChevronRight} className="text-gray-700" />
+          </button>
+        )}
       </div>
     </div>
   );

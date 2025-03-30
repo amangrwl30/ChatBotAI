@@ -36,7 +36,7 @@ const DeliveredProductQueries = (props) => {
         <button
           key={option.id}
           onClick={option.handler}
-          className="flex items-center gap-3 bg-white text-gray-800 p-2 rounded-lg shadow-md border border-gray-300 hover:bg-yellow-600 hover:text-white transition-all duration-300 w-full text-xs"
+          className="chat-option mb-2 flex items-center gap-3 bg-stone-300 text-gray-800 p-2 rounded-lg shadow-lg border border-gray-300   transition-all duration-300 w-full text-xs"
         >
           <FontAwesomeIcon icon={option.icon} className="text-lg" />
           <span className="text-xs font-medium">{option.text}</span>

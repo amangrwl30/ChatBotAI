@@ -6,6 +6,10 @@ import AudioChatbot from '../audioComponent/AudioChatbot';
 
 const InitialPage = () => {
   const [selectedTile, setSelectedTile] = useState(null);
+  const [theme, setTheme] = useState("light");
+    const toggleTheme = () => {
+        setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+      };
 
   const handleTileClick = (tile) => {
     setSelectedTile(tile);
@@ -43,8 +47,8 @@ const InitialPage = () => {
           {selectedTile === 'landingPage' ? (
             <LandingPage />
           ) : selectedTile === 'crmChatbot' ? (
-            <div className='chatbot'>
-              <CRMChatBot />
+            <div className={`chatbot ${theme}`}>
+              <CRMChatBot  toggleTheme={toggleTheme} theme={theme} />
               </div>
           ) : (
             <AudioChatbot />

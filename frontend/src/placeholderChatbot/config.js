@@ -9,6 +9,8 @@ import RefundStatus from "./components/RefundStatus";
 import AssistantContact from "./components/AssistantContact";
 import DeliveredOrders from "./components/DeliveredOrders";
 import PaymentOptions from "./components/PaymentOptions";
+import botAvatar from "../assets/bot.jpg"
+import userAvatar from "../assets/user.png"
 import AddressChangeChoice from "./components/AddressChangeChoice";
 import CommonPaymentIssues from "./components/CommonPaymentIssues";
 import PaymentStatusCheck from "./components/PaymentStatusCheck";
@@ -16,7 +18,7 @@ import PaymentMethodChangeLink from "./components/PaymentMethodChangeLink";
 
 const botName = "Ema";
 
-const config = {
+const getConfig = (theme, toggleTheme) => ({
   botName: botName,
   initialMessages: [
     createChatBotMessage(
@@ -29,10 +31,12 @@ const config = {
   customStyles: {
     botMessageBox: {
       width: "500px",
-      backgroundColor: "#376B7E"
+      backgroundColor: "#E2EFFF",
+      color:'black'
     },
     chatButton: {
-      backgroundColor: "#376B7E"
+      backgroundColor: "#E2EFFF",
+      color: 'black'
     },
   },
   widgets: [
@@ -77,14 +81,14 @@ const config = {
         return (
           <div>
             <div className="space-y-1 p-1">
-              <button 
-                onClick={() => handleClick(props.actionProvider.handleReturnAvailabilityYes)} 
+              <button
+                onClick={() => handleClick(props.actionProvider.handleReturnAvailabilityYes)}
                 className="btn-option"
               >
                 Yes
               </button>
-              <button 
-                onClick={() => handleClick(props.actionProvider.handleReturnAvailabilityNo)} 
+              <button
+                onClick={() => handleClick(props.actionProvider.handleReturnAvailabilityNo)}
                 className="btn-option"
               >
                 No
@@ -131,7 +135,7 @@ const config = {
           <div>
             <div className="space-y-2 p-2">
               {options.map((option, index) => (
-                <button 
+                <button
                   key={index}
                   onClick={option.handler}
                   className="flex flex-col items-start w-full p-3 bg-white text-gray-800 rounded-lg shadow-md border border-gray-200 hover:bg-yellow-600 hover:text-white transition-all duration-300"
@@ -171,7 +175,7 @@ const config = {
             ...prevState,
             messages: prevState.messages.filter(msg => msg.widget !== "damagedProductChoice")
           }));
-          
+
           if (isYes) {
             const orderId = props.payload?.orderId;
             props.actionProvider.handleDamagedPackageQuery(orderId);
@@ -183,14 +187,14 @@ const config = {
         return (
           <div>
             <div className="space-y-2 p-2">
-              <button 
+              <button
                 onClick={() => handleClick(true)}
                 className="flex items-center gap-2 w-full p-3 bg-white text-gray-800 rounded-lg shadow-md border border-gray-200 hover:bg-yellow-600 hover:text-white transition-all duration-300"
               >
                 <span className="text-xl">✅</span>
                 <span>Yes, my product is damaged</span>
               </button>
-              <button 
+              <button
                 onClick={() => handleClick(false)}
                 className="flex items-center gap-2 w-full p-3 bg-white text-gray-800 rounded-lg shadow-md border border-gray-200 hover:bg-yellow-600 hover:text-white transition-all duration-300"
               >
@@ -214,6 +218,32 @@ const config = {
     },
     {
       widgetName: "addressChangeChoice",
+      widgetFunc: (props) => {
+        const handleClick = () => {
+          props.setState((prevState) => ({
+            ...prevState,
+            messages: prevState.messages.filter(msg => msg.widget !== "addressChangeChoice")
+          }));
+
+          const orderId = props.payload?.orderId;
+          props.actionProvider.handleAddressChangeCheck(orderId);
+        };
+
+        return (
+          <div>
+            <div className="space-y-2 p-2">
+              <button
+                onClick={handleClick}
+                className="flex items-center gap-2 w-full p-3 bg-white text-gray-800 rounded-lg shadow-md border border-gray-200 hover:bg-yellow-600 hover:text-white transition-all duration-300"
+              >
+                <span className="text-xl">🏠</span>
+                <span>Change Delivery Address</span>
+              </button>
+            </div>
+            <HomeButton {...props} />
+          </div>
+        );
+      },
       widgetFunc: (props) => <AddressChangeChoice {...props} />
     },
     {
@@ -221,9 +251,9 @@ const config = {
       widgetFunc: (props) => (
         <div>
           <div className="p-2">
-            <a 
-              href={props.payload?.link} 
-              target="_blank" 
+            <a
+              href={props.payload?.link}
+              target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 w-full p-3 bg-white text-gray-800 rounded-lg shadow-md border border-gray-200 hover:bg-yellow-600 hover:text-white transition-all duration-300"
             >
@@ -254,6 +284,22 @@ const config = {
     },
     {
       widgetName: "paymentMethodChangeLink",
+      widgetFunc: (props) => (
+        <div>
+          <div className="p-2">
+            <a
+              href={props.payload?.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 w-full p-3 bg-white text-gray-800 rounded-lg shadow-md border border-gray-200 hover:bg-yellow-600 hover:text-white transition-all duration-300"
+            >
+              <span className="text-xl">🔗</span>
+              <span>Click here to change payment method</span>
+            </a>
+          </div>
+          <HomeButton {...props} />
+        </div>
+      ),
       widgetFunc: (props) => <PaymentMethodChangeLink {...props} />
     },
     {
@@ -284,7 +330,58 @@ const config = {
         <HomeButton {...props} />
       </div>
     ),
+    botAvatar: (props) => (
+    <img
+      src={botAvatar}
+      alt="Chatbot Avatar"
+      style={{ width: "40px", height: "40px", borderRadius: "50%" }}
+    />),
+    userAvatar: (props) => (
+      <img
+        src={userAvatar}
+        alt="Chatbot Avatar"
+        style={{ width: "40px", height: "40px", borderRadius: "50%" }}
+      />),
+      header: () => <div class="react-chatbot-kit-chat-header">Conversation with Ema    <button
+      onClick={toggleTheme}
+      className="ml-auto"
+    >
+      {theme==="dark" ? (
+        // Sun icon (white)
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={2}
+          stroke="white"
+          className="w-6 h-6"
+        >
+          <circle cx="12" cy="12" r="5" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.42-1.42"
+          />
+        </svg>
+      ) : (
+        // Moon icon (white)
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={2}
+          stroke="white"
+          className="w-6 h-6"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M21 12.79A9 9 0 0 1 11.21 3 7 7 0 1 0 21 12.79Z"
+          />
+        </svg>
+      )}
+    </button></div>,
   },
-};
+});
 
-export default config;
+export default getConfig;

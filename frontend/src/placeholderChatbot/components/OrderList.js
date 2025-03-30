@@ -116,9 +116,10 @@ const OrderList = (props) => {
 
   return (
     <div className="relative">
-      <div className="bg-[#3F6679] ml-14 mb-2 text-white text-sm font-medium px-4 py-2 rounded-xl text-center w-fit">
-        Here are your recent orders:
-      </div>
+      <div className="chat-bubble bg-[#3F6679] ml-14 mb-2 text-white text-sm font-medium px-4 py-2 rounded-xl text-center w-fit">
+      Here are your recent orders:
+    </div>
+    
       
       <div className="relative">
         {scrollPosition > 0 && (
@@ -155,6 +156,18 @@ const OrderList = (props) => {
                   'bg-gradient-to-br from-yellow-100 to-yellow-50'}
               `}
             >
+           <img style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          opacity: 0.3, // Reduced opacity
+          zIndex: -1,
+          width: "100%", height: "100%", objectFit: "cover" // Puts the image behind the text
+        }} src={order.imageUrl} alt="Placeholder" />
+
               {/* Decorative Elements with darker matching colors */}
               <div className={`
                 absolute -right-8 -top-8 w-16 h-16 rounded-full opacity-40 group-hover:scale-150 transition-transform duration-500
@@ -192,9 +205,9 @@ const OrderList = (props) => {
                   `}>
                     {order.name}
                   </h3>
-                  <div className="mt-2 text-sm text-gray-500 bg-white px-3 py-1 rounded-md inline-block border border-gray-100">
+                  {/* <div className="mt-2 text-sm text-gray-500 bg-white px-3 py-1 rounded-md inline-block border border-gray-100">
                     #{order.orderId}
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* Timeline with enhanced styling */}

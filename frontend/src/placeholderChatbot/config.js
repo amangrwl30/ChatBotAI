@@ -342,7 +342,7 @@ const getConfig = (theme, toggleTheme) => ({
         alt="Chatbot Avatar"
         style={{ width: "40px", height: "40px", borderRadius: "50%" }}
       />),
-      header: () => <div class="react-chatbot-kit-chat-header">Conversation with Ema    <button
+      header: () => <div class="react-chatbot-kit-chat-header bg-gradient-to-r from-blue-500 to-purple-500">Conversation with Ema    <button
       onClick={toggleTheme}
       className="ml-auto"
     >

@@ -59,7 +59,7 @@ body {
   }
   .react-chatbot-kit-chat-header{
     padding: 16px ;
-    background: black;
+    /* background: black; */
     color: white;
     font-size: 13px;
     font-family: 'ABeeZee', sans-serif;

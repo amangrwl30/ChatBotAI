@@ -45,7 +45,7 @@ const QueryForm = (props) => {
             <a
               href="#"
               onClick={handleStillHaveQuery}
-              className="mt-4 text-blue-600 font-bold hover:text-blue-700 transition-colors duration-300 cursor-pointer"
+              className="mt-4 text-blue-600 hover:text-blue-700 transition-colors duration-300 cursor-pointer"
             >
               Still have a query?
             </a>

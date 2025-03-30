@@ -46,7 +46,7 @@ const CommonPaymentIssues = (props) => {
         <a
           href="#"
           onClick={handleStillHaveQuery}
-          className="mt-4 block text-blue-600 font-bold ml-2 hover:text-blue-700 transition-colors duration-300 cursor-pointer"
+          className="mt-4 block text-blue-600 ml-2 hover:text-blue-700 transition-colors duration-300 cursor-pointer"
         >
           Still have a query?
         </a>

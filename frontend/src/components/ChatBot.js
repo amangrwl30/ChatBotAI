@@ -113,7 +113,7 @@ const ChatBot = ({ website }) => {
 	};
 
 	return (
-		<div className={`${isDarkTheme ? 'dark' : ''} min-h-screen transition-all flex justify-center items-center`}>
+		<div className={`${isDarkTheme ? 'dark' : ''} min-h-screen transition-all flex justify-center items-center overflow-x-hidden`}>
 			{isUpdatingWebsite ? (
 				<div className="flex justify-center items-center">
 					<div className="spinner-border animate-spin inline-block w-16 h-16 border-4 border-t-transparent border-blue-500 rounded-full" role="status">
@@ -121,9 +121,9 @@ const ChatBot = ({ website }) => {
 					</div>
 				</div>
 			) : (
-				<div className="container mx-auto flex flex-col lg:flex-row p-6 gap-36 animate-slideIn">
+				<div className="container mx-auto flex flex-col lg:flex-row p-6 gap-12 md:gap-24 lg:gap-36 animate-slideIn overflow-hidden">
 					{/* Side Form */}
-					<div className="bg-white dark:bg-gray-900 border mt-24 border-gray-200 dark:border-gray-700 rounded-2xl p-3 shadow-lg w-[80%] md:w-[60%] lg:w-[40%] xl:w-[30%] m-auto">
+					<div className="bg-white dark:bg-gray-900 border mt-24 border-gray-200 dark:border-gray-700 rounded-2xl p-3 shadow-lg w-full md:w-4/5 lg:w-2/5 xl:w-1/3 mx-auto lg:mx-0">
 						{/* Header Section */}
 						<div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg mb-4">
 							<p className="text-gray-700 dark:text-gray-300 text-sm">
@@ -195,7 +195,7 @@ const ChatBot = ({ website }) => {
 					</div>
 
 					{/* Chatbot */}
-					<div className="container mt-10 mx-auto w-[100%] h-[85vh] flex flex-col py-4 animate-slideIn rounded-3xl bg-white dark:bg-gray-900 shadow-lg">
+					<div className="container mt-10 mx-auto w-full h-[85vh] flex flex-col py-4 animate-slideIn rounded-3xl bg-white dark:bg-gray-900 shadow-lg overflow-hidden">
 						{/* Header */}
 						<header className="flex justify-between items-center p-4 bg-white dark:bg-gray-900 border-b border-gray-300 dark:border-gray-700 shadow-sm rounded-t-3xl">
 							<div className="flex items-center space-x-4">

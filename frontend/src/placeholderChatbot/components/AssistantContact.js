@@ -6,7 +6,7 @@ import HomeButton from "./HomeButton";
 const AssistantContact = (props) => {
 
   const email = {
-    to: 'zomato.com',
+    to: 'support@gmail.com',
     subject: 'Regarding product query',
     body: 'Regarding personal product query on Product with order Id 101, the food received is contaminated. Required refund'
   }

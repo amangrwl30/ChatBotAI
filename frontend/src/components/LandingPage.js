@@ -28,7 +28,7 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="landing-container flex flex-col items-center justify-center h-screen bg-violet-900 from-purple-500 via-pink-500 to-red-500 text-white">
+    <div className="landing-container flex flex-col items-center justify-center h-screen bg-violet-900 from-purple-500 via-pink-500 to-red-500 text-white w-full">
       {isLoading ? (
         <Loader />
       ) : !showChatbot ? (
@@ -56,7 +56,7 @@ const LandingPage = () => {
           </button>
         </div>
       ) : (
-        <div className="animate-fadeIn">
+        <div className="animate-fadeIn w-full">
           <ChatBot website={website} />
         </div>
       )}

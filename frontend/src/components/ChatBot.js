@@ -61,7 +61,7 @@ const ChatBot = ({ website }) => {
 	const fetchBotResponse = async (userMessage) => {
 		setIsLoading(true);
 		try {
-			const response = await fetch('http://localhost:5000/chat', {
+			const response = await fetch('http://localhost:4000/chat', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -299,12 +299,7 @@ const ChatBot = ({ website }) => {
 										}
 									}}
 								/>
-								<button className="p-2 text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg" aria-label="Add attachment">
-									<FontAwesomeIcon icon="paperclip" />
-								</button>
-								<button className="p-2 text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg" aria-label="Voice input">
-									<FontAwesomeIcon icon="microphone" />
-								</button>
+								
 								<button className="p-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg shadow-md hover:opacity-90 transition-all" onClick={handleSendMessage}>
 									<span className="mr-2">Send</span>
 									<FontAwesomeIcon icon="paper-plane" />

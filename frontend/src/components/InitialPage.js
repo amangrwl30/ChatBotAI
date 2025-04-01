@@ -43,7 +43,7 @@ const InitialPage = () => {
           </div>
         </div>
       ) : (
-        <div className="animate-fadeIn">
+        <div className="animate-fadeIn w-full">
           {selectedTile === 'landingPage' ? (
             <LandingPage />
           ) : selectedTile === 'crmChatbot' ? (

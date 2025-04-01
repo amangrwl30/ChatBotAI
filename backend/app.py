@@ -105,7 +105,7 @@ def process_audio():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=4000)
 
 
 
@@ -216,7 +216,7 @@ if __name__ == '__main__':
 #         return jsonify({
 #             "stt_text": user_text,  # Transcribed Speech-to-Text
 #             "tts_text": bot_text,   # Generated Text-to-Speech Response
-#             "audio_url": f"http://localhost:5000/get-audio"  # URL to fetch audio
+#             "audio_url": f"http://localhost:4000/get-audio"  # URL to fetch audio
 #         })
 
 #     except Exception as e:
@@ -230,4 +230,4 @@ if __name__ == '__main__':
 #     return send_file(response_audio_path, mimetype="audio/mp3")
 
 # if __name__ == '__main__':
-#     app.run(debug=True, port=5000)
+#     app.run(debug=True, port=4000)

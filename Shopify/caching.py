@@ -1,21 +1,23 @@
-from fastapi import FastAPI, BackgroundTasks
+from fastapi import FastAPI, Request, BackgroundTasks
 import requests
 import sqlite3
 import faiss
-import pandas as pd
+import json
+import os
 import time
 import threading
-from sentence_transformers import SentenceTransformer
-from dotenv import load_dotenv
-import os
-import json
 import numpy as np
+from dotenv import load_dotenv
+from sentence_transformers import SentenceTransformer
 from ai_processor import generate_ai_response
 
 # Load environment variables
 load_dotenv()
 SHOPIFY_API_URL = os.getenv("SHOPIFY_API_URL")
 SHOPIFY_API_TOKEN = os.getenv("SHOPIFY_ACCESS_TOKEN")
+FACEBOOK_PAGE_ACCESS_TOKEN = os.getenv("FACEBOOK_PAGE_ACCESS_TOKEN")
+VERIFY_TOKEN = os.getenv("FACEBOOK_VERIFY_TOKEN")  # Used to verify Facebook webhook
+FACEBOOK_GRAPH_API_URL = "https://graph.facebook.com/v18.0/me/messages"
 
 # Initialize FastAPI app
 app = FastAPI()
@@ -45,8 +47,8 @@ setup_db()
 # FAISS Index for embeddings
 d = 384  # Dimension of MiniLM embeddings
 index = faiss.IndexFlatL2(d)
-id_to_index = {}  # Dictionary mapping product IDs to FAISS indices
-index_to_id = []  # List mapping FAISS indices back to product IDs
+id_to_index = {}  
+index_to_id = []  
 
 # Function to fetch Shopify data and cache it
 def refresh_cache():
@@ -60,32 +62,28 @@ def refresh_cache():
         embeddings = []
         global index, id_to_index, index_to_id
 
-        # Reset mappings
         id_to_index.clear()
         index_to_id.clear()
 
         for idx, product in enumerate(data.get("products", [])):
             title = product.get("title", "Unknown")
             product_id = str(product.get("id", ""))
-            details = json.dumps(product)  # Store full details as JSON
+            details = json.dumps(product)  
             
             products.append((product_id, title, details))
-            embeddings.append(model.encode(title))  # Generate embedding
-            
-            # Update mapping
+            embeddings.append(model.encode(title))  
+
             id_to_index[product_id] = idx
             index_to_id.append(product_id)
 
-        # Store in SQLite
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM products")  # Clear old data
+        cursor.execute("DELETE FROM products")  
         cursor.executemany("INSERT INTO products VALUES (?, ?, ?)", products)
         conn.commit()
         conn.close()
 
-        # Store embeddings in FAISS
-        index = faiss.IndexFlatL2(d)  # Reset FAISS index
+        index = faiss.IndexFlatL2(d)  
         index.add(np.array(embeddings).astype('float32'))
         
         print("Cache updated successfully.")
@@ -96,15 +94,15 @@ def refresh_cache():
 def schedule_refresh():
     while True:
         refresh_cache()
-        time.sleep(120)  # Run every 2 minutes
+        time.sleep(120)  
 
 threading.Thread(target=schedule_refresh, daemon=True).start()
 
 # API Endpoint to query products
 @app.get("/query")
-def query_product(query: str):
+async def query_product(query: str):
     embedding = model.encode([query])
-    _, indices = index.search(embedding, 10)  # Get top 2 results
+    _, indices = index.search(embedding, 5)  
     
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
@@ -122,7 +120,78 @@ def query_product(query: str):
     return result
 
 @app.get("/query_with_ai")
-def query_with_ai(query: str):
-    products = query_product(query) 
-    ai_response = generate_ai_response(query, products)  # Generate AI response using LangChain
+async def query_with_ai(query: str):
+    products = await query_product(query)  
+    ai_response = generate_ai_response(query, products)  
     return {"query": query, "response": ai_response}
+
+# --- Facebook Messenger Webhook --- #
+
+@app.get("/webhook")
+async def verify_facebook_webhook(request: Request):
+    """
+    Facebook requires webhook verification.
+    """
+    params = request.query_params
+    mode = params.get("hub.mode")
+    token = params.get("hub.verify_token")
+    challenge = params.get("hub.challenge")
+
+    if mode == "subscribe" and token == VERIFY_TOKEN:
+        print("WEBHOOK VERIFIED")
+        return int(challenge)
+    else:
+        return {"error": "Invalid verification token"}, 403
+
+@app.post("/webhook")
+async def handle_facebook_message(request: Request, background_tasks: BackgroundTasks):
+    """
+    Handle incoming messages from Facebook Messenger.
+    """
+    data = await request.json()
+    print("Received Messenger data:", json.dumps(data, indent=2))
+
+    if "entry" in data:
+        for entry in data["entry"]:
+            if "messaging" in entry:
+                for message_event in entry["messaging"]:
+                    sender_id = message_event["sender"]["id"]
+                    if "message" in message_event and "text" in message_event["message"]:
+                        user_message = message_event["message"]["text"]
+
+                        # Process in background
+                        background_tasks.add_task(process_user_message, sender_id, user_message)
+
+    return {"status": "Message received"}
+
+async def process_user_message(sender_id, user_message):
+    """
+    Process user messages, generate AI response, and send it back via Messenger.
+    """
+    products = await query_product(user_message)
+    ai_response = generate_ai_response(user_message, products)
+    
+    # Send response back to Messenger
+    send_facebook_message(sender_id, ai_response)
+
+def send_facebook_message(recipient_id, message_text):
+    """
+    Sends a message to the user on Messenger.
+    """
+    payload = {
+        "recipient": {"id": recipient_id},
+        "message": {"text": message_text}
+    }
+    
+    headers = {
+        "Content-Type": "application/json"
+    }
+    
+    response = requests.post(
+        FACEBOOK_GRAPH_API_URL,
+        params={"access_token": FACEBOOK_PAGE_ACCESS_TOKEN},
+        headers=headers,
+        json=payload
+    )
+    
+    print("Messenger Response:", response.json())

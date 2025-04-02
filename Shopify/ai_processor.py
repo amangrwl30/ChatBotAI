@@ -11,7 +11,7 @@ load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 # Initialize OpenAI LLM
 llm = ChatOpenAI(
-    model_name="gpt-4",
+    model_name="gpt-3.5-turbo",
     openai_api_key=OPENAI_API_KEY,
     temperature=0.7  # Balanced creativity
 )

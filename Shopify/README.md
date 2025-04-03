@@ -97,3 +97,7 @@ If the customer wishes to purchase, a link should be sent to the item they’re 
 When a customer queries a repair price for a device, it needs to lookup the pricing from our website, e.g iPhone 12 OLED screen replacement would be £105.
 
 We use Shopify for our products sorted into collections and have our API keys. We have our OpenAI API key for the chat bot. We have AWS lightsail for hosting.
+
+
+
+#Deployment Setup Steps

@@ -25,7 +25,7 @@ jobs:
       - name: Deploy Application
         run: |
           ssh -o StrictHostKeyChecking=no -i lightsail_key.pem ubuntu@${{ secrets.LIGHTSAIL_IP }} << 'EOF'
-            cd /Shopify
+            cd /ChatBotAI/Shopify
             git pull origin master
             docker-compose down
             docker-compose up -d --build

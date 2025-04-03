@@ -20,7 +20,7 @@ jobs:
         username: ubuntu
         key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
         script: |
-          cd /ChatBotAI/Shopify
+          cd /Shopify
           git pull origin master
           docker-compose down
           docker-compose up -d --build

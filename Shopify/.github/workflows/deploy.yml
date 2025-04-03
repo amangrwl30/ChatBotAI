@@ -1,0 +1,26 @@
+name: Deploy FastAPI to AWS Lightsail
+
+on:
+  push:
+    branches:
+      - master  # Runs this workflow when code is pushed to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # Runs on GitHub's Ubuntu machine
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4  # Pulls the latest code from GitHub
+
+    - name: SSH into AWS Lightsail & Deploy
+      uses: appleboy/ssh-action@v0.1.4
+      with:
+        host: ${{ secrets.LIGHTSAIL_IP }}
+        username: ubuntu
+        key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
+        script: |
+          cd /ChatBotAI/Shopify
+          git pull origin master
+          docker-compose down
+          docker-compose up -d --build

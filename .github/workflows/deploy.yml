@@ -3,7 +3,7 @@ name: Deploy FastAPI to AWS Lightsail
 on:
   push:
     branches:
-      - master  # Runs this workflow when code is pushed to the main branch
+      - main  # Runs this workflow when code is pushed to the main branch
 
 jobs:
   deploy:
@@ -13,14 +13,23 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4  # Pulls the latest code from GitHub
 
-    - name: SSH into AWS Lightsail & Deploy
+    - name: Test SSH Connection
+      uses: appleboy/ssh-action@v0.1.4
+      with:
+        host: ${{ secrets.LIGHTSAIL_IP }}
+        username: ubuntu
+        key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
+        script: "echo '✅ SSH connection successful!'"
+
+    - name: Deploy FastAPI on AWS Lightsail
       uses: appleboy/ssh-action@v0.1.4
       with:
         host: ${{ secrets.LIGHTSAIL_IP }}
         username: ubuntu
         key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
         script: |
-          cd /Shopify
-          git pull origin master
+          cd /var/www/shopify  # Update this if your project is in a different location
+          git pull origin main
           docker-compose down
           docker-compose up -d --build
+          echo "✅ Deployment successful!"

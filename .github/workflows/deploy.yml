@@ -3,7 +3,7 @@ name: Deploy FastAPI to AWS Lightsail
 on:
   push:
     branches:
-      - master  # Runs when code is pushed to the master branch
+      - master  # Trigger on push to master
 
 jobs:
   deploy:
@@ -25,8 +25,22 @@ jobs:
       - name: Deploy Application
         run: |
           ssh -o StrictHostKeyChecking=no -i lightsail_key.pem ubuntu@${{ secrets.LIGHTSAIL_IP }} << 'EOF'
-            cd /ChatBotAI/Shopify
+            set -e  # Exit if any command fails
+
+            # Go to home directory
+            cd /home/ubuntu
+
+            # Clone the repo if not already present
+            if [ ! -d "ChatBotAI" ]; then
+              git clone git@github.com:amangrwl30/ChatBotAI.git
+            fi
+
+            cd ChatBotAI/shopify
+
+            # Pull latest code
             git pull origin master
+
+            # Rebuild and restart the container
             docker-compose down
             docker-compose up -d --build
           EOF

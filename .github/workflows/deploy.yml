@@ -35,7 +35,7 @@ jobs:
               git clone git@github.com:amangrwl30/ChatBotAI.git
             fi
 
-            cd ChatBotAI/shopify
+            cd ChatBotAI/Shopify
 
             # Pull latest code
             git pull origin master

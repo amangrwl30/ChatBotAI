@@ -24,6 +24,8 @@ node_modules/
 # Virtual Environment
 venv/
 ENV/
+env/
+.env
 
 # IDE
 .idea/

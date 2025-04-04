@@ -16,33 +16,31 @@ jobs:
       - name: Set Up SSH Key
         run: |
           echo "${{ secrets.LIGHTSAIL_SSH_KEY }}" > lightsail_key.pem
-          chmod 600 lightsail_key.pem  # Secure key permissions
+          chmod 600 lightsail_key.pem
 
       - name: Test SSH Connection
         run: |
           ssh -o StrictHostKeyChecking=no -i lightsail_key.pem ubuntu@${{ secrets.LIGHTSAIL_IP }} "echo '✅ SSH Connection Successful!'"
 
-      - name: Deploy Application
+      - name: Deploy Application with Environment Variables
         run: |
           ssh -o StrictHostKeyChecking=no -i lightsail_key.pem ubuntu@${{ secrets.LIGHTSAIL_IP }} << 'EOF'
-            set -e  # Exit if any command fails
-
-            # Go to home directory
-            cd /home/ubuntu
-
-            # Clone the repo if not already present
-            if [ ! -d "ChatBotAI" ]; then
-              git clone git@github.com:amangrwl30/ChatBotAI.git
-            fi
-
-            cd ChatBotAI/Shopify
-
-            # Pull latest code
-            git pull origin master
-
-            # Rebuild and restart the container
-            sudo docker-compose down
-            sudo docker-compose up -d --build
+          set -e
+          cd /home/ubuntu
+          if [ ! -d "ChatBotAI" ]; then
+            git clone https://github.com/amangrwl30/ChatBotAI.git
+          fi
+          cd ChatBotAI/Shopify
+          git pull origin master
+          cat > .env << 'EOT'
+          OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
+          SHOPIFY_API_URL=${{ secrets.SHOPIFY_API_URL }}
+          SHOPIFY_ACCESS_TOKEN=${{ secrets.SHOPIFY_ACCESS_TOKEN }}
+          FACEBOOK_PAGE_ACCESS_TOKEN=${{ secrets.FACEBOOK_PAGE_ACCESS_TOKEN }}
+          FACEBOOK_VERIFY_TOKEN=${{ secrets.FACEBOOK_VERIFY_TOKEN }}
+          EOT
+          sudo docker-compose down
+          sudo docker-compose up -d --build
           EOF
 
       - name: Cleanup SSH Key

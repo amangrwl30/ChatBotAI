@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoon, faSun, faPaperclip, faMicrophone, faPaperPlane, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import BotAvatar from "../assets/robot-norby.png";
-import UserAvatar from "../assets/user.jpg";
+// import UserAvatar from "../assets/user.jpg";
 import { format } from "date-fns";
 import { AppContext } from '../context/AppContext';
 
@@ -14,17 +14,17 @@ const ChatBot = ({ website }) => {
 	const [isDarkTheme, setIsDarkTheme] = useState(true);
 	const formattedWebsite = website.startsWith("http") ? website : `https://${website}`;
 	const { sharedState, setSharedState } = useContext(AppContext);
-	const [ userInfo, setUserInfo] = useState({ name: "", phoneNumber: '' })
-
-	const handleChangeName = (e) => {
-		setUserInfo(prev => ({...prev, name:e.target.value}))
-	}
-	const handleChangePhoneNumber = (e) => {	
-		setUserInfo(prev => ({...prev, phoneNumber: +e.target.value}))
-	}
+	const [userInfo, setUserInfo] = useState({ name: "", phoneNumber: '' })
+	const [isOnline, setIsOnline] = useState(navigator.onLine);
 	
+	const handleChangeName = (e) => {
+		setUserInfo(prev => ({ ...prev, name: e.target.value }))
+	}
+	const handleChangePhoneNumber = (e) => {
+		setUserInfo(prev => ({ ...prev, phoneNumber: +e.target.value }))
+	}
+
 	const submitUserInfo = async () => {
-		console.log({userInfo})
 		const response = await fetch('http://localhost:4000/submitUserInfo', {
 			method: 'POST',
 			headers: {
@@ -124,6 +124,20 @@ const ChatBot = ({ website }) => {
 	}, [messages, isLoading]);
 
 
+	useEffect(() => {
+		const handleOnline = () => setIsOnline(true);
+		const handleOffline = () => setIsOnline(false);
+
+		window.addEventListener('online', handleOnline);
+		window.addEventListener('offline', handleOffline);
+
+		return () => {
+			window.removeEventListener('online', handleOnline);
+			window.removeEventListener('offline', handleOffline);
+		};
+	}, []);
+
+
 
 	const handleWebsiteChange = (e) => {
 		e.preventDefault();
@@ -132,7 +146,10 @@ const ChatBot = ({ website }) => {
 			setTimeout(() => {
 				setCurrentWebsite(newWebsite);
 				setMessages([
-					{ content: `Hello! I'm your AI assistant for ${newWebsite}. How can I help you today?`, isUser: false }
+					{
+						content: <p >Hello! I'm your AI assistant for <a target="_blank"
+							rel="noopener noreferrer" className='text-blue-500 underline' href={`${newWebsite.startsWith("http") ? newWebsite : `https://${newWebsite}`}`}>{newWebsite}</a>. How can I help you today?</p>, isUser: false
+					}
 				]);
 				setIsEditingWebsite(false);
 				setErrorMessage('');
@@ -198,7 +215,7 @@ const ChatBot = ({ website }) => {
 								className="w-full  px-3 py-2 focus:outline-none rounded-lg mb-2 text-gray-900 dark:text-white dark:bg-gray-1300  text-sm  h-[40px]"
 								onChange={handleChangeName}
 							/>
-							<div className="flex items-center border border-yellow-400 rounded-lg overflow-hidden border-[rgba(138,124,184,0.2)]
+							<div className="flex items-center rounded-lg overflow-hidden border-[rgba(138,124,184,0.2)]
 ">
 								<span className="dark:bg-gray-1300 dark:text-[rgb(138,124,184)] px-3 py-2 text-gray-900 text-sm  mr-3 h-[40px]">+91</span>
 								<input
@@ -229,14 +246,19 @@ const ChatBot = ({ website }) => {
 					</div>
 
 					{/* Chatbot */}
-					<div className="container mx-auto w-full flex flex-col py-4 animate-slideIn rounded-3xl bg-white dark:bg-zinc-1100 shadow-lg overflow-hidden mt-[3rem] mb-[3rem]">
+					<div className="container mx-auto w-1/2 flex flex-col py-4 animate-slideIn rounded-3xl bg-white dark:bg-zinc-1100 shadow-lg overflow-hidden mt-[3rem] mb-[3rem]">
 						{/* Header */}
 						<header className="flex justify-between items-center p-4 bg-white dark:bg-zinc-1100 border-b border-gray-300 dark:border-[rgba(138,124,184,0.1)] shadow-sm rounded-t-3xl">
 							<div className="flex items-center space-x-4">
 								<h1 className="text-xl font-semibold text-gray-500 dark:text-gray-300">AI Assistant</h1>
 								<div className="flex items-center space-x-2 text-gray-500 dark:text-gray-300">
-									<div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-									<span>Online</span>
+									{isOnline ? <>
+										<div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+										<span>Online</span>
+									</> : <>
+										<div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+										<span>Offline</span>
+									</>}
 								</div>
 							</div>
 							<button
@@ -255,13 +277,12 @@ const ChatBot = ({ website }) => {
 									<div key={index} className={`flex items-start ${message.isUser ? "flex-row-reverse" : ""}`}>
 
 										{/* Profile Icon */}
-										<div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold shadow-md 
-        ${message.isUser ? "" : "bg-gradient-to-r from-blue-500 to-purple-500"}`}>
+										<div className={`w-10 h-10 flex items-center justify-center font-semibold shadow-md mt-[10px]`}>
 											{message.isUser ? "" : <img src={BotAvatar} />}
 										</div>
 
 										{/* Message Box */}
-										<div className={`ml-1 max-w-xs p-3 rounded-lg shadow-sm 
+										<div className={`ml-3 max-w-xs p-3 rounded-lg shadow-sm 
         ${message.isUser
 												? "bg-blue-500 text-white"
 												: "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-4 shadow-md max-w-sm text-black dark:text-white"
@@ -270,7 +291,7 @@ const ChatBot = ({ website }) => {
 										>
 
 											{/* Message Content (With Gray Background If Links Exist) */}
-											<div className={`${!message.isUser && message.links ? "bg-gray-100 dark:bg-gray-700 px-3 py-2 rounded-lg mb-2 text-gray-900 dark:text-white text-sm font-medium" : ""}`}>
+											<div className={`${!message.isUser && message.links ? " px-3 py-2 rounded-lg mb-2 text-gray-900 dark:text-white" : ""}`}>
 												{message.content}
 											</div>
 

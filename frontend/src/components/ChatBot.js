@@ -277,7 +277,7 @@ const ChatBot = ({ website }) => {
 									<div key={index} className={`flex items-start ${message.isUser ? "flex-row-reverse" : ""}`}>
 
 										{/* Profile Icon */}
-										<div className={`w-10 h-10 flex items-center justify-center font-semibold shadow-md mt-[10px]`}>
+										<div className={`w-10 h-10 flex items-center justify-center mt-[10px]`}>
 											{message.isUser ? "" : <img src={BotAvatar} />}
 										</div>
 

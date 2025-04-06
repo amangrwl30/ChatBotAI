@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState , useContext} from 'react';
 import ChatBot from './ChatBot'; // Import your chatbot component
 import Loader from './Loader'; // Import the loader component
-
-const LandingPage = () => {
+import { AppContext } from '../context/AppContext';
+const LandingPage = (props) => {
   const [website, setWebsite] = useState('');
   const [showChatbot, setShowChatbot] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const {sharedState } = useContext(AppContext)
 
   const isValidWebsite = (url) => {
     const pattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
@@ -28,7 +29,8 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="landing-container flex flex-col items-center justify-center h-screen bg-violet-900 from-purple-500 via-pink-500 to-red-500 text-white w-full">
+    <div className={`${sharedState.yellowAiTheme ? 'dark' : ''}`}>
+ <div className="landing-container flex flex-col items-center justify-center h-screen bg-gray-1000  dark:bg-zinc-1000   text-white">
       {isLoading ? (
         <Loader />
       ) : !showChatbot ? (
@@ -51,7 +53,7 @@ const LandingPage = () => {
             />
           </form>
           {errorMessage && <p className="mt-4 text-red-500">{errorMessage}</p>}
-          <button onClick={handleSubmit} className="mt-10 w-full text-xl max-w-xs bg-yellow-500 px-8 py-4 rounded-full text-black font-bold shadow-md hover:bg-yellow-600 transition duration-300 ease-in-out transform hover:scale-110">
+          <button onClick={handleSubmit} className="bg-[linear-gradient(to_right,rgb(255,204,51),rgb(245,158,11))] hover:bg-[linear-gradient(to_right,rgb(245,158,11),rgb(255,204,51))] mt-10 w-full text-xl max-w-xs bg-yellow-500 px-8 py-4 rounded-full text-black font-bold shadow-md hover:bg-yellow-600 transition duration-300 ease-in-out transform hover:scale-110">
             Generate
           </button>
         </div>
@@ -61,6 +63,8 @@ const LandingPage = () => {
         </div>
       )}
     </div>
+    </div>
+   
   );
 };
 

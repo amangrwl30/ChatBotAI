@@ -1,11 +1,18 @@
 class MessageParser {
-  constructor(actionProvider) {
+  constructor(actionProvider, state) {
     this.actionProvider = actionProvider;
+    this.state = state;
   }
 
   parse(message) {
-    console.log(message);
-    // Input message is disabled, so this function will be empty
+    const timestamp = new Date().toLocaleString('en-US', {
+      weekday: 'short',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+    });
+
+    this.actionProvider.handleUserMessage(message, timestamp);
   }
 }
 

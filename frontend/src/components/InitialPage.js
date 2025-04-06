@@ -16,7 +16,7 @@ const InitialPage = () => {
   };
 
   return (
-    <div className="initial-page-container bg-violet-900 flex flex-col items-center justify-center h-screen from-purple-500 via-pink-500 to-red-500 text-white">
+    <div className="initial-page-container bg-zinc-1000 flex flex-col items-center justify-center h-screen text-white" >
       {!selectedTile ? (
         <div className="text-center p-8">
           <h1 className="text-6xl font-extrabold mb-10">Select a Feature</h1>
@@ -45,7 +45,7 @@ const InitialPage = () => {
       ) : (
         <div className="animate-fadeIn w-full">
           {selectedTile === 'landingPage' ? (
-            <LandingPage />
+            <LandingPage  />
           ) : selectedTile === 'crmChatbot' ? (
             <div className={`chatbot ${theme}`}>
               <CRMChatBot  toggleTheme={toggleTheme} theme={theme} />

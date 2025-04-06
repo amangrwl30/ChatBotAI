@@ -1,20 +1,23 @@
+// const colors = require('tailwindcss/colors')
+
+const colors = require("tailwindcss/colors");
+
+
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
+    "./public/index.html"
   ],
-  darkMode: 'class', // Enable dark mode
+      darkMode: 'class', // Enable dark mode
   theme: {
     extend: {
-      colors: {
-        'primary-gradient': 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-        'secondary-gradient': 'linear-gradient(135deg, #f472b6, #db2777)',
-        'bot-message-bg': '#f1f5f9',
-        'user-message-bg': '#818cf8',
-        'chat-bg': '#f8fafc',
-        'bg-color': '#ffffff',
-        'text-primary': '#1e293b',
-        'text-secondary': '#64748b',
-        'border-color': '#e2e8f0',
+      colors:{
+        'zinc-1000': 'rgb(21, 16, 31)',
+        'gray-1000':'rgb(255, 255, 255)',
+        'gray-1300':'rgba(138, 124, 184, 0.2)',
+        'zinc-1100':'rgba(13, 9, 21, 0.8)',
+        'gray-1100':'rgb(30,34,46)',
+        'gray-1200':'#1e222ee6'
       }
     },
   },

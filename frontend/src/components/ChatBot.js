@@ -271,7 +271,7 @@ const ChatBot = ({ website }) => {
 						</header>
 
 						{/* Chat Messages (Fixed Height & Scrollable) */}
-						<div className="flex-1 h-[80vh] overflow-y-auto p-4 bg-gray-100 dark:bg-zinc-1100 rounded-b-3xl" id="chatContainer">
+						<div className=" h-[25rem] overflow-y-auto p-4 bg-gray-100 dark:bg-zinc-1100 rounded-b-3xl" id="chatContainer">
 							{messages.map((message, index) => (
 								<>
 									<div key={index} className={`flex items-start ${message.isUser ? "flex-row-reverse" : ""}`}>

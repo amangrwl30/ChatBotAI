@@ -1,6 +1,12 @@
-@import "tailwindcss/base";
+/* @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+@import "tailwindcss"; */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
 
 :root {
   --primary-gradient: linear-gradient(135deg, #6366f1, #8b5cf6);

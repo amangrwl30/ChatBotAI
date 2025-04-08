@@ -153,7 +153,7 @@ const AudioChatbot = () => {
 
                     try {
                         // Send audio to backend
-                        const response = await axios.post("http://localhost:5000/process-audio", formData, {
+                        const response = await axios.post("http://localhost:4000/process-audio", formData, {
                             headers: {
                                 "Content-Type": "multipart/form-data"
                             },
@@ -223,7 +223,7 @@ const AudioChatbot = () => {
             setLoading(true);
             try {
                 // Send text message to backend
-                const response = await axios.post("http://localhost:5000/chat", {
+                const response = await axios.post("http://localhost:4000/chat", {
                     query: inputMessage
                 });
 

@@ -61,7 +61,7 @@ ChatBotAI/
    python app.py
    ```
 
-The backend should now be running on `http://localhost:5000`.
+The backend should now be running on `http://localhost:4000`.
 
 ## Frontend Setup
 
@@ -72,7 +72,7 @@ The backend should now be running on `http://localhost:5000`.
    ```
 3. Create a `.env` file in the `frontend` directory with the following content:
    ```
-   REACT_APP_BACKEND_URL=http://localhost:5000
+   REACT_APP_BACKEND_URL=http://localhost:4000
    ```
 4. Start the React app:
    ```bash

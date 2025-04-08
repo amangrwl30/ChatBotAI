@@ -34,7 +34,7 @@ jobs:
             git clone https://github.com/amangrwl30/ChatBotAI.git
           fi
           cd ChatBotAI/Shopify
-          git pull origin master
+          git pull --rebase origin master
           cat > .env << 'EOT'
           OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
           SHOPIFY_API_URL=${{ secrets.SHOPIFY_API_URL }}

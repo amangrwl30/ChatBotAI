@@ -1,0 +1,49 @@
+name: Deploy Frontend to AWS Lightsail
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'frontend/**'                           # Trigger only on frontend code changes
+      - '.github/workflows/deploy-frontend.yml' # Or if this workflow file is modified
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set Up SSH Key
+        run: |
+          echo "${{ secrets.LIGHTSAIL_SSH_KEY }}" > lightsail_key.pem
+          chmod 600 lightsail_key.pem
+
+      - name: Test SSH Connection
+        run: |
+          ssh -o StrictHostKeyChecking=no -i lightsail_key.pem ubuntu@${{ secrets.LIGHTSAIL_IP }} "echo '✅ SSH Connection Successful!'"
+
+      - name: Deploy Frontend with Docker
+        run: |
+          ssh -o StrictHostKeyChecking=no -i lightsail_key.pem ubuntu@${{ secrets.LIGHTSAIL_IP }} << 'EOF'
+          set -e
+          cd /home/ubuntu
+          if [ ! -d "ChatBotAI" ]; then
+            git clone https://github.com/amangrwl30/ChatBotAI.git
+          fi
+          cd ChatBotAI
+          git pull origin master
+
+          # Build and deploy frontend container
+          cd frontend
+          sudo docker build -t frontend-app .
+          sudo docker stop frontend-app || true
+          sudo docker rm frontend-app || true
+          sudo docker run -d --name frontend-app -p 3000:80 frontend-app
+          EOF
+
+      - name: Cleanup SSH Key
+        if: always()
+        run: rm -f lightsail_key.pem

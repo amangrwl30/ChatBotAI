@@ -3,7 +3,10 @@ name: Deploy FastAPI to AWS Lightsail
 on:
   push:
     branches:
-      - master  # Trigger on push to master
+      - master  # Trigger only on push to master
+    paths:
+      - 'Shopify/**'                          # Trigger only if files in Shopify folder change
+      - '.github/workflows/deploy-backend.yml'  # Also trigger if this workflow file itself is updated
 
 jobs:
   deploy:

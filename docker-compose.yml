@@ -2,20 +2,30 @@ version: "3.8"
 
 services:
   fastapi:
-    build: .
+    build: ./Shopify  # assuming FastAPI code is inside the Shopify folder
     container_name: fastapi_app
     restart: always
     ports:
       - "8000:8000"
     env_file:
-      - .env  # Loads environment variables from a local .env file
+      - ./Shopify/.env
     environment:
       SHOPIFY_ACCESS_TOKEN: ${SHOPIFY_ACCESS_TOKEN}
       SHOPIFY_API_URL: ${SHOPIFY_API_URL}
       OPENAI_API_KEY: ${OPENAI_API_KEY}
       FACEBOOK_PAGE_ACCESS_TOKEN: ${FACEBOOK_PAGE_ACCESS_TOKEN}
       FACEBOOK_VERIFY_TOKEN: ${FACEBOOK_VERIFY_TOKEN}
-      # Add more like this if needed
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: react_frontend
+    restart: always
+    depends_on:
+      - fastapi
+    expose:
+      - "80"  # internal port, served by Nginx
 
   nginx:
     image: nginx:latest
@@ -26,5 +36,7 @@ services:
       - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./frontend/build:/usr/share/nginx/html:ro
     depends_on:
       - fastapi
+      - frontend

@@ -33,7 +33,7 @@ jobs:
           if [ ! -d "ChatBotAI" ]; then
             git clone https://github.com/amangrwl30/ChatBotAI.git
           fi
-          cd ChatBotAI
+          cd ChatBotAI/frontend
           git pull --rebase origin master
 
           # Build and deploy frontend container

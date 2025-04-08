@@ -25,7 +25,7 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -i lightsail_key.pem ubuntu@${{ secrets.LIGHTSAIL_IP }} "echo '✅ SSH Connection Successful!'"
 
-      - name: Deploy Application with Environment Variables
+      - name: Deploy Backend Application with Environment Variables
         run: |
           ssh -o StrictHostKeyChecking=no -i lightsail_key.pem ubuntu@${{ secrets.LIGHTSAIL_IP }} << 'EOF'
           set -e

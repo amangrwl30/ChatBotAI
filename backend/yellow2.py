@@ -4,6 +4,10 @@ import re
 from bs4 import BeautifulSoup
 from openai import OpenAI
 from flask_cors import CORS
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}, 
@@ -12,133 +16,131 @@ CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}},
      methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 
 # Configuration
-GOOGLE_API_KEY = "AIzaSyAZIfLq7nOUiYo0wWv-MbG9Rqk1b77Z1NI"
-GOOGLE_CSE_ID = "55ade5a9aac4d47cd"
-OPENAI_API_KEY = "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"  # Replace with your actual OpenAI API key
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+GOOGLE_CSE_ID =  os.getenv("GOOGLE_CSE_ID")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")  # Replace with your actual OpenAI API key
 
-# Initialize OpenAI client
 client = OpenAI(api_key=OPENAI_API_KEY)
+
+# def google_search(query, api_key, cse_id):
+#     try:
+#         url = "https://www.googleapis.com/customsearch/v1"
+#         params = {"q": query, "key": api_key, "cx": cse_id, "num": 8}
+#         response = requests.get(url, params=params)
+#         response.raise_for_status()
+#         return response.json()
+#     except requests.RequestException as e:
+#         print(f"Search error: {e}")
+#         return None
 
 def google_search(query, api_key, cse_id):
     try:
         url = "https://www.googleapis.com/customsearch/v1"
-        params = {"q": query, "key": api_key, "cx": cse_id}
+        params = {
+            "q": query, 
+            "key": api_key, 
+            "cx": cse_id, 
+            "num": 8,
+            "sort": "date:r:20230101:20251231"  # Sort by date range (2023-2025)
+        }
         response = requests.get(url, params=params)
         response.raise_for_status()
         return response.json()
     except requests.RequestException as e:
-        print(f"Error during Google search: {e}")
+        print(f"Search error: {e}")
         return None
 
-def setup_openai_model():
-    """Sets up OpenAI model for generating responses."""
-    try:
-        # We'll use the global `client` directly in `chatbot()`
-        return True
-    except Exception as e:
-        print(f"Error setting up OpenAI model: {e}")
-        return False
-
-def has_repetitive_phrases(text, n=3, threshold=2):
-    words = text.split()
-    ngrams = {}
-    for i in range(len(words) - n + 1):
-        phrase = " ".join(words[i:i+n])
-        ngrams[phrase] = ngrams.get(phrase, 0) + 1
-    for phrase, count in ngrams.items():
-        if count > threshold:
-            return True
-    return False
-
-def is_meaningful_text(text):
-    return re.search(r"[A-Za-z]", text) and len(text) > 10
+def enhance_context(raw_context):
+    """Transform raw context into LLM-friendly format"""
+    if not raw_context:
+        return ""
+    
+    # Remove excessive whitespace and truncate
+    enhanced = ' '.join(raw_context.split()[:2000])  # Keep ~2000 words
+    
+    # Add structure markers
+    return f"SEARCH RESULTS CONTEXT:\n{enhanced}\n\nIMPORTANT: Focus on these key details:"
 
 def chatbot(query, website, use_site_operator):
-    # Build the search query with site operator if required.
-    if use_site_operator:
-        clean_site = website.replace("https://", "").replace("http://", "").rstrip("/")
-        primary_query = f"site:{clean_site} {query}"
-    else:
-        primary_query = query
-
-    # Perform search
-    search_results = google_search(primary_query, GOOGLE_API_KEY, GOOGLE_CSE_ID)
-    top_results = search_results.get("items", [])[:6] if search_results else []
+    # Build query
+    clean_site = website.replace("https://", "").replace("http://", "").rstrip("/")
+    search_query = f"site:{clean_site} {query}" if use_site_operator else query
     
-    if not top_results:
-        if use_site_operator:
-            return {"answer": f"Sorry, I couldn't find any relevant information on {website}.", "links": []}
-        else:
-            return {"answer": "Sorry, I couldn't find any relevant information.", "links": []}
+    results = google_search(search_query, GOOGLE_API_KEY, GOOGLE_CSE_ID)
 
-    # Build context and links from search results.
-    context_text = ""
-    links_list = []
-    for i, result in enumerate(top_results, start=1):
-        title = result.get("title", "No Title")
-        snippet = result.get("snippet", "No snippet available.")
-        link = result.get("link", "")
-        context_text += f"{i}. {title}:\n{snippet}\n\n"
-        links_list.append({"title": title, "link": link})
+    # Filter out any links containing 'link=http' (case-sensitive)
+    items = [
+        item for item in (results.get("items", []) if results else [])
+        if 'link=http' not in item.get('link', '')
+    ][:5]  # Take first 5 filtered results
 
-    if not context_text.strip():
-        return {"answer": f"**Relevant Links from {website}:**", "links": links_list}
+    print('items',items)
+    
+    if not items:
+        return {"answer": f"No results found on {website}", "links": []}
 
-    # Build prompt for OpenAI
-    prompt = (
-        f"Below is a set of information extracted from {website} that may be relevant to the user's query. "
-        f"Based solely on the following context, provide a concise and accurate answer to the question. "
-        f"Include key details if they are present, and do not add any information that is not supported by the context. "
-        f"If the context does not contain enough relevant information, respond with: "
-        f"I could not find a relevant answer based on the provided information.\n\n"
-        f"Extracted Information:\n{context_text}\n"
-        f"Question: {query}\n\n"
-        f"Answer:"
-    )
+    # Build context
+    context = "\n".join([
+        f"Source {i+1}: {item.get('title', '')}\n"
+        f"URL: {item.get('link', '')}\n"
+        f"Content: {item.get('snippet', '')}\n"
+        for i, item in enumerate(items)
+    ])
+    
+    # Enhanced prompt
+    prompt = f"""Analyze this technical content and answer precisely:
 
+QUERY: {query}
+
+CONTEXT FROM {website}:
+{enhance_context(context)}
+
+RULES:
+1. Answer ONLY using provided context
+2. Be technical and precise 
+3. fetch latest data first to answer
+4. Never hallucinate
+5. Format clearly with:
+   - Direct answer first
+   - Supporting points
+6. Donot explicitly mention **Source x mentions** or **supporting points** or **based on your website** or **Direct answer** in answers.
+7. Add in last of our answers **for more information, check suggested links shared below** .
+
+ANSWER:"""
+    
     try:
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",  # or "gpt-4", "gpt-4-turbo"
+            model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "system", "content": "You are a technical research assistant."},
                 {"role": "user", "content": prompt}
             ],
-            temperature=0.5,
-            max_tokens=350,
-            top_p=0.9,
+            temperature=0.5,  # More deterministic , 0.5 for ncert, 0.9 for moneycontrol.com
+            max_tokens=400,
+            top_p=0.95,
         )
-        generated_answer = response.choices[0].message.content.strip()
+        answer = response.choices[0].message.content.strip()
     except Exception as e:
-        return {"answer": f"Error generating answer: {e}", "links": links_list}
+         if e.status_code == 401:
+            return {"answer": "Error: Error code: 401 - Error generating answer: Incorrect API key provided", "links": []}
+         else:
+            return {"answer": f"Error: {str(e)}", "links": []}
 
-    # Fallback logic for short or unsatisfactory answers.
-    if not is_meaningful_text(generated_answer) or has_repetitive_phrases(generated_answer, n=3, threshold=2):
-        generated_answer = "Here’s what we found:"
-
-    if generated_answer == "Here’s what we found:":
-        return {
-            "answer": "Here’s what we have found:",
-            "links": links_list
-        }
-    else:
-        return {
-            "answer": generated_answer,
-            "links": links_list
-        }
+    # Format response
+    links = [{"title": item.get("title", ""), "link": item.get("link", "")} for item in items]
+    return {"answer": answer, "links": links}
 
 @app.route('/chat', methods=['POST'])
 def chat():
-    # Expecting JSON payload with keys: query, website, use_site_operator (optional).
     data = request.get_json()
     query = data.get('query')
     website = data.get('website')
     use_site_operator = data.get('use_site_operator', True)
 
     if not query or not website:
-        return jsonify({'error': 'Both query and website are required.'}), 400
+        return jsonify({'error': 'Query and website required'}), 400
 
-    response_data = chatbot(query, website, use_site_operator)
-    return jsonify(response_data)
+    return jsonify(chatbot(query, website, use_site_operator))
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=4000, debug=True)

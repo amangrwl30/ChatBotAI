@@ -40,12 +40,9 @@ const LandingPage = (props) => {
         <div className="text-center p-8">
           <h1 className="text-6xl font-extrabold mb-10">Conversations Reimagined</h1>
           <p className="text-xl mb-6 font-light">Infinite interactions. Zero setup.</p>
-          <form onSubmit={handleSubmit} className="flex flex-col md:flex-row items-center bg-white mt-20 p-2 px-16 rounded-full shadow-xl">
-            <span className="mr-2 text-black text-lg w-full">Create a</span>
-            <select className="bg-gray-100 text-gray-900 px-4 py-2 rounded-md focus:outline-none">
-              <option>Website assistant</option>
-            </select>
-            <span className="ml-2 text-black text-lg w-full">for my website</span>
+          <form onSubmit={handleSubmit} className="flex flex-col md:flex-row items-center bg-white mt-20 p-2 px-16 rounded-full shadow-xl w-[807px]">
+            <span className="mr-2 text-black text-lg w-[23rem]">Create an <span className='text-green-500 font-bold'>online assistant </span> for my web site:
+            </span> 
             <HistoryAutoSuggest placeholder={"example.com"} onChange={(value)=> setWebsite(value)} />
             {/* <input
               type="text"

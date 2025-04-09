@@ -34,8 +34,9 @@ const HistoryAutoSuggest = ({placeholder, onChange}) => {
   }));
 
   return (
-    <div className="w-full mx-auto">
+    <div className="w-[310px]">
       <CreatableSelect
+        formatCreateLabel={(inputValue) => inputValue} // This removes the "Create" prefix
         isClearable
         options={options}
         value={selectedValue}
@@ -47,13 +48,13 @@ const HistoryAutoSuggest = ({placeholder, onChange}) => {
             `w-full rounded-lg border-2 p-2 text-sm ${
               state.isFocused ? 'border-blue-500 shadow-md' : 'border-gray-300'
             }`,
-          menu: () => 'mt-2 border border-gray-300 rounded-lg bg-white shadow-lg',
+          menu: () => 'mt-2 border border-gray-300 rounded-lg bg-white shadow-lg text-left',
           option: (state) => 
             `px-4 py-2 text-sm hover:bg-gray-100 ${
               state.isSelected ? 'bg-blue-100' : ''
             } ${state.isFocused ? 'bg-gray-100' : ''}`,
           input: () => 'text-gray-900',
-          placeholder: () => 'text-gray-400',
+          placeholder: () => 'text-gray-400 text-left',
           clearIndicator: () => 'text-gray-400 hover:text-red-500',
           indicatorSeparator: () => 'bg-gray-300',
           dropdownIndicator: () => 'text-gray-400 hover:text-gray-500',

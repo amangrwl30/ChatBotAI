@@ -7,6 +7,10 @@ import BotAvatar from "../assets/robot-norby.png";
 // import UserAvatar from "../assets/user.jpg";
 import { format } from "date-fns";
 import { AppContext } from '../context/AppContext';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+
+
 
 library.add(faMoon, faSun, faPaperclip, faMicrophone, faPaperPlane, faExternalLinkAlt);
 
@@ -16,7 +20,7 @@ const ChatBot = ({ website }) => {
 	const { sharedState, setSharedState } = useContext(AppContext);
 	const [userInfo, setUserInfo] = useState({ name: "", phoneNumber: '' })
 	const [isOnline, setIsOnline] = useState(navigator.onLine);
-	
+
 	const handleChangeName = (e) => {
 		setUserInfo(prev => ({ ...prev, name: e.target.value }))
 	}
@@ -292,7 +296,17 @@ const ChatBot = ({ website }) => {
 
 											{/* Message Content (With Gray Background If Links Exist) */}
 											<div className={`${!message.isUser && message.links ? " px-3 py-2 rounded-lg mb-2 text-gray-900 dark:text-white" : ""}`}>
-												{message.content}
+												{!message.isUser && typeof message.content === "string" ? <ReactMarkdown remarkPlugins={[remarkGfm]} components={{
+													// Style all links (blue + underline) and open in new tab
+													a: ({ node, ...props }) => (
+														<a
+															{...props}
+															style={{ color: 'lightBlue', textDecoration: 'underline' }}
+															target="_blank"
+															rel="noopener noreferrer"
+														/>
+													),
+												}}>{message.content}</ReactMarkdown> : message.content}
 											</div>
 
 

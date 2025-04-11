@@ -12,7 +12,6 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import InitialPage from './crmcomponents/InitialPage.jsx'; // Make sure path matches your file structure
-
 const queryClient = new QueryClient();
 
 const App = () => (

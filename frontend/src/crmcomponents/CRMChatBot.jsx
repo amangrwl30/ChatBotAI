@@ -301,28 +301,35 @@
 import React from "react";
 import Chatbot from "react-chatbot-kit";
 import 'react-chatbot-kit/build/main.css';
-import { AppProvider } from '../context/AppContext';
 
-import config from "../placeholderChatbot/config";
+// import config from "../placeholderChatbot/config";
+// ipmort getConfig
 import ActionProvider from "../placeholderChatbot/ActionProvider";
 import MessageParser from "../placeholderChatbot/MessageParser";
 import "./chatbotStyles.css";
+import "./chatbotStylesDarkMode.css"
+import { useState } from "react";
+import getConfig from "../placeholderChatbot/config";
 
-function CRMChatbot() {
+
+
+function CRMChatbot(props) {
+  
+     
+
+    
     return (
-        <AppProvider>
-            <div className="fixed inset-0 flex items-center justify-center bg-gray-50">
-                <div className="w-full h-full max-w-4xl mx-auto">
-                    <Chatbot
-                        config={config}
-                        actionProvider={ActionProvider}
-                        messageParser={MessageParser}
-                        disableInput={true}
-                        className="chatbot-container"
-                    />
-                </div>
-            </div>
-        </AppProvider>
+        <div className={`app`}>
+
+        <Chatbot
+            config={getConfig(props.theme, props.toggleTheme)}
+            actionProvider={ActionProvider}
+            messageParser={MessageParser}
+            disableInput={true}
+            className="chatbot-container"
+        />
+        </div>
+       
     );
 }
 

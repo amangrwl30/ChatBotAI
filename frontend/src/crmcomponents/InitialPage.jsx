@@ -3,16 +3,24 @@ import LandingPage from './LandingPage'; // Import the LandingPage component
 import CRMChatBot from './CRMChatBot';
 import AudioChatbot from '../audioComponent/AudioChatbot';
 // import AnotherComponent from './AnotherComponent'; // Import another component
+import { AppProvider } from '../context/AppContext';
+import App from '../App';
+
 
 const InitialPage = () => {
   const [selectedTile, setSelectedTile] = useState(null);
+  const [theme, setTheme] = useState("light");
+    const toggleTheme = () => {
+        setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+      };
 
   const handleTileClick = (tile) => {
     setSelectedTile(tile);
   };
 
   return (
-    <div className="initial-page-container fixed inset-0 bg-violet-900 flex flex-col items-center justify-center min-h-screen from-purple-500 via-pink-500 to-red-500 text-white">
+    <AppProvider>
+    <div className="initial-page-container bg-zinc-1000 flex flex-col items-center justify-center h-screen text-white" >
       {!selectedTile ? (
         <div className="text-center p-8">
           <h1 className="text-6xl font-extrabold mb-10">Select a Feature</h1>
@@ -39,19 +47,20 @@ const InitialPage = () => {
           </div>
         </div>
       ) : (
-        <div className="animate-fadeIn w-full h-full">
+        <div className="animate-fadeIn w-full">
           {selectedTile === 'landingPage' ? (
-            <LandingPage />
+            <LandingPage  />
           ) : selectedTile === 'crmChatbot' ? (
-            <div className='chatbot w-full h-full'>
-              <CRMChatBot />
-            </div>
+            <div className={`chatbot ${theme}`}>
+              <CRMChatBot  toggleTheme={toggleTheme} theme={theme} />
+              </div>
           ) : (
             <AudioChatbot />
           )}
         </div>
       )}
     </div>
+    </AppProvider>
   );
 };
 

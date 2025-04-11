@@ -5,6 +5,23 @@ class ActionProvider {
     this.setState = setStateFunc;
   }
 
+  handleUserMessage(message, timestamp) {
+    const userMessage = {
+      id: new Date().getTime(),
+      message,
+      type: "user",
+      timestamp,
+    };
+
+    this.setState((prev) => ({
+      ...prev,
+      messages: [...prev.messages, userMessage],
+    }));
+
+    this.handleBotResponse("Thanks for your message!", timestamp);
+  }
+
+
 
 
   // Add new method to handle user messages

@@ -19,7 +19,7 @@ services:
       GOOGLE_CSE_ID: ${GOOGLE_CSE_ID}
 
   nginx:
-    image: nginx:backend
+    image: nginx:latest
     container_name: nginx_proxy_backend
     restart: always
     ports:

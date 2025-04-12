@@ -17,7 +17,7 @@ const DeliveredOrders = (props) => {
 
   const fetchDeliveredOrders = async () => {
     try {
-      const response = await fetch('http://localhost:8080/orders?userId=1');
+      const response = await fetch(import.meta.env.VITE_API_BASE_URL_EMA + '/orders?userId=1');
       if (!response.ok) throw new Error('Failed to fetch orders');
       const data = await response.json();
       // Filter only delivered orders
@@ -56,7 +56,7 @@ const DeliveredOrders = (props) => {
 
   const handleOrderClick = async (order) => {
     try {
-      const response = await fetch(`http://localhost:8080/order?orderId=${order.orderId}`);
+      const response = await fetch(import.meta.env.VITE_API_BASE_URL_EMA + `/order?orderId=${order.orderId}`);
       if (!response.ok) throw new Error('Failed to fetch product details');
       const productDetail = await response.json();
 

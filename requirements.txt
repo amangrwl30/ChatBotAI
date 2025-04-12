@@ -1,3 +1,9 @@
+# Core FastAPI and Server
+fastapi==0.104.1
+uvicorn==0.24.0
+python-multipart==0.0.6
+python-dotenv==1.0.0
+
 accelerate==1.4.0
 aiofiles==24.1.0
 aiohappyeyeballs==2.4.6
@@ -25,7 +31,6 @@ ecdsa==0.19.1
 emoji==2.14.1
 eval_type_backport==0.2.2
 faiss-cpu==1.10.0
-fastapi==0.104.1
 filelock==3.17.0
 filetype==1.2.0
 Flask==3.1.0
@@ -110,7 +115,7 @@ PyYAML==6.0.2
 RapidFuzz==3.12.1
 referencing==0.36.2
 regex==2024.11.6
-requests==2.31.0
+requests==2.32.2
 requests-toolbelt==1.0.0
 rich==13.9.4
 rpds-py==0.22.3

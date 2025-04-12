@@ -125,7 +125,7 @@ class ActionProvider {
       this.addMessageToState(loadingMessage);
   
       // Call the API
-      const response = await fetch(`http://localhost:8080/damagedProductInquiry?orderId=${orderId}`);
+      const response = await fetch(import.meta.env.VITE_API_BASE_URL_EMA+ `/damagedProductInquiry?orderId=${orderId}`);
       if (!response.ok) throw new Error('Failed to check return eligibility');
       
       const data = await response.json();
@@ -226,7 +226,7 @@ class ActionProvider {
       const loadingMessage = this.createChatBotMessage("Checking if address change is possible...");
       this.addMessageToState(loadingMessage);
 
-      const response = await fetch(`http://localhost:8080/address-change-status?orderId=${orderId}`);
+      const response = await fetch(import.meta.env.VITE_API_BASE_URL_EMA + `/address-change-status?orderId=${orderId}`);
       if (!response.ok) throw new Error('Failed to check address change status');
       
       const data = await response.json();

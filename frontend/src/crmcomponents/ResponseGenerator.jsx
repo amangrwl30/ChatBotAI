@@ -12,7 +12,7 @@ const ChatUI = () => {
     setLoading(true);
     setResponse('');
     try {
-      const res = await fetch('http://localhost:5000/chat', {
+      const res = await fetch(import.meta.env.VITE_API_BASE_URL_LLM_CHATBOT + '/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

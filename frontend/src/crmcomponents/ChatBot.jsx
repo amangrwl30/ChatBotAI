@@ -29,7 +29,7 @@ const ChatBot = ({ website }) => {
 	}
 
 	const submitUserInfo = async () => {
-		const response = await fetch('http://localhost:4000/submitUserInfo', {
+		const response = await fetch(import.meta.env.VITE_API_BASE_URL_LLM_CHATBOT + '/submitUserInfo', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ const ChatBot = ({ website }) => {
 	const fetchBotResponse = async (userMessage) => {
 		setIsLoading(true);
 		try {
-			const response = await fetch('http://localhost:4000/chat', {
+			const response = await fetch(import.meta.env.VITE_API_BASE_URL_LLM_CHATBOT + '/chat', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

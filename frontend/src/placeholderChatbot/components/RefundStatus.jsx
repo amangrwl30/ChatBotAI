@@ -16,7 +16,7 @@ const RefundStatus = (props) => {
   const fetchRefundStatus = async () => {
     try {
       const orderId = props.payload?.orderId || "102"; // Use provided orderId or default
-      const response = await fetch(`http://localhost:8080/checkRefundStatus?orderId=${orderId}`);
+      const response = await fetch(import.meta.env.VITE_API_BASE_URL_EMA + `/checkRefundStatus?orderId=${orderId}`);
       if (!response.ok) throw new Error('Failed to fetch refund status');
       const data = await response.json();
       setRefundData(data);

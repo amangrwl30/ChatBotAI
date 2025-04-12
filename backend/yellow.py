@@ -1,24 +1,19 @@
-from flask import Flask, request, jsonify
+from fastapi import APIRouter, Request
+from fastapi.responses import JSONResponse
 import requests
 import re
 from bs4 import BeautifulSoup
 from openai import OpenAI
-from flask_cors import CORS
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
 
-app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}, 
-     supports_credentials=True, 
-     allow_headers=["Content-Type", "Authorization"],
-     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+router = APIRouter()
 
-# Configuration
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 GOOGLE_CSE_ID =  os.getenv("GOOGLE_CSE_ID")
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")  # Replace with your actual OpenAI API key
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 client = OpenAI(api_key=OPENAI_API_KEY)
 
@@ -130,17 +125,14 @@ ANSWER:"""
     links = [{"title": item.get("title", ""), "link": item.get("link", "")} for item in items]
     return {"answer": answer, "links": links}
 
-@app.route('/chat', methods=['POST'])
-def chat():
-    data = request.get_json()
+@router.post("/chat")
+async def chat(request: Request):
+    data = await request.json()
     query = data.get('query')
     website = data.get('website')
     use_site_operator = data.get('use_site_operator', True)
 
     if not query or not website:
-        return jsonify({'error': 'Query and website required'}), 400
+        return JSONResponse(content={'error': 'Query and website required'}, status_code=400)
 
-    return jsonify(chatbot(query, website, use_site_operator))
-
-if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=4000, debug=True)
+    return JSONResponse(content=chatbot(query, website, use_site_operator))

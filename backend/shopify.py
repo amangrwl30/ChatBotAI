@@ -1,4 +1,5 @@
-from fastapi import FastAPI, Request, BackgroundTasks
+# main.py
+from fastapi import APIRouter, Request, BackgroundTasks
 import requests
 import sqlite3
 import faiss
@@ -11,21 +12,20 @@ from dotenv import load_dotenv
 from sentence_transformers import SentenceTransformer
 from ai_processor import generate_ai_response
 
+router = APIRouter()
+
 # Load environment variables
 load_dotenv()
 SHOPIFY_API_URL = os.getenv("SHOPIFY_API_URL")
 SHOPIFY_API_TOKEN = os.getenv("SHOPIFY_ACCESS_TOKEN")
 FACEBOOK_PAGE_ACCESS_TOKEN = os.getenv("FACEBOOK_PAGE_ACCESS_TOKEN")
-VERIFY_TOKEN = os.getenv("FACEBOOK_VERIFY_TOKEN")  # Used to verify Facebook webhook
+VERIFY_TOKEN = os.getenv("FACEBOOK_VERIFY_TOKEN")
 FACEBOOK_GRAPH_API_URL = "https://graph.facebook.com/v18.0/me/messages"
 
-# Initialize FastAPI app
-app = FastAPI()
-
-# Load embedding model
+# Embedding model
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
-# SQLite Database for caching API response
+# SQLite setup
 db_path = "shopify_cache.db"
 
 def setup_db():
@@ -44,17 +44,15 @@ def setup_db():
 
 setup_db()
 
-# FAISS Index for embeddings
-d = 384  # Dimension of MiniLM embeddings
+# FAISS setup
+d = 384
 index = faiss.IndexFlatL2(d)
-id_to_index = {}  
-index_to_id = []  
+id_to_index = {}
+index_to_id = []
 
-# Function to fetch Shopify data and cache it
 def refresh_cache():
     print("Refreshing cache...")
     HEADERS = {"X-Shopify-Access-Token": SHOPIFY_API_TOKEN}
-    
     response = requests.get(SHOPIFY_API_URL, headers=HEADERS)
     if response.status_code == 200:
         data = response.json()
@@ -68,46 +66,41 @@ def refresh_cache():
         for idx, product in enumerate(data.get("products", [])):
             title = product.get("title", "Unknown")
             product_id = str(product.get("id", ""))
-            details = json.dumps(product)  
-            
+            details = json.dumps(product)
             products.append((product_id, title, details))
-            embeddings.append(model.encode(title))  
-
+            embeddings.append(model.encode(title))
             id_to_index[product_id] = idx
             index_to_id.append(product_id)
 
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM products")  
+        cursor.execute("DELETE FROM products")
         cursor.executemany("INSERT INTO products VALUES (?, ?, ?)", products)
         conn.commit()
         conn.close()
 
-        index = faiss.IndexFlatL2(d)  
+        index = faiss.IndexFlatL2(d)
         index.add(np.array(embeddings).astype('float32'))
-        
+
         print("Cache updated successfully.")
     else:
         print("Failed to fetch Shopify data.")
 
-# Background task to refresh cache every 2 minutes
 def schedule_refresh():
     while True:
         refresh_cache()
-        time.sleep(120)  
+        time.sleep(120)
 
 threading.Thread(target=schedule_refresh, daemon=True).start()
 
-# API Endpoint to query products
-@app.get("/query")
 async def query_product(query: str):
     embedding = model.encode([query])
-    _, indices = index.search(embedding, 5)  
-    
+    _, indices = index.search(embedding, 5)
+
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     result = []
-    
+
     for idx in indices[0]:
         if idx < len(index_to_id):
             product_id = index_to_id[idx]
@@ -115,23 +108,17 @@ async def query_product(query: str):
             row = cursor.fetchone()
             if row:
                 result.append({"id": row[0], "title": row[1], "details": json.loads(row[2])})
-    
+
     conn.close()
     return result
 
-@app.get("/query_with_ai")
 async def query_with_ai(query: str):
-    products = await query_product(query)  
-    ai_response = generate_ai_response(query, products)  
+    products = await query_product(query)
+    ai_response = generate_ai_response(query, products)
     return {"query": query, "response": ai_response}
 
-# --- Facebook Messenger Webhook --- #
-
-@app.get("/webhook")
+@router.get("/webhook")
 async def verify_facebook_webhook(request: Request):
-    """
-    Facebook requires webhook verification.
-    """
     params = request.query_params
     mode = params.get("hub.mode")
     token = params.get("hub.verify_token")
@@ -143,11 +130,8 @@ async def verify_facebook_webhook(request: Request):
     else:
         return {"error": "Invalid verification token"}, 403
 
-@app.post("/webhook")
+@router.post("/webhook")
 async def handle_facebook_message(request: Request, background_tasks: BackgroundTasks):
-    """
-    Handle incoming messages from Facebook Messenger.
-    """
     data = await request.json()
     print("Received Messenger data:", json.dumps(data, indent=2))
 
@@ -158,40 +142,30 @@ async def handle_facebook_message(request: Request, background_tasks: Background
                     sender_id = message_event["sender"]["id"]
                     if "message" in message_event and "text" in message_event["message"]:
                         user_message = message_event["message"]["text"]
-
-                        # Process in background
                         background_tasks.add_task(process_user_message, sender_id, user_message)
 
     return {"status": "Message received"}
 
 async def process_user_message(sender_id, user_message):
-    """
-    Process user messages, generate AI response, and send it back via Messenger.
-    """
     products = await query_product(user_message)
     ai_response = generate_ai_response(user_message, products)
-    
-    # Send response back to Messenger
     send_facebook_message(sender_id, ai_response)
 
 def send_facebook_message(recipient_id, message_text):
-    """
-    Sends a message to the user on Messenger.
-    """
     payload = {
         "recipient": {"id": recipient_id},
         "message": {"text": message_text}
     }
-    
+
     headers = {
         "Content-Type": "application/json"
     }
-    
+
     response = requests.post(
         FACEBOOK_GRAPH_API_URL,
         params={"access_token": FACEBOOK_PAGE_ACCESS_TOKEN},
         headers=headers,
         json=payload
     )
-    
+
     print("Messenger Response:", response.json())

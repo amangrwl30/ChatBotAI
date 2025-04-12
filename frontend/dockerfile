@@ -9,10 +9,11 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
-RUN npm run build
 
 #  copy your production env file
 COPY .env.production .env.production
+
+RUN npm run build
 
 # Production Stage
 FROM nginx:alpine

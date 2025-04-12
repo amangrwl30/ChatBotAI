@@ -5,7 +5,7 @@ on:
     branches:
       - master  # Trigger only on push to master
     paths:
-      - 'Shopify/**'                          # Trigger only if files in Shopify folder change
+      - 'backend/**'                          # Trigger only if files in backend folder change
       - '.github/workflows/deploy-backend.yml'  # Also trigger if this workflow file itself is updated
 
 jobs:

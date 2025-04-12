@@ -33,7 +33,7 @@ jobs:
           if [ ! -d "ChatBotAI" ]; then
             git clone https://github.com/amangrwl30/ChatBotAI.git
           fi
-          cd ChatBotAI/Shopify
+          cd ChatBotAI/backend
           git pull origin master
           cat > .env << 'EOT'
           OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}

@@ -1,92 +1,104 @@
-# ChatBotAI
-This Repository will serve the learning purpose of chat bot AI
+# Shopify Facebook Messenger AI Chatbot
 
-# Customer Response Generator
+This is an AI-powered chatbot that integrates with Facebook Messenger and connects to your Shopify store to provide automated customer support.
 
-This project is a full-stack application that uses Flask for the backend and React with Tailwind CSS for the frontend. The backend leverages LangChain for natural language processing.
+## Features
 
-## Project Structure
-```
-ChatBotAI/
-│
-├── backend/
-│   ├── app.py
-│   ├── config.py
-│   ├── __init__.py
-│   ├── services/
-│   │   ├── loaders.py
-│   │   ├── vectorstore.py
-│   │   ├── llm.py
-│   │   ├── utils.py
-│   ├── routes/
-│   │   ├── __init__.py
-│   │   ├── generate_response.py
-├   |-- .env
-├   |-- requirements.txt
-│
-├── frontend/
-│   ├── public/
-│   ├── src/
-│   │   ├── App.js
-│   │   ├── index.js
-│   │   ├── components/
-│   │   │   └── ResponseGenerator.js
-│   │   └── styles/
-│   │       └── tailwind.css
-│   ├── .env
-│   ├── package.json
-│   └── tailwind.config.js
-│
-└── README.md
-```
+- Product inventory queries
+- Price inquiries
+- Repair service pricing
+- Store information (hours, location, contact details)
+- Natural language processing for customer queries
+- Spelling and grammar error tolerance
+- Product condition information
+- Direct purchase links
 
-## Backend Setup
+## Setup
 
-1. Navigate to the `backend` directory.
-2. Create and activate a virtual environment:
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
-   ```
-3. Install the dependencies:
+
+1. Clone this repository
+2. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
-4. Create a `.env` file in the `backend` directory with the following content:
+3. Create a `.env` file with the following variables:
    ```
-   HUGGINGFACE_API_KEY=your_huggingface_api_key
+   SHOPIFY_SHOP_URL=your-shopify-store.myshopify.com
+   SHOPIFY_ACCESS_TOKEN=your-shopify-access-token
+   OPENAI_API_KEY=your-openai-api-key
+   FACEBOOK_APP_SECRET=your-facebook-app-secret
+   FACEBOOK_PAGE_ACCESS_TOKEN=your-facebook-page-access-token
+   FACEBOOK_VERIFY_TOKEN=your-verify-token
    ```
-5. Run the Flask app:
+
+4. Run the application:
    ```bash
-   python app.py
+   uvicorn main:app --host 0.0.0.0 --port 8000
    ```
 
-The backend should now be running on `http://localhost:4000`.
+5. Set up Facebook Messenger webhook:
+   - Go to your Facebook Developer Console
+   - Create a new app or select existing one
+   - Set up Messenger webhook with your server URL
+   - Configure the webhook URL as: `https://your-domain/webhook`
+   - Set the verify token to match FACEBOOK_VERIFY_TOKEN
 
-## Frontend Setup
+## Configuration
 
-1. Navigate to the `frontend` directory.
-2. Install the dependencies:
-   ```bash
-   npm install
-   ```
-3. Create a `.env` file in the `frontend` directory with the following content:
-   ```
-   REACT_APP_BACKEND_URL=http://localhost:4000
-   ```
-4. Start the React app:
-   ```bash
-   npm start
-   ```
+The chatbot can be configured through the following environment variables:
 
-The frontend should now be running on `http://localhost:3000`.
+- `SHOPIFY_SHOP_URL`: Your Shopify store URL
+- `SHOPIFY_ACCESS_TOKEN`: Your Shopify API access token
+- `OPENAI_API_KEY`: Your OpenAI API key
+- `FACEBOOK_APP_SECRET`: Your Facebook App Secret
+- `FACEBOOK_PAGE_ACCESS_TOKEN`: Your Facebook Page Access Token
+- `FACEBOOK_VERIFY_TOKEN`: A custom token for webhook verification
 
 ## Usage
 
-1. Open the React app in your browser.
-2. Enter a customer message in the textarea.
-3. Click the "Generate Response" button to get a response from the backend.
+The chatbot will automatically respond to customer messages on your Facebook Messenger page. It can handle:
 
-## License
+- Product inquiries
+- Price checks
+- Repair service pricing
+- Store information requests
+- Product condition queries
+- Purchase assistance
 
-This project is licensed under the MIT License.
+## Security
+
+- All API keys and secrets are stored in environment variables
+- Facebook webhook verification is implemented
+- HTTPS is required for production deployment 
+
+
+## Reference Work
+
+We own an E-commerce electronic Shopify store.
+
+We are looking to integrate an AI chatbot into our business facebook messenger. It needs to be able to respond to customer queries by pulling information from our online store.
+
+For example, if a customer asked "What iPhone 12 do you have in?" or "how much do you charge for an iPhone 13 screen", the chatbot would provide a list of relevant product titles and prices from our online store.
+
+The chatbot should be able to recognise spelling and grammatical errors like "du u have any 12 in?". It also needs to recognise customers will say “any 13 in” whereas they mean “Do you have any iPhone 13 in stock?”
+
+Customers will also message us asking how much we'll buy items for, opening hours, location, phone number and problems that they have with devices, so it needs to handle these types of queries as well.
+
+We'd like the chatbot to be able to give responses such as:
+Hi, we have these iPhone 12s currently in stock:
+iPhone 12 128GB Unlocked Black (C) M23227 (£225.00)
+iPhone 12 128GB Unlocked Blue (C) M23398 (£195.00)
+iPhone 12 64GB Unlocked Black (A) M22907 (£265.00)
+iPhone 12 64GB Unlocked Black (A) M22986 (£265.00)
+
+We also would like to only display one product if there is duplicates - the M number above is only our individual stock number.
+
+If the customer wishes to purchase, a link should be sent to the item they’re interested in or a link to the Shopify collection for that model. If a customer further queries the product, such as "what condition is it in?”, then tell them about our condition criteria and explain that the (a) is the condition in the product title. The grading criteria should be translated as follows: (A) tell the customer it’s like new, (B) tell the customer it’s in good condition and (C) tell the customer it’s in average condition.
+
+When a customer queries a repair price for a device, it needs to lookup the pricing from our website, e.g iPhone 12 OLED screen replacement would be £105.
+
+We use Shopify for our products sorted into collections and have our API keys. We have our OpenAI API key for the chat bot. We have AWS lightsail for hosting.
+
+
+
+#Deployment Setup Steps

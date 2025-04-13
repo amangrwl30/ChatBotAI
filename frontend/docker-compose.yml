@@ -6,20 +6,5 @@ services:
       context: .
     container_name: frontend-app
     restart: always
-    # Remove the expose since nginx will handle external traffic
-    environment:
-      - NODE_ENV=production
-    # Add this to ensure the build happens
-    command: sh -c "npm run build && nginx -g 'daemon off;'"
-
-  nginx:
-    image: nginx:latest
-    container_name: nginx_proxy_fe
-    restart: always
     ports:
       - "80:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
-      - ./dist:/usr/share/nginx/html  # Mount the built files
-    depends_on:
-      - frontend

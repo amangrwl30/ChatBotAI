@@ -36,10 +36,10 @@
     background-color: #374151 !important;
     color: #E5E7EB;
   }
-
+/* 
   .chatbot.dark   {
     background: #121826 !important;
-  }
+  } */
 
   .chatbot.dark .chat-bubble  {
     background-color: #2563EB ;

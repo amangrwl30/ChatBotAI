@@ -23,7 +23,7 @@ body {
   }
 
  .chatbot {
-    background-color: #D1D5DB;
+    /* background-color: #D1D5DB; */
     width: 100vw;
     height: 100vh;
   }

@@ -37,8 +37,8 @@ jobs:
           git pull origin master
           
           cd frontend
-          docker-compose down || true
-          docker-compose up -d --build
+          sudo docker-compose down || true
+          sudo docker-compose up -d --build
           EOF
 
       - name: Cleanup SSH Key

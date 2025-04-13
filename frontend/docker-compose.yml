@@ -4,7 +4,7 @@ services:
   frontend:
     build:
       context: .
-    container_name: react_frontend_prod
+    container_name: frontend-app
     restart: always
     expose:
       - "80"  # expose port to Docker network

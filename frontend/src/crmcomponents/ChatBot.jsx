@@ -165,17 +165,13 @@ const ChatBot = ({ website }) => {
 	};
 
 	return (
-		<div className={` min-h-screen transition-all flex justify-center items-center overflow-x-hidden`}>
+		<div className="min-h-screen w-full transition-all flex justify-center items-center p-4 overflow-x-hidden">
 			{isUpdatingWebsite ? (
-				<div className="flex justify-center items-center">
-					<div className="spinner-border animate-spin inline-block w-16 h-16 border-4 border-t-transparent border-blue-500 rounded-full" role="status">
-						{/* <span className="visually-hidden">Loading...</span> */}
-					</div>
-				</div>
+				<LoadingSpinner />
 			) : (
-				<div className="container w-[96%] max-w-none mx-auto flex flex-col lg:flex-row gap-24 animate-slideIn overflow-hidden">
+				<div className="container mx-auto flex flex-col lg:flex-row gap-6 lg:gap-12 xl:gap-24 animate-slideIn">
 					{/* Side Form */}
-					<div className="bg-white h-[94vh] dark:bg-zinc-1100 border  border-gray-200 dark:border-[rgba(138,124,184,0.1)] rounded-2xl p-3 shadow-lg w-full md:w-4/5 lg:w-2/5 xl:w-1/3 mx-auto lg:mx-0" >
+					<div className="bg-white dark:bg-zinc-1100 border border-gray-200 dark:border-[rgba(138,124,184,0.1)] rounded-2xl p-4 shadow-lg w-full lg:w-1/3 h-auto order-2 lg:order-1">
 						{/* Header Section */}
 						<div className="bg-gray-100 dark:bg-zinc-1100 p-4 rounded-lg mb-4">
 							<p className="text-gray-700 dark:text-gray-300 text-sm text-[18px]">
@@ -250,12 +246,12 @@ const ChatBot = ({ website }) => {
 					</div>
 
 					{/* Chatbot */}
-					<div className="container mx-auto w-1/2 flex flex-col py-4 animate-slideIn rounded-3xl bg-white dark:bg-zinc-1100 shadow-lg overflow-hidden mt-[3rem] mb-[3rem]">
+					<div className="w-full lg:w-2/3 flex flex-col rounded-3xl bg-white dark:bg-zinc-1100 shadow-lg overflow-hidden order-1 lg:order-2">
 						{/* Header */}
-						<header className="flex justify-between items-center p-4 bg-white dark:bg-zinc-1100 border-b border-gray-300 dark:border-[rgba(138,124,184,0.1)] shadow-sm rounded-t-3xl">
-							<div className="flex items-center space-x-4">
-								<h1 className="text-xl font-semibold text-gray-500 dark:text-gray-300">AI Assistant</h1>
-								<div className="flex items-center space-x-2 text-gray-500 dark:text-gray-300">
+						<header className="flex justify-between items-center p-3 md:p-4 bg-white dark:bg-zinc-1100 border-b border-gray-300 dark:border-[rgba(138,124,184,0.1)] shadow-sm">
+							<div className="flex items-center space-x-2 md:space-x-4">
+								<h1 className="text-lg md:text-xl font-semibold text-gray-500 dark:text-gray-300">AI Assistant</h1>
+								<div className="flex items-center space-x-2 text-sm md:text-base text-gray-500 dark:text-gray-300">
 									{isOnline ? <>
 										<div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
 										<span>Online</span>
@@ -274,50 +270,54 @@ const ChatBot = ({ website }) => {
 							</button>
 						</header>
 
-						{/* Chat Messages (Fixed Height & Scrollable) */}
-						<div className=" h-[25rem] overflow-y-auto p-4 bg-gray-100 dark:bg-zinc-1100 rounded-b-3xl" id="chatContainer">
+						{/* Chat Messages */}
+						<div className="flex-1 h-[400px] md:h-[500px] lg:h-[600px] overflow-y-auto p-4 bg-gray-100 dark:bg-zinc-1100">
 							{messages.map((message, index) => (
-								<>
-									<div key={index} className={`flex items-start ${message.isUser ? "flex-row-reverse" : ""}`}>
-
+								<React.Fragment key={index}>
+									<div className={`flex items-start mb-4 ${message.isUser ? "flex-row-reverse" : ""}`}>
 										{/* Profile Icon */}
 										<div className={`w-10 h-10 flex items-center justify-center mt-[10px]`}>
-											{message.isUser ? "" : <img src={BotAvatar} />}
+											{message.isUser ? "" : <img src={BotAvatar} alt="Bot Avatar" />}
 										</div>
 
 										{/* Message Box */}
-										<div className={`ml-3 max-w-xs p-3 rounded-lg shadow-sm 
-        ${message.isUser
-												? "bg-blue-500 text-white"
-												: "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-4 shadow-md max-w-sm text-black dark:text-white"
-											} 
-        ${message.isUser ? "ml-4" : "mr-4"}`}
+										<div 
+											className={`ml-3 max-w-[75%] md:max-w-[70%] lg:max-w-[60%] p-3 rounded-lg shadow-sm 
+												${message.isUser
+													? "bg-blue-500 text-white"
+													: "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-4 shadow-md max-w-sm text-black dark:text-white"
+												} 
+												${message.isUser ? "ml-2" : "mr-2"}`}
 										>
-
-											{/* Message Content (With Gray Background If Links Exist) */}
-											<div className={`${!message.isUser && message.links ? " px-3 py-2 rounded-lg mb-2 text-gray-900 dark:text-white" : ""}`}>
-												{!message.isUser && typeof message.content === "string" ? <ReactMarkdown remarkPlugins={[remarkGfm]} components={{
-													// Style all links (blue + underline) and open in new tab
-													a: ({ node, ...props }) => (
-														<a
-															{...props}
-															style={{ color: 'lightBlue', textDecoration: 'underline' }}
-															target="_blank"
-															rel="noopener noreferrer"
-														/>
-													),
-												}}>{message.content}</ReactMarkdown> : message.content}
+											{/* Message Content */}
+											<div className={`${!message.isUser && message.links ? "px-3 py-2 rounded-lg mb-2 text-gray-900 dark:text-white" : ""}`}>
+												{!message.isUser && typeof message.content === "string" ? (
+													<ReactMarkdown 
+														remarkPlugins={[remarkGfm]} 
+														components={{
+															a: ({ node, ...props }) => (
+																<a
+																	{...props}
+																	className="text-blue-400 underline"
+																	target="_blank"
+																	rel="noopener noreferrer"
+																/>
+															),
+														}}
+													>
+														{message.content}
+													</ReactMarkdown>
+												) : (
+													message.content
+												)}
 											</div>
-
-
-
 
 											{/* Suggested Articles Section */}
 											{message.links && message.links.length > 0 && (
 												<div className="mt-2 p-2">
-													<p className="text-md text-gray-800 dark:text-gray-300 font-semibold">Suggested articles:</p>
-
-													{/* Grid layout (2 links per row) */}
+													<p className="text-md text-gray-800 dark:text-gray-300 font-semibold">
+														Suggested articles:
+													</p>
 													<div className="grid grid-cols-2 gap-2 mt-2">
 														{message.links.map((link, idx) => (
 															<a
@@ -328,20 +328,28 @@ const ChatBot = ({ website }) => {
 																title={link.title}
 																className="flex items-center px-2 py-1 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-sm text-xs font-medium text-gray-900 dark:text-white truncate"
 															>
-																<FontAwesomeIcon icon={faExternalLinkAlt} className="mr-2 text-xs text-gray-600 dark:text-gray-300" />
-																{link.title.length > 20 ? link.title.slice(0, 20) + "..." : link.title}
+																<FontAwesomeIcon 
+																	icon={faExternalLinkAlt} 
+																	className="mr-2 text-xs text-gray-600 dark:text-gray-300" 
+																/>
+																{link.title.length > 20 ? `${link.title.slice(0, 20)}...` : link.title}
 															</a>
 														))}
 													</div>
 												</div>
 											)}
-
 										</div>
-
 									</div>
-									<div style={message.isUser ? { marginLeft: '85%' } : { marginLeft: '6%' }} className='mb-4 text-xs mt-1 text-black dark:text-white'>{!message.isUser && message.timestamp}</div>
-
-								</>
+									
+									{/* Timestamp */}
+									<div 
+										className={`mb-4 text-xs mt-1 text-black dark:text-white ${
+											message.isUser ? "ml-auto mr-4" : "ml-16"
+										}`}
+									>
+										{!message.isUser && message.timestamp}
+									</div>
+								</React.Fragment>
 							))}
 							{isLoading && (
 								<div className="flex items-start mb-4">
@@ -360,25 +368,22 @@ const ChatBot = ({ website }) => {
 							<div ref={messagesEndRef} />
 						</div>
 
-						{/* Input Area (Fixed at Bottom) */}
-						<div className="p-3 border-t border-[rgba(138,124,184,0.1)]">
-							<div className="flex space-x-2 bg-gray-100 dark:bg-gray-1200 rounded-lg p-2 shadow-sm">
+						{/* Input Area */}
+						<div className="p-3 md:p-4 border-t border-[rgba(138,124,184,0.1)]">
+							<div className="flex space-x-2 bg-gray-100 dark:bg-gray-1200 rounded-lg p-2 md:p-3">
 								<input
 									type="text"
-									className="flex-1 bg-transparent border-none outline-none text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 "
+									className="flex-1 min-w-0 bg-transparent border-none outline-none text-gray-900 dark:text-gray-100"
 									placeholder="Type your message..."
-									aria-label="Message input"
 									value={messageInput}
 									onChange={(e) => setMessageInput(e.target.value)}
-									onKeyPress={(e) => {
-										if (e.key === 'Enter') {
-											handleSendMessage();
-										}
-									}}
+									onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
 								/>
-
-								<button className="p-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg shadow-md hover:opacity-90 transition-all" onClick={handleSendMessage}>
-									<span className="mr-2">Send</span>
+								<button 
+									className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg shadow-md hover:opacity-90 transition-all whitespace-nowrap"
+									onClick={handleSendMessage}
+								>
+									<span className="hidden md:inline mr-2">Send</span>
 									<FontAwesomeIcon icon="paper-plane" />
 								</button>
 							</div>

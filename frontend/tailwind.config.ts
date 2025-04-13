@@ -132,7 +132,27 @@ const config: Config = {
 				'float': 'float 6s ease-in-out infinite',
 				'pulse-glow': 'pulse-glow 4s ease-in-out infinite',
 				'rotate-slow': 'rotate-slow 20s linear infinite'
-			}
+			},
+			screens: {
+				'xs': '375px',
+				'sm': '640px',
+				'md': '768px',
+				'lg': '1024px',
+				'xl': '1280px',
+				'2xl': '1536px',
+			},
+			spacing: {
+				'18': '4.5rem',
+				'22': '5.5rem',
+			},
+			maxWidth: {
+				'8xl': '88rem',
+				'9xl': '96rem',
+			},
+			minHeight: {
+				'screen-75': '75vh',
+				'screen-85': '85vh',
+			},
 		}
 	},
 	plugins: [require("tailwindcss-animate")],

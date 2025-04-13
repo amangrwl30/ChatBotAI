@@ -1,5 +1,6 @@
 import React, { useState, lazy, Suspense } from 'react';
 import { AppProvider } from '../context/AppContext';
+import { useNavigate } from 'react-router-dom';
 
 // Dynamic imports with prefetch
 const LandingPage = lazy(() => import(/* webpackPrefetch: true */ './LandingPage'));
@@ -16,6 +17,7 @@ const LoadingSpinner = () => (
 const InitialPage = () => {
   const [selectedTile, setSelectedTile] = useState(null);
   const [theme, setTheme] = useState("light");
+  const navigate = useNavigate();
   
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
@@ -23,6 +25,10 @@ const InitialPage = () => {
 
   const handleTileClick = (tile) => {
     setSelectedTile(tile);
+  };
+
+  const handleBack = () => {
+    setSelectedTile(null);
   };
 
   // Prefetch components on hover
@@ -60,7 +66,47 @@ const InitialPage = () => {
 
   return (
     <AppProvider>
-      <div className="min-h-screen bg-zinc-1000 flex flex-col items-center justify-center p-4 md:p-6 lg:p-8">
+      <div className="min-h-screen bg-gradient-to-br from-violet-600/90 to-blue-500/90 flex flex-col items-center justify-center p-4 md:p-6 lg:p-8">
+        {/* Home Button - Show only when no tile is selected */}
+        {!selectedTile && (
+          <button
+            onClick={() => navigate('/')}
+            className="fixed top-4 left-4 px-4 py-2 bg-gradient-to-r from-violet-600 to-blue-500 text-white rounded-full shadow-lg hover:opacity-90 transition-all flex items-center justify-center gap-2 z-50"
+          >
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              className="h-5 w-5" 
+              viewBox="0 0 20 20" 
+              fill="currentColor"
+            >
+              <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+            </svg>
+            Home
+          </button>
+        )}
+
+        {/* Back Button - Show only when a tile is selected */}
+        {selectedTile && (
+          <button
+            onClick={handleBack}
+            className="fixed top-4 left-4 px-4 py-2 bg-gradient-to-r from-violet-600 to-blue-500 text-white rounded-full shadow-lg hover:opacity-90 transition-all flex items-center justify-center gap-2 z-50"
+          >
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              className="h-5 w-5" 
+              viewBox="0 0 20 20" 
+              fill="currentColor"
+            >
+              <path 
+                fillRule="evenodd" 
+                d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" 
+                clipRule="evenodd" 
+              />
+            </svg>
+            Back
+          </button>
+        )}
+
         {!selectedTile ? (
           <div className="w-full max-w-4xl mx-auto text-center px-4">
             <h1 className="text-3xl md:text-4xl lg:text-6xl font-extrabold mb-4 md:mb-6 lg:mb-10 text-white">
@@ -82,7 +128,8 @@ const InitialPage = () => {
                   className={`
                     w-full py-4 px-6 
                     rounded-xl md:rounded-2xl
-                    font-bold text-black
+                    font-bold
+                    text-black
                     shadow-lg hover:shadow-xl
                     transform transition-all duration-300
                     hover:scale-105

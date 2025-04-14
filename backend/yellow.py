@@ -10,7 +10,7 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}, 
+CORS(app, resources={r"/*": {"origins": ["http://localhost:3000","http://umbrellax.in"]}}, 
      supports_credentials=True, 
      allow_headers=["Content-Type", "Authorization"],
      methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])

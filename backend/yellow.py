@@ -9,13 +9,7 @@ import os
 
 load_dotenv()
 
-
-app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": ["http://localhost:3000","http://umbrellax.in"]}}, 
-     supports_credentials=True, 
-     allow_headers=["Content-Type", "Authorization"],
-     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
-
+router = APIRouter()
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 GOOGLE_CSE_ID =  os.getenv("GOOGLE_CSE_ID")

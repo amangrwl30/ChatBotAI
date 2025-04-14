@@ -8,12 +8,10 @@ import AIModel from "@/components/AIModel";
 import { MessageCircle, Headphones, Bot, Globe, Award, Zap, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import robot from "../assets/images/robot-norby.png"
-import CustomCursor from "../components/CustomCursor"
 
 const Index = () => {
   return (
     <div className="min-h-screen overflow-hidden">
-      <CustomCursor />
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center hero-gradient">
         <HeroScene />

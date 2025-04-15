@@ -120,16 +120,6 @@ const InitialPage = () => {
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
               {[
-<<<<<<< Updated upstream
-                { id: 'landingPage', name: 'LLM Chatbot', color: 'yellow' },
-                { id: 'crmChatbot', name: 'Virtual Customer Agent', color: 'blue' },
-                { id: 'audioChatbot', name: 'Voice AI Assistant', color: 'green' }
-              ].map((tile) => (
-                <button
-                  key={tile.id}
-                  onClick={() => handleTileClick(tile.id)}
-                  onMouseEnter={() => prefetchComponent(tile.id)}
-=======
                 {
                   id: 'landingPage',
                   name: 'LLM Chatbot',
@@ -156,7 +146,6 @@ const InitialPage = () => {
                   key={feature.id}
                   onClick={() => handleTileClick(feature.id)}
                   onMouseEnter={() => prefetchComponent(feature.id)}
->>>>>>> Stashed changes
                   className={`
                     relative group
                     rounded-2xl p-6 md:p-8

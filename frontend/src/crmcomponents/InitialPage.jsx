@@ -66,7 +66,14 @@ const InitialPage = () => {
 
   return (
     <AppProvider>
-      <div className="min-h-screen bg-gradient-to-br from-violet-600/90 to-blue-500/90 flex flex-col items-center justify-center p-4 md:p-6 lg:p-8">
+<<<<<<< Updated upstream
+      <div className="min-h-screen bg-violet-600 flex flex-col items-center justify-center p-4 md:p-6 lg:p-8">
+=======
+      <div 
+        className="min-h-screen flex flex-col items-center justify-center p-4 md:p-6 lg:p-8"
+        style={{ background: 'linear-gradient(135deg, #8b5cf626, #0ea5e926)' }}
+      >
+>>>>>>> Stashed changes
         {/* Home Button - Show only when no tile is selected */}
         {!selectedTile && (
           <button
@@ -115,32 +122,86 @@ const InitialPage = () => {
             <p className="text-base md:text-lg lg:text-xl mb-6 font-light text-gray-300">
               Choose a feature to proceed.
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mt-6 md:mt-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
               {[
-                { id: 'landingPage', name: 'LLM ChatBot', color: 'yellow' },
-                { id: 'crmChatbot', name: 'CRM ChatBot', color: 'blue' },
-                { id: 'audioChatbot', name: 'Audio ChatBot', color: 'green' }
+<<<<<<< Updated upstream
+                { id: 'landingPage', name: 'LLM Chatbot', color: 'yellow' },
+                { id: 'crmChatbot', name: 'Virtual Customer Agent', color: 'blue' },
+                { id: 'audioChatbot', name: 'Voice AI Assistant', color: 'green' }
               ].map((tile) => (
                 <button
                   key={tile.id}
                   onClick={() => handleTileClick(tile.id)}
                   onMouseEnter={() => prefetchComponent(tile.id)}
+=======
+                {
+                  id: 'landingPage',
+                  name: 'LLM Chatbot',
+                  description: 'Advanced AI chatbot powered by large language models for natural conversations',
+                  icon: '🤖',
+                  color: 'bg-gradient-to-br from-purple-100 to-indigo-100 dark:from-purple-900 dark:to-indigo-900'
+                },
+                {
+                  id: 'crmChatbot',
+                  name: 'Virtual Customer Agent',
+                  description: 'Intelligent customer service automation with personalized support',
+                  icon: '💼',
+                  color: 'bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-900 dark:to-cyan-900'
+                },
+                {
+                  id: 'audioChatbot',
+                  name: 'Voice AI Assistant',
+                  description: 'Voice-enabled AI for natural and interactive conversations',
+                  icon: '🎙️',
+                  color: 'bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-900 dark:to-teal-900'
+                }
+              ].map((feature) => (
+                <div
+                  key={feature.id}
+                  onClick={() => handleTileClick(feature.id)}
+                  onMouseEnter={() => prefetchComponent(feature.id)}
+>>>>>>> Stashed changes
                   className={`
-                    w-full py-4 px-6 
-                    rounded-xl md:rounded-2xl
-                    font-bold
-                    text-black
+                    relative group
+                    rounded-2xl p-6 md:p-8
+                    ${feature.color}
+                    border border-gray-200/50 dark:border-gray-700/50
                     shadow-lg hover:shadow-xl
                     transform transition-all duration-300
-                    hover:scale-105
-                    text-sm md:text-base lg:text-lg
-                    ${tile.color === 'yellow' ? 'bg-yellow-500 hover:bg-yellow-600' : 
-                      tile.color === 'blue' ? 'bg-blue-500 hover:bg-blue-600' : 
-                      'bg-green-500 hover:bg-green-600'}
+                    hover:scale-105 cursor-pointer
+                    overflow-hidden
                   `}
                 >
-                  {tile.name}
-                </button>
+                  {/* Icon */}
+                  <div className="text-4xl mb-4">{feature.icon}</div>
+                  
+                  {/* Title */}
+                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-3">
+                    {feature.name}
+                  </h3>
+                  
+                  {/* Description */}
+                  <p className="text-sm md:text-base text-gray-700 dark:text-gray-300">
+                    {feature.description}
+                  </p>
+
+                  {/* Arrow indicator */}
+                  <div className="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <svg 
+                      className="w-6 h-6 text-gray-900 dark:text-white" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round" 
+                        strokeWidth={2} 
+                        d="M17 8l4 4m0 0l-4 4m4-4H3" 
+                      />
+                    </svg>
+                  </div>
+                </div>
               ))}
             </div>
           </div>

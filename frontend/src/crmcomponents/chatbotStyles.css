@@ -9,8 +9,8 @@ body {
     width: 430px !important;
     max-width: 500px !important;
     position: relative !important;
-    height: 100%;
-    padding-top:100px
+    height: 100% !important;
+    padding-top: 20px
   }
 
   .react-chatbot-kit-chat-bot-message{
@@ -25,7 +25,8 @@ body {
  .chatbot {
     /* background-color: #D1D5DB; */
     width: 100vw;
-    height: 100vh;
+    height: 80vh !important; /* Fixed height */
+    overflow: hidden; /* Prevent outer scrolling */
   }
 
 
@@ -76,12 +77,13 @@ body {
   }
 
   .react-chatbot-kit-chat-inner-container {
-    height: 627px;
+    height: 100% !important;
   }
 
   .react-chatbot-kit-chat-message-container {
-    height: 580px;
-    padding-bottom: 60px !important; /* Make space for the home button */
+    height: calc(100% - 60px) !important; /* Subtract header height */
+    overflow-y: auto !important; /* Enable scrolling */
+    padding-bottom: 60px !important;
     background-color: #F3F4F6;
   }
 

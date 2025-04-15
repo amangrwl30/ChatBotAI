@@ -9,7 +9,7 @@ import { format } from "date-fns";
 import { AppContext } from '../context/AppContext';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-
+import notificationBeep from '../assets/sounds/notificationbeep.mp3';
 
 
 library.add(faMoon, faSun, faPaperclip, faMicrophone, faPaperPlane, faExternalLinkAlt);
@@ -78,6 +78,8 @@ const ChatBot = ({ website }) => {
 		return pattern.test(url);
 	};
 
+	const notificationSound = new Audio(notificationBeep);
+
 	const handleSendMessage = () => {
 		if (messageInput.trim()) {
 			const userMessage = messageInput.trim();
@@ -85,6 +87,11 @@ const ChatBot = ({ website }) => {
 
 			setMessages([...messages, { content: userMessage, isUser: true, timestamp }]);
 			setMessageInput('');
+			try {
+				notificationSound.play().catch(console.error);
+			} catch (error) {
+				console.error('Error playing sound:', error);
+			}
 			fetchBotResponse(userMessage);
 		}
 	};
@@ -114,6 +121,11 @@ const ChatBot = ({ website }) => {
 			};
 
 			setMessages((prevMessages) => [...prevMessages, botMessage]);
+			try {
+				notificationSound.play().catch(console.error);
+			} catch (error) {
+				console.error('Error playing sound:', error);
+			}
 		} catch (error) {
 			console.error('Error fetching bot response:', error);
 			setMessages((prevMessages) => [...prevMessages, { content: 'Error fetching response from server.', isUser: false }]);
@@ -171,7 +183,7 @@ const ChatBot = ({ website }) => {
 			) : (
 				<div className="container mx-auto flex flex-col lg:flex-row gap-6 lg:gap-12 xl:gap-24 animate-slideIn">
 					{/* Side Form */}
-					<div className="bg-white dark:bg-zinc-1100 border border-gray-200 dark:border-[rgba(138,124,184,0.1)] rounded-2xl p-4 shadow-lg w-full lg:w-1/3 h-auto order-2 lg:order-1">
+					<div className="bg-white dark:bg-zinc-1100 border border-gray-200 dark:border-[rgba(138,124,184,0.1)] rounded-2xl p-4 shadow-lg w-full lg:w-1/3 h-[80vh] order-2 lg:order-1 overflow-y-auto">
 						{/* Header Section */}
 						<div className="bg-gray-100 dark:bg-zinc-1100 p-4 rounded-lg mb-4">
 							<p className="text-gray-700 dark:text-gray-300 text-sm text-[18px]">
@@ -246,7 +258,7 @@ const ChatBot = ({ website }) => {
 					</div>
 
 					{/* Chatbot */}
-					<div className="w-full lg:w-2/3 flex flex-col rounded-3xl bg-white dark:bg-zinc-1100 shadow-lg overflow-hidden order-1 lg:order-2">
+					<div className="w-full lg:w-2/3 flex flex-col rounded-3xl bg-white dark:bg-zinc-1100 shadow-lg overflow-hidden order-1 lg:order-2 h-[80vh]">
 						{/* Header */}
 						<header className="flex justify-between items-center p-3 md:p-4 bg-white dark:bg-zinc-1100 border-b border-gray-300 dark:border-[rgba(138,124,184,0.1)] shadow-sm">
 							<div className="flex items-center space-x-2 md:space-x-4">
@@ -271,7 +283,7 @@ const ChatBot = ({ website }) => {
 						</header>
 
 						{/* Chat Messages */}
-						<div className="flex-1 h-[400px] md:h-[500px] lg:h-[600px] overflow-y-auto p-4 bg-gray-100 dark:bg-zinc-1100">
+						<div className="flex-1 overflow-y-auto p-4 bg-gray-100 dark:bg-zinc-1100">
 							{messages.map((message, index) => (
 								<React.Fragment key={index}>
 									<div className={`flex items-start mb-4 ${message.isUser ? "flex-row-reverse" : ""}`}>

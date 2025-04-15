@@ -66,14 +66,10 @@ const InitialPage = () => {
 
   return (
     <AppProvider>
-<<<<<<< Updated upstream
-      <div className="min-h-screen bg-violet-600 flex flex-col items-center justify-center p-4 md:p-6 lg:p-8">
-=======
       <div 
         className="min-h-screen flex flex-col items-center justify-center p-4 md:p-6 lg:p-8"
         style={{ background: 'linear-gradient(135deg, #8b5cf626, #0ea5e926)' }}
       >
->>>>>>> Stashed changes
         {/* Home Button - Show only when no tile is selected */}
         {!selectedTile && (
           <button
@@ -124,16 +120,6 @@ const InitialPage = () => {
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
               {[
-<<<<<<< Updated upstream
-                { id: 'landingPage', name: 'LLM Chatbot', color: 'yellow' },
-                { id: 'crmChatbot', name: 'Virtual Customer Agent', color: 'blue' },
-                { id: 'audioChatbot', name: 'Voice AI Assistant', color: 'green' }
-              ].map((tile) => (
-                <button
-                  key={tile.id}
-                  onClick={() => handleTileClick(tile.id)}
-                  onMouseEnter={() => prefetchComponent(tile.id)}
-=======
                 {
                   id: 'landingPage',
                   name: 'LLM Chatbot',
@@ -160,7 +146,6 @@ const InitialPage = () => {
                   key={feature.id}
                   onClick={() => handleTileClick(feature.id)}
                   onMouseEnter={() => prefetchComponent(feature.id)}
->>>>>>> Stashed changes
                   className={`
                     relative group
                     rounded-2xl p-6 md:p-8

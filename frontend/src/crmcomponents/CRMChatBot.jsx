@@ -10,7 +10,7 @@ import "./chatbotStyles.css";
 import "./chatbotStylesDarkMode.css"
 import { useState } from "react";
 import getConfig from "../placeholderChatbot/config";
-import notificationBeep from '../assets/notificationbeep.mp3';
+import notificationBeep from '../assets/sounds/notificationbeep.mp3';
 
 
 

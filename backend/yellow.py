@@ -40,6 +40,7 @@ def google_search(query, api_key, cse_id):
         }
         response = requests.get(url, params=params)
         response.raise_for_status()
+        print('response',response.json())
         return response.json()
     except requests.RequestException as e:
         print(f"Search error: {e}")
@@ -69,7 +70,7 @@ def chatbot(query, website, use_site_operator):
         if 'link=http' not in item.get('link', '')
     ][:5]  # Take first 5 filtered results
 
-    print('items',items)
+    #print('items',items)
     
     if not items:
         return {"answer": f"No results found on {website}", "links": []}

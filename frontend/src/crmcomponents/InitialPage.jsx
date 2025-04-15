@@ -66,14 +66,10 @@ const InitialPage = () => {
 
   return (
     <AppProvider>
-<<<<<<< Updated upstream
-      <div className="min-h-screen bg-violet-600 flex flex-col items-center justify-center p-4 md:p-6 lg:p-8">
-=======
       <div 
         className="min-h-screen flex flex-col items-center justify-center p-4 md:p-6 lg:p-8"
         style={{ background: 'linear-gradient(135deg, #8b5cf626, #0ea5e926)' }}
       >
->>>>>>> Stashed changes
         {/* Home Button - Show only when no tile is selected */}
         {!selectedTile && (
           <button

@@ -21,6 +21,8 @@ requests==2.31.0
 beautifulsoup4==4.13.3
 python-jose==3.3.0
 passlib==1.7.4
+playwright==1.41.1
+playwright-python==1.41.1
 
 # File Processing
 python-magic==0.4.27

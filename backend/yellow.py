@@ -6,6 +6,8 @@ from openai import OpenAI
 from dotenv import load_dotenv
 from playwright.async_api import async_playwright  # Use async Playwright
 import os
+import httpx  # use httpx for async support
+
 
 load_dotenv()
 
@@ -134,3 +136,21 @@ async def chat(request: Request):
     # Use await to call the async chatbot function
     response = await chatbot(query, website, use_site_operator)
     return JSONResponse(content=response)
+
+
+
+@router.get("/proxy")
+async def proxy(query: str = None):
+    print('query',query)
+    if not query:
+        return JSONResponse(content={'error': 'Query parameter is required'}, status_code=400)
+
+    try:
+        api_url = f"https://autocomplete.clearbit.com/v1/companies/suggest?query={query}"
+        async with httpx.AsyncClient() as client:
+            response = await client.get(api_url)
+        return JSONResponse(content=response.json())
+    
+    except httpx.RequestError as e:
+        return JSONResponse(content={'error': f'Error with external API: {str(e)}'}, status_code=500)
+

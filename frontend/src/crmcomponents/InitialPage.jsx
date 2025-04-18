@@ -112,34 +112,43 @@ const InitialPage = () => {
 
         {!selectedTile ? (
           <div className="w-full max-w-4xl mx-auto text-center px-4">
-            <h1 className="text-3xl md:text-4xl lg:text-6xl font-extrabold mb-4 md:mb-6 lg:mb-10 text-white">
+            <h1 className="text-3xl md:text-4xl lg:text-6xl font-extrabold mb-4 md:mb-6 lg:mb-10 text-gray-700">
               Select a Feature
             </h1>
-            <p className="text-base md:text-lg lg:text-xl mb-6 font-light text-gray-300">
+                <p className="text-base md:text-lg lg:text-xl mb-6 font-light text-gray-700">
               Choose a feature to proceed.
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
               {[
                 {
                   id: 'landingPage',
                   name: 'LLM Chatbot',
-                  description: 'Advanced AI chatbot powered by large language models for natural conversations',
+                  description: 'Advanced AI chatbot for natural conversations',
                   icon: '🤖',
-                  color: 'bg-gradient-to-br from-purple-100 to-indigo-100 dark:from-purple-900 dark:to-indigo-900'
+                  color: 'bg-[#5C42FC]',
+                  textColor: 'text-white',
+                  gradient: 'from-[#5C42FC] to-[#8B5CF6]',
+                  features: ['Natural Language', 'Context Awareness', 'Real-time Responses']
                 },
                 {
                   id: 'crmChatbot',
-                  name: 'Virtual Customer Agent',
-                  description: 'Intelligent customer service automation with personalized support',
+                  name: 'Virtual Agent',
+                  description: 'Intelligent customer service automation',
                   icon: '💼',
-                  color: 'bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-900 dark:to-cyan-900'
+                  color: 'bg-[#F8B806]',
+                  textColor: 'text-black',
+                  gradient: 'from-[#F8B806] to-[#F97316]',
+                  features: ['24/7 Support', 'Multi-language', 'Smart Routing']
                 },
                 {
                   id: 'audioChatbot',
-                  name: 'Voice AI Assistant',
-                  description: 'Voice-enabled AI for natural and interactive conversations',
+                  name: 'Voice Assistant',
+                  description: 'Voice-enabled AI for interactive conversations',
                   icon: '🎙️',
-                  color: 'bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-900 dark:to-teal-900'
+                  color: 'bg-black',
+                  textColor: 'text-white',
+                  gradient: 'from-black to-gray-900',
+                  features: ['Voice Recognition', 'Natural Speech', 'Real-time Translation']
                 }
               ].map((feature) => (
                 <div
@@ -148,44 +157,64 @@ const InitialPage = () => {
                   onMouseEnter={() => prefetchComponent(feature.id)}
                   className={`
                     relative group
-                    rounded-2xl p-6 md:p-8
+                    rounded-3xl p-6 md:p-8
+                    aspect-square w-full max-w-[400px] mx-auto
                     ${feature.color}
-                    border border-gray-200/50 dark:border-gray-700/50
-                    shadow-lg hover:shadow-xl
-                    transform transition-all duration-300
+                    ${feature.textColor}
+                    border border-white/20
+                    shadow-2xl hover:shadow-3xl
+                    transform transition-all duration-500
                     hover:scale-105 cursor-pointer
                     overflow-hidden
+                    flex flex-col justify-center items-center
                   `}
                 >
-                  {/* Icon */}
-                  <div className="text-4xl mb-4">{feature.icon}</div>
-                  
-                  {/* Title */}
-                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-3">
-                    {feature.name}
-                  </h3>
-                  
-                  {/* Description */}
-                  <p className="text-sm md:text-base text-gray-700 dark:text-gray-300">
-                    {feature.description}
-                  </p>
-
-                  {/* Arrow indicator */}
-                  <div className="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <svg 
-                      className="w-6 h-6 text-gray-900 dark:text-white" 
-                      fill="none" 
-                      stroke="currentColor" 
-                      viewBox="0 0 24 24"
-                    >
-                      <path 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round" 
-                        strokeWidth={2} 
-                        d="M17 8l4 4m0 0l-4 4m4-4H3" 
-                      />
-                    </svg>
+                  {/* Main Content (Visible by default) */}
+                  <div className="absolute inset-0 flex flex-col justify-center items-center transition-all duration-500 group-hover:opacity-0 group-hover:scale-90">
+                    {/* Icon */}
+                    <div className="text-5xl mb-4 transform transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
+                      {feature.icon}
+                    </div>
+                    
+                    {/* Title */}
+                    <h3 className="text-xl md:text-2xl font-bold mb-3 text-center">
+                      {feature.name}
+                    </h3>
+                    
+                    {/* Description */}
+                    <p className="text-sm md:text-base opacity-90 leading-relaxed text-center px-4">
+                      {feature.description}
+                    </p>
                   </div>
+
+                  {/* Hidden Content (Visible on hover) */}
+                  <div className="absolute inset-0 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-90 group-hover:scale-100">
+                    <div className="w-full px-6">
+                      <h3 className="text-xl md:text-2xl font-bold mb-6 text-center">
+                        Key Features
+                      </h3>
+                      <ul className="space-y-3">
+                        {feature.features.map((item, index) => (
+                          <li key={index} className="flex items-center space-x-2">
+                            <span className="text-lg">•</span>
+                            <span className="text-sm md:text-base">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    
+                    {/* Action Button */}
+                    <button className="mt-8 px-6 py-2 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-colors duration-300">
+                      Get Started
+                    </button>
+                  </div>
+
+                  {/* Decorative elements */}
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-full transform translate-x-12 -translate-y-12 group-hover:scale-150 transition-transform duration-500"></div>
+                  <div className="absolute bottom-0 left-0 w-20 h-20 bg-white/5 rounded-full transform -translate-x-10 translate-y-10 group-hover:scale-150 transition-transform duration-500"></div>
+
+                  {/* Hover effect overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-transparent to-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 </div>
               ))}
             </div>

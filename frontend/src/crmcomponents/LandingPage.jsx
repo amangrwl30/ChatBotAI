@@ -1,8 +1,8 @@
-import React, { useState , useContext} from 'react';
+import React, { useState , useContext, useEffect} from 'react';
 import ChatBot from './ChatBot'; // Import your chatbot component
 import Loader from './Loader'; // Import the loader component
 import { AppContext } from '../context/AppContext';
-import HistoryAutoSuggest from './HistoryAutoSuggest';
+import AutoSuggestWebsite from '../components/AutoSuggestWebsite';
 
 const LandingPage = (props) => {
   const [website, setWebsite] = useState('');
@@ -16,8 +16,9 @@ const LandingPage = (props) => {
     return pattern.test(url);
   };
 
+
   const handleSubmit = (e) => {
-    
+
     e.preventDefault();
     if (website.trim() && isValidWebsite(website)) {
       setIsLoading(true);
@@ -41,18 +42,18 @@ const LandingPage = (props) => {
         <div className="text-center p-8">
           <h1 className="text-6xl font-extrabold mb-10">Conversations Reimagined</h1>
           <p className="text-xl mb-6 font-light">Infinite interactions. Zero setup.</p>
-          <form onSubmit={handleSubmit} className="flex flex-col md:flex-row items-center bg-white mt-20 p-2 px-16 rounded-full shadow-xl w-[807px]">
+          <form onSubmit={handleSubmit} className="flex flex-col md:flex-row items-center bg-white mt-20 p-2 px-16 rounded-full shadow-xl w-[900px]">
             <span className="mr-2 text-black text-lg w-[23rem]">Create an <span className='text-green-500 font-bold'>online assistant </span> for my web site:
             </span> 
-            {/* <HistoryAutoSuggest placeholder={"example.com"} onChange={(value)=> setWebsite(value)} /> */}
-            <input
+            {/* <input
               type="text"
               className="ml-2 px-4 py-3 border border-gray-300 rounded-lg w-60 focus:outline-none focus:border-indigo-500 text-black"
               placeholder="www.example.com"
               value={website}
               onChange={(e) => setWebsite(e.target.value)}
               required
-            />
+            /> */}
+            <AutoSuggestWebsite   onChange={(selectedObj) => setWebsite(selectedObj.value)}/>
           </form>
           {errorMessage && <p className="mt-4 text-red-500">{errorMessage}</p>}
           <button onClick={handleSubmit} className="bg-[linear-gradient(to_right,rgb(255,204,51),rgb(245,158,11))] hover:bg-[linear-gradient(to_right,rgb(245,158,11),rgb(255,204,51))] mt-10 w-full text-xl max-w-xs bg-yellow-500 px-8 py-4 rounded-full text-black font-bold shadow-md hover:bg-yellow-600 transition duration-300 ease-in-out transform hover:scale-110">

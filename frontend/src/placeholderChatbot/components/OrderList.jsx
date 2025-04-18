@@ -152,12 +152,9 @@ const OrderList = (props) => {
                 hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 
                 border border-gray-100 relative overflow-hidden
                 ${allDisabled ? 'opacity-50 cursor-not-allowed' : ''}
-                ${order.status === 'DELIVERED' ? 'bg-gradient-to-br from-green-100 to-green-50' :
-                  order.status === 'SHIPPED' ? 'bg-gradient-to-br from-blue-100 to-blue-50' :
-                  order.status === 'CANCELLED' ? 'bg-gradient-to-br from-red-100 to-red-50' :
-                  'bg-gradient-to-br from-yellow-100 to-yellow-50'}
               `}
             >
+               <img src={order.imageUrl} alt="background"  class="absolute inset-0 w-full h-full object-cover opacity-30" />
               {/* Decorative Elements with darker matching colors */}
               <div className={`
                 absolute -right-8 -top-8 w-16 h-16 rounded-full opacity-40 group-hover:scale-150 transition-transform duration-500

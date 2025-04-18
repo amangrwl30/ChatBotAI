@@ -16,14 +16,10 @@ const LandingPage = (props) => {
     return pattern.test(url);
   };
 
-  useEffect(()=> {
-    console.log('useEffect ',website)
-  },[website])
 
   const handleSubmit = (e) => {
 
     e.preventDefault();
-    console.log('handleSubmit website ', website)
     if (website.trim() && isValidWebsite(website)) {
       setIsLoading(true);
       setTimeout(() => {

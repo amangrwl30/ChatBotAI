@@ -35,7 +35,9 @@ const LandingPage = (props) => {
 const WebsiteAutoSuggest  = false;
   return (
     <div className={`${sharedState.yellowAiTheme ? 'dark' : ''}`}>
- <div className="landing-container flex flex-col items-center justify-center h-screen bg-gradient-to-br from-violet-600/60 to-blue-500/60 text-white">
+ <div className="landing-container flex flex-col items-center justify-center h-screen"
+ style={{ background: "linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(14, 165, 233, 0.15)) !important" }}
+ >
       {isLoading ? (
         <Loader />
       ) : !showChatbot ? (

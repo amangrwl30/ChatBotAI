@@ -260,13 +260,13 @@ const ChatBot = ({ website }) => {
 					{/* Chatbot */}
 					<div className="w-full lg:w-2/3 flex flex-col rounded-3xl bg-white dark:bg-zinc-1100 shadow-lg overflow-hidden order-1 lg:order-2 h-[80vh]">
 						{/* Header */}
-						<header className="flex justify-between items-center p-3 md:p-4 bg-white dark:bg-zinc-1100 border-b border-gray-300 dark:border-[rgba(138,124,184,0.1)] shadow-sm">
+						<header className="flex justify-between items-center p-3 md:p-4 bg-gradient-to-r from-blue-500 to-purple-500 border-b border-gray-300 dark:border-[rgba(138,124,184,0.1)] shadow-sm">
 							<div className="flex items-center space-x-2 md:space-x-4">
-								<h1 className="text-lg md:text-xl font-semibold text-gray-500 dark:text-gray-300">AI Assistant</h1>
+								<h1 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-gray-300">AI Assistant</h1>
 								<div className="flex items-center space-x-2 text-sm md:text-base text-gray-500 dark:text-gray-300">
 									{isOnline ? <>
 										<div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-										<span>Online</span>
+										<span className='text-gray-900 dark:text-gray-300'>Online</span>
 									</> : <>
 										<div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
 										<span>Offline</span>
@@ -274,7 +274,7 @@ const ChatBot = ({ website }) => {
 								</div>
 							</div>
 							<button
-								className="p-2 rounded-full text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+								className="p-2 rounded-full text-gray-500 dark:text-gray-300 bg-gray-200 dark:bg-gray-700 transition-colors"
 								aria-label="Toggle theme"
 								onClick={toggleTheme}
 							>

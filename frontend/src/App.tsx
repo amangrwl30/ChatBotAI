@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import { AppProvider } from './context/AppContext';
 
 // Lazy load all routes
 const Index = lazy(() => import("./pages/Index"));
@@ -14,6 +15,9 @@ const Pricing = lazy(() => import("./pages/Pricing"));
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
 const InitialPage = lazy(() => import('./crmcomponents/InitialPage.jsx'));
+const LandingPage = lazy(() => import('./crmcomponents/LandingPage'));
+const CRMChatBot = lazy(() => import('./crmcomponents/CRMChatBot'));
+const AudioChatbot = lazy(() => import('./audioComponent/AudioChatbot'));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const LoadingSpinner = () => (
@@ -26,12 +30,13 @@ const LoadingSpinner = () => (
 const Layout = ({ children }) => {
   const location = useLocation();
   const isInitialPage = location.pathname === '/get-started';
+  const isChatbotRoute = location.pathname.startsWith('/chatbot/');
 
   return (
     <>
-      {!isInitialPage && <Navbar />}
+      {!isInitialPage && !isChatbotRoute && <Navbar />}
       {children}
-      {!isInitialPage && <Footer />}
+      {!isInitialPage && !isChatbotRoute && <Footer />}
     </>
   );
 };
@@ -44,19 +49,22 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Layout>
-          <Suspense fallback={<LoadingSpinner />}>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/pricing" element={<Pricing />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/get-started" element={<InitialPage />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-        </Layout>
+        <AppProvider>
+          <Layout>
+            <Suspense fallback={<LoadingSpinner />}>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/pricing" element={<Pricing />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/get-started" element={<InitialPage />} />
+                <Route path="/chatbot/*" element={<InitialPage />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
+          </Layout>
+        </AppProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

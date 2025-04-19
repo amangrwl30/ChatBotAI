@@ -58,7 +58,7 @@ const Footer = () => {
             <ul className="space-y-2">
               <li className="flex items-center space-x-2">
                 <Mail size={16} className="text-gray-400" />
-                <a href="mailto:info@aiUmbrellaX.com" className="text-gray-600 dark:text-gray-400 hover:text-ai-purple">info@aiUmbrellaX.com</a>
+                <a href="mailto:amanagarwal@umbrellax.in" className="text-gray-600 dark:text-gray-400 hover:text-ai-purple">amanagarwal@umbrellax.in</a>
               </li>
               <li><Link to="/contact" className="text-gray-600 dark:text-gray-400 hover:text-ai-purple">Support</Link></li>
               <li><Link to="/contact" className="text-gray-600 dark:text-gray-400 hover:text-ai-purple">Sales</Link></li>

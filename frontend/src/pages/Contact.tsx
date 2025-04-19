@@ -105,7 +105,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg mb-1">Email Us</h3>
-                    <a href="mailto:info@aiUmbrellaX.com" className="text-ai-purple hover:underline">info@aiUmbrellaX.com</a>
+                    <a href="mailto:amanagarwal@umbrellax.in" className="text-ai-purple hover:underline">amanagarwal@umbrellax.in</a>
                   </div>
                 </div>
                 
@@ -115,7 +115,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg mb-1">Call Us</h3>
-                    <a href="tel:+15551234567" className="text-ai-purple hover:underline">+1 (555) 123-4567</a>
+                    <a href="tel:+15551234567" className="text-ai-purple hover:underline">8112298645</a>
                   </div>
                 </div>
                 
@@ -126,9 +126,8 @@ const Contact = () => {
                   <div>
                     <h3 className="font-semibold text-lg mb-1">Visit Us</h3>
                     <address className="not-italic text-gray-600 dark:text-gray-400">
-                      123 AI Boulevard<br />
-                      San Francisco, CA 94107<br />
-                      United States
+                      2951, sector 57, gurugram<br />
+                      122001, India
                     </address>
                   </div>
                 </div>
@@ -138,13 +137,13 @@ const Contact = () => {
                 <h3 className="font-semibold text-lg mb-4">Office Hours</h3>
                 <ul className="space-y-2 text-gray-600 dark:text-gray-400">
                   <li className="flex justify-between">
-                    <span>Monday - Friday:</span>
-                    <span>9:00 AM - 6:00 PM PST</span>
+                    <span>Monday - Sunday:</span>
+                    <span>Anytime</span>
                   </li>
-                  <li className="flex justify-between">
+                  {/* <li className="flex justify-between">
                     <span>Saturday - Sunday:</span>
                     <span>Closed</span>
-                  </li>
+                  </li> */}
                 </ul>
               </div>
             </div>
@@ -218,7 +217,7 @@ const Contact = () => {
                         name="phone"
                         value={formState.phone}
                         onChange={handleChange}
-                        placeholder="+1 (555) 123-4567"
+                        placeholder="8112298645"
                       />
                     </div>
                   </div>
@@ -276,12 +275,11 @@ const Contact = () => {
       </section>
 
       {/* Map Section */}
-      <section className="bg-gray-50 dark:bg-gray-900 py-20">
+      {/* <section className="bg-gray-50 dark:bg-gray-900 py-20">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-8 text-center">Our Locations</h2>
           <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg h-[500px] relative">
             <div className="absolute inset-0">
-              {/* This would typically be a real map - showing a placeholder for now */}
               <div className="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
                 <p className="text-gray-600 dark:text-gray-400">Interactive Map Would Be Here</p>
               </div>
@@ -292,11 +290,10 @@ const Contact = () => {
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
               <h3 className="font-semibold text-lg mb-2">San Francisco HQ</h3>
               <address className="not-italic text-gray-600 dark:text-gray-400 mb-4">
-                123 AI Boulevard<br />
-                San Francisco, CA 94107<br />
-                United States
+                2951, sector 57, gurugram<br />
+                122001, India
               </address>
-              <p className="text-ai-purple">+1 (555) 123-4567</p>
+              <p className="text-ai-purple">8112298645</p>
             </div>
             
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
@@ -320,7 +317,7 @@ const Contact = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Newsletter */}
       <section className="py-20 bg-gradient-to-r from-ai-purple/20 to-ai-blue/20">

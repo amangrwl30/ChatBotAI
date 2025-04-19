@@ -1,12 +1,13 @@
-import React, { useState, lazy, Suspense } from 'react';
+import React, { useState, lazy, Suspense, useEffect } from 'react';
 import { AppProvider } from '../context/AppContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import robot from "../assets/images/robot-norby.png";  // Make sure to import the robot image
 
 // Dynamic imports with prefetch
 const LandingPage = lazy(() => import(/* webpackPrefetch: true */ './LandingPage'));
 const CRMChatBot = lazy(() => import(/* webpackPrefetch: true */ './CRMChatBot'));
 const AudioChatbot = lazy(() => import(/* webpackPrefetch: true */ '../audioComponent/AudioChatbot'));
+const ChatBot = lazy(() => import(/* webpackPrefetch: true */ './ChatBot'));
 
 // Optimized loading spinner
 const LoadingSpinner = () => (
@@ -19,17 +20,63 @@ const InitialPage = () => {
   const [selectedTile, setSelectedTile] = useState(null);
   const [theme, setTheme] = useState("light");
   const navigate = useNavigate();
+  const location = useLocation();
   
+  useEffect(() => {
+    if (location.pathname.startsWith('/chatbot/')) {
+      const route = location.pathname.split('/')[2];
+      switch (route) {
+        case 'llm':
+          setSelectedTile('landingPage');
+          // Check if we have a website URL in sessionStorage
+          const savedWebsite = sessionStorage.getItem('chatbotWebsite');
+          if (savedWebsite) {
+            // Skip landing page and show chatbot directly
+            setSelectedTile('activeChatbot');
+          }
+          break;
+        case 'crm':
+          setSelectedTile('crmChatbot');
+          break;
+        case 'voice':
+          setSelectedTile('audioChatbot');
+          break;
+      }
+    } else {
+      setSelectedTile(null);
+      // Clear saved website when leaving chatbot
+      sessionStorage.removeItem('chatbotWebsite');
+    }
+  }, [location.pathname]);
+
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   };
 
   const handleTileClick = (tile) => {
     setSelectedTile(tile);
+    switch (tile) {
+      case 'landingPage':
+        navigate('/chatbot/llm');
+        break;
+      case 'crmChatbot':
+        navigate('/chatbot/crm');
+        break;
+      case 'audioChatbot':
+        navigate('/chatbot/voice');
+        break;
+    }
+  };
+
+  const handleWebsiteSubmit = (website) => {
+    // Save website URL to sessionStorage
+    sessionStorage.setItem('chatbotWebsite', website);
+    setSelectedTile('activeChatbot');
   };
 
   const handleBack = () => {
     setSelectedTile(null);
+    navigate('/get-started');
   };
 
   // Prefetch components on hover
@@ -53,7 +100,11 @@ const InitialPage = () => {
     return (
       <Suspense fallback={<LoadingSpinner />}>
         {selectedTile === 'landingPage' ? (
-          <LandingPage />
+          <LandingPage onWebsiteSubmit={handleWebsiteSubmit} />
+        ) : selectedTile === 'activeChatbot' ? (
+          <div className={`chatbot ${theme}`}>
+            <ChatBot website={sessionStorage.getItem('chatbotWebsite')} />
+          </div>
         ) : selectedTile === 'crmChatbot' ? (
           <div className={`chatbot ${theme}`}>
             <CRMChatBot toggleTheme={toggleTheme} theme={theme} />

@@ -4,7 +4,7 @@ import Loader from './Loader'; // Import the loader component
 import { AppContext } from '../context/AppContext';
 import AutoSuggestWebsite from '../components/AutoSuggestWebsite';
 
-const LandingPage = (props) => {
+const LandingPage = ({ onWebsiteSubmit }) => {
   const [website, setWebsite] = useState('');
   const [showChatbot, setShowChatbot] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -18,15 +18,9 @@ const LandingPage = (props) => {
 
 
   const handleSubmit = (e) => {
-
     e.preventDefault();
     if (website.trim() && isValidWebsite(website)) {
-      setIsLoading(true);
-      setTimeout(() => {
-        setShowChatbot(true);
-        setIsLoading(false);
-      }, 2000); // Simulate loading time
-      setErrorMessage('');
+      onWebsiteSubmit(website);
     } else {
       setErrorMessage('Please enter a valid website URL.');
     }

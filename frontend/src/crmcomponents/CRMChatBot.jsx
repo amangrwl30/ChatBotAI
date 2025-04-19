@@ -23,19 +23,20 @@ function CRMChatbot(props) {
     } catch (error) {
       console.error('Error playing sound:', error);
     }
-    // ... rest of your message handling code
   };
 
   return (
-    <div className={`app`}>
-
-      <Chatbot
-        config={getConfig(props.theme, props.toggleTheme)}
-        actionProvider={ActionProvider}
-        messageParser={MessageParser}
-        disableInput={true}
-        className="chatbot-container"
-      />
+    <div className="app">
+      <div className="chatbot">
+        <Chatbot
+          config={getConfig(props.theme, props.toggleTheme)}
+          actionProvider={ActionProvider}
+          messageParser={MessageParser}
+          disableInput={true}
+          messageHistory={handleMessage}
+          className="chatbot-container"
+        />
+      </div>
     </div>
   );
 }

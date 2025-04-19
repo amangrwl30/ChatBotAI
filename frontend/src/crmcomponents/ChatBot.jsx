@@ -155,22 +155,44 @@ const ChatBot = ({ website }) => {
 
 
 
-	const handleWebsiteChange = (e) => {
+	const handleWebsiteChange = async (e) => {
 		e.preventDefault();
 		if (isValidWebsite(newWebsite)) {
 			setIsUpdatingWebsite(true);
-			setTimeout(() => {
+			try {
+				// Update the current website
 				setCurrentWebsite(newWebsite);
+				
+				// Reset messages with new website
 				setMessages([
 					{
-						content: <p >Hello! I'm your AI assistant for <a target="_blank"
-							rel="noopener noreferrer" className='text-blue-500 underline' href={`${newWebsite.startsWith("http") ? newWebsite : `https://${newWebsite}`}`}>{newWebsite}</a>. How can I help you today?</p>, isUser: false
+						content: (
+							<p>
+								Hello! I'm your AI assistant for{' '}
+								<a
+									href={`${newWebsite.startsWith('http') ? newWebsite : `https://${newWebsite}`}`}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="text-blue-500 underline"
+								>
+									{newWebsite}
+								</a>
+								. How can I help you today?
+							</p>
+						),
+						isUser: false
 					}
 				]);
+
+				// Reset the form
 				setIsEditingWebsite(false);
 				setErrorMessage('');
+			} catch (error) {
+				console.error('Error updating website:', error);
+				setErrorMessage('Failed to update website. Please try again.');
+			} finally {
 				setIsUpdatingWebsite(false);
-			}, 2000); // Simulate loading time
+			}
 		} else {
 			setErrorMessage('Please enter a valid website URL.');
 		}

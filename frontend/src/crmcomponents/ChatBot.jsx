@@ -218,16 +218,16 @@ const ChatBot = ({ website }) => {
 	};
 
 	return (
-		<div className="min-h-screen w-full transition-all flex justify-center items-center p-4 overflow-x-hidden">
+		<div className="min-h-screen w-full transition-all flex justify-center items-center p-4">
 			{isUpdatingWebsite ? (
 				<LoadingSpinner />
 			) : (
-				<div className="container mx-auto flex flex-col lg:flex-row gap-6 lg:gap-12 xl:gap-24 animate-slideIn">
+				<div className="container mx-auto flex flex-col lg:flex-row gap-6 lg:gap-12 xl:gap-24 animate-slideIn relative">
 					{/* Side Form */}
 					<div className="bg-white dark:bg-zinc-1100 border border-gray-200 dark:border-[rgba(138,124,184,0.1)] 
 						 rounded-2xl w-full lg:w-1/3 h-[80vh] order-2 lg:order-1 flex flex-col relative">
 						{/* Fixed Header */}
-						<div className="sticky top-0 bg-white dark:bg-zinc-1100 pt-4 px-4 pb-2 rounded-t-2xl z-50">
+						<div className="absolute top-0 left-0 right-0 bg-white dark:bg-zinc-1100 pt-4 px-4 pb-2 rounded-t-2xl z-[100]">
 							<div className="bg-gray-100 dark:bg-zinc-1100 p-6 rounded-lg border-b dark:border-gray-700">
 								<p className="text-gray-700 dark:text-gray-300 text-lg mb-4">
 									Your bot can answer questions on <span className="text-blue-500 font-semibold">{currentWebsite}</span>
@@ -243,8 +243,11 @@ const ChatBot = ({ website }) => {
 							</div>
 						</div>
 
+						{/* Add padding to prevent content from hiding under header */}
+						<div className="pt-[160px]" /> {/* Adjust value based on header height */}
+
 						{/* Scrollable Content */}
-						<div className="flex-1 overflow-y-auto px-4 pb-4 relative z-40">
+						<div className="flex-1 overflow-y-auto px-4 pb-4">
 							{isEditingWebsite && (
 								<form onSubmit={handleWebsiteChange} className="mt-2 mb-4 bg-white dark:bg-zinc-1100 rounded-lg p-4 shadow-sm">
 									<input
@@ -312,8 +315,8 @@ const ChatBot = ({ website }) => {
 					<div className="bg-white dark:bg-zinc-1100 w-full lg:w-2/3 flex flex-col rounded-3xl shadow-lg 
 						 overflow-hidden order-1 lg:order-2 h-[80vh] relative">
 						{/* Fixed Header */}
-						<div className="sticky top-0 bg-gradient-to-r from-blue-500 to-purple-500 p-3 md:p-4 
-							 border-b dark:border-gray-700 shadow-sm z-50">
+						<div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-blue-500 to-purple-500 p-3 md:p-4 
+							 border-b dark:border-gray-700 shadow-sm z-[100]">
 							<div className="flex justify-between items-center">
 								<div className="flex items-center space-x-2 md:space-x-4">
 									<h1 className="text-lg md:text-xl font-semibold text-white">AI Assistant</h1>
@@ -340,8 +343,11 @@ const ChatBot = ({ website }) => {
 							</div>
 						</div>
 
+						{/* Add padding to prevent content from hiding under header */}
+						<div className="pt-[72px]" /> {/* Adjust value based on header height */}
+
 						{/* Messages Area */}
-						<div className="flex-1 overflow-y-auto p-4 bg-gray-100 dark:bg-zinc-1100 relative z-40">
+						<div className="flex-1 overflow-y-auto p-4 bg-gray-100 dark:bg-zinc-1100">
 							{messages.map((message, index) => (
 								<React.Fragment key={index}>
 									<div className={`flex items-start mb-4 ${message.isUser ? "flex-row-reverse" : ""}`}>
@@ -429,12 +435,12 @@ const ChatBot = ({ website }) => {
 									<div className="ml-3 max-w-[75%] md:max-w-[70%] lg:max-w-[60%] bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-4 shadow-md">
 										<div className="flex flex-col">
 											<div className="text-sm text-gray-500 dark:text-gray-400 italic relative">
-												<div className="flex items-center gap-1">
-													<span className="inline-block animate-pulse">{loadingMessages[loadingMessageIndex]}</span>
-													<span className="inline-flex">
-														<span className="w-1 h-1 bg-gray-500 rounded-full animate-[bounce_0.8s_ease-in-out_0s_infinite]" />
-														<span className="w-1 h-1 bg-gray-500 rounded-full animate-[bounce_0.8s_ease-in-out_0.2s_infinite] mx-0.5" />
-														<span className="w-1 h-1 bg-gray-500 rounded-full animate-[bounce_0.8s_ease-in-out_0.4s_infinite]" />
+												<div className="flex items-center gap-2">
+													<span className="inline-block">{loadingMessages[loadingMessageIndex]}</span>
+													<span className="inline-flex gap-1">
+														<span className="w-2 h-2 bg-blue-500 rounded-full animate-[bounce_0.8s_ease-in-out_0s_infinite]" />
+														<span className="w-2 h-2 bg-blue-500 rounded-full animate-[bounce_0.8s_ease-in-out_0.2s_infinite]" />
+														<span className="w-2 h-2 bg-blue-500 rounded-full animate-[bounce_0.8s_ease-in-out_0.4s_infinite]" />
 													</span>
 												</div>
 											</div>
@@ -446,7 +452,8 @@ const ChatBot = ({ website }) => {
 						</div>
 
 						{/* Fixed Input Area */}
-						<div className="sticky bottom-0 bg-white dark:bg-zinc-1100 border-t dark:border-gray-700 p-3 md:p-4 z-50">
+						<div className="absolute bottom-0 left-0 right-0 bg-white dark:bg-zinc-1100 border-t 
+							 dark:border-gray-700 p-3 md:p-4 z-[100]">
 							<div className="flex space-x-2 bg-gray-100 dark:bg-gray-1200 rounded-lg p-2 md:p-3">
 								<input
 									type="text"

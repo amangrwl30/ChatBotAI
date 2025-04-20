@@ -225,24 +225,28 @@ const ChatBot = ({ website }) => {
 				<div className="container mx-auto flex flex-col lg:flex-row gap-6 lg:gap-12 xl:gap-24 animate-slideIn">
 					{/* Side Form */}
 					<div className="bg-white dark:bg-zinc-1100 border border-gray-200 dark:border-[rgba(138,124,184,0.1)] 
-						 rounded-2xl w-full lg:w-1/3 h-[80vh] order-2 lg:order-1 flex flex-col">
+						 rounded-2xl w-full lg:w-1/3 h-[80vh] order-2 lg:order-1 flex flex-col relative">
 						{/* Fixed Header */}
-						<div className="bg-gray-100 dark:bg-zinc-1100 p-6 rounded-t-lg border-b dark:border-gray-700">
-							<p className="text-gray-700 dark:text-gray-300 text-lg mb-4">
-								Your bot can answer questions on <span className="text-blue-500 font-semibold">{currentWebsite}</span>
-							</p>
-							<button
-								className="w-full bg-white dark:bg-gray-800 text-blue-600 dark:text-blue-400 text-base font-medium flex items-center justify-center p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm"
-								onClick={() => setIsEditingWebsite(!isEditingWebsite)}
-							>
-								<span className="mr-3 text-xl">✏️</span> Change URL
-							</button>
+						<div className="sticky top-0 bg-white dark:bg-zinc-1100 pt-4 px-4 pb-2 rounded-t-2xl z-50">
+							<div className="bg-gray-100 dark:bg-zinc-1100 p-6 rounded-lg border-b dark:border-gray-700">
+								<p className="text-gray-700 dark:text-gray-300 text-lg mb-4">
+									Your bot can answer questions on <span className="text-blue-500 font-semibold">{currentWebsite}</span>
+								</p>
+								<button
+									className="w-full bg-white dark:bg-gray-800 text-blue-600 dark:text-blue-400 text-base font-medium 
+									 flex items-center justify-center p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 
+									 transition-colors shadow-sm"
+									onClick={() => setIsEditingWebsite(!isEditingWebsite)}
+								>
+									<span className="mr-3 text-xl">✏️</span> Change URL
+								</button>
+							</div>
 						</div>
 
 						{/* Scrollable Content */}
-						<div className="flex-1 overflow-y-auto p-4">
+						<div className="flex-1 overflow-y-auto px-4 pb-4 relative z-40">
 							{isEditingWebsite && (
-								<form onSubmit={handleWebsiteChange} className="mb-4">
+								<form onSubmit={handleWebsiteChange} className="mt-2 mb-4 bg-white dark:bg-zinc-1100 rounded-lg p-4 shadow-sm">
 									<input
 										type="text"
 										value={newWebsite}
@@ -263,7 +267,7 @@ const ChatBot = ({ website }) => {
 							)}
 							
 							{/* WhatsApp Form */}
-							<div className="bg-gray-50 dark:bg-zinc-1100 p-4 rounded-lg mb-4">
+							<div className="bg-gray-50 dark:bg-zinc-1100 p-4 rounded-lg mb-4 relative">
 								<h3 className="text-gray-800 dark:text-gray-300 text-sm font-semibold mb-2">
 									Try your bot on your WhatsApp phone number
 								</h3>
@@ -289,7 +293,7 @@ const ChatBot = ({ website }) => {
 							</div>
 
 							{/* Rating Section */}
-							<div className="bg-gray-100 dark:bg-zinc-1100 p-4 rounded-lg justify-between items-center mb-4">
+							<div className="bg-gray-100 dark:bg-zinc-1100 p-4 rounded-lg mb-4 relative">
 								<div className="text-gray-700 dark:text-gray-300 text-lg">Rate the experience</div>
 								<div className="flex space-x-2 items-center justify-center mt-3">
 									<button className='inline-flex items-center justify-center  whitespace-nowrap text-sm font-medium   border bg-background hover:text-accent-foreground w-12 h-12 rounded-full border-light-purple/20 hover:border-bright-purple hover:bg-bright-purple/10 '>👍</button>
@@ -306,10 +310,10 @@ const ChatBot = ({ website }) => {
 
 					{/* Chatbot */}
 					<div className="bg-white dark:bg-zinc-1100 w-full lg:w-2/3 flex flex-col rounded-3xl shadow-lg 
-						 overflow-hidden order-1 lg:order-2 h-[80vh]">
+						 overflow-hidden order-1 lg:order-2 h-[80vh] relative">
 						{/* Fixed Header */}
-						<div className="bg-gradient-to-r from-blue-500 to-purple-500 p-3 md:p-4 border-b 
-							 dark:border-gray-700 shadow-sm">
+						<div className="sticky top-0 bg-gradient-to-r from-blue-500 to-purple-500 p-3 md:p-4 
+							 border-b dark:border-gray-700 shadow-sm z-50">
 							<div className="flex justify-between items-center">
 								<div className="flex items-center space-x-2 md:space-x-4">
 									<h1 className="text-lg md:text-xl font-semibold text-white">AI Assistant</h1>
@@ -337,7 +341,7 @@ const ChatBot = ({ website }) => {
 						</div>
 
 						{/* Messages Area */}
-						<div className="flex-1 overflow-y-auto p-4 bg-gray-100 dark:bg-zinc-1100">
+						<div className="flex-1 overflow-y-auto p-4 bg-gray-100 dark:bg-zinc-1100 relative z-40">
 							{messages.map((message, index) => (
 								<React.Fragment key={index}>
 									<div className={`flex items-start mb-4 ${message.isUser ? "flex-row-reverse" : ""}`}>
@@ -420,17 +424,19 @@ const ChatBot = ({ website }) => {
 							{isLoading && (
 								<div className="flex items-start mb-4">
 									<div className="w-10 h-10 flex items-center justify-center mt-[10px]">
-										<img src={BotAvatar} alt="Bot Avatar" />
+										<img src={BotAvatar} alt="Bot Avatar" className="animate-pulse" />
 									</div>
 									<div className="ml-3 max-w-[75%] md:max-w-[70%] lg:max-w-[60%] bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-4 shadow-md">
 										<div className="flex flex-col">
-											{/* <div className="flex items-center space-x-2 mb-2">
-												<div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
-												<div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce delay-200"></div>
-												<div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce delay-400"></div>
-											</div> */}
-											<div className="text-sm text-gray-500 dark:text-gray-400 italic">
-												{loadingMessages[loadingMessageIndex]}
+											<div className="text-sm text-gray-500 dark:text-gray-400 italic relative">
+												<div className="flex items-center gap-1">
+													<span className="inline-block animate-pulse">{loadingMessages[loadingMessageIndex]}</span>
+													<span className="inline-flex">
+														<span className="w-1 h-1 bg-gray-500 rounded-full animate-[bounce_0.8s_ease-in-out_0s_infinite]" />
+														<span className="w-1 h-1 bg-gray-500 rounded-full animate-[bounce_0.8s_ease-in-out_0.2s_infinite] mx-0.5" />
+														<span className="w-1 h-1 bg-gray-500 rounded-full animate-[bounce_0.8s_ease-in-out_0.4s_infinite]" />
+													</span>
+												</div>
 											</div>
 										</div>
 									</div>
@@ -440,7 +446,7 @@ const ChatBot = ({ website }) => {
 						</div>
 
 						{/* Fixed Input Area */}
-						<div className="bg-white dark:bg-zinc-1100 border-t dark:border-gray-700 p-3 md:p-4">
+						<div className="sticky bottom-0 bg-white dark:bg-zinc-1100 border-t dark:border-gray-700 p-3 md:p-4 z-50">
 							<div className="flex space-x-2 bg-gray-100 dark:bg-gray-1200 rounded-lg p-2 md:p-3">
 								<input
 									type="text"

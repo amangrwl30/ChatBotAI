@@ -115,7 +115,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg mb-1">Call Us</h3>
-                    <a href="tel:+15551234567" className="text-ai-purple hover:underline">8112298645</a>
+                    <a href="tel:+15551234567" className="text-ai-purple hover:underline">+91 9460700157</a>
                   </div>
                 </div>
                 
@@ -217,7 +217,7 @@ const Contact = () => {
                         name="phone"
                         value={formState.phone}
                         onChange={handleChange}
-                        placeholder="8112298645"
+                        placeholder="+91 9460700157"
                       />
                     </div>
                   </div>
@@ -293,7 +293,7 @@ const Contact = () => {
                 2951, sector 57, gurugram<br />
                 122001, India
               </address>
-              <p className="text-ai-purple">8112298645</p>
+              <p className="text-ai-purple">+91 9460700157</p>
             </div>
             
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">

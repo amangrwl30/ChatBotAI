@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import HeroScene from "@/components/HeroScene";
 import ThreeScene from "@/components/ThreeScene";
@@ -31,7 +30,7 @@ const Index = () => {
                 className="bg-ai-purple hover:bg-ai-deep-purple text-white font-medium text-lg px-8 py-6"
                 asChild
               >
-                <Link to="/services">Explore Services</Link>
+                <Link to="/get-started">Explore Services</Link>
               </Button>
               <Button
                 variant="outline"
@@ -89,6 +88,7 @@ const Index = () => {
                 "Knowledge base integration"
               ]}
               color="bg-ai-purple"
+              serviceType="llm"
             />
 
             <ServiceCard
@@ -102,6 +102,7 @@ const Index = () => {
                 "Multi-language support"
               ]}
               color="bg-ai-blue"
+              serviceType="voice"
             />
 
             <ServiceCard
@@ -115,6 +116,7 @@ const Index = () => {
                 "Intelligent routing"
               ]}
               color="bg-ai-deep-purple"
+              serviceType="crm"
             />
 
             <ServiceCard

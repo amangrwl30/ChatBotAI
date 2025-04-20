@@ -2,6 +2,7 @@ import React, { useState, lazy, Suspense, useEffect } from 'react';
 import { AppProvider } from '../context/AppContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import robot from "../assets/images/robot-norby.png";  // Make sure to import the robot image
+import ThreeScene from "@/components/ThreeScene";
 
 // Dynamic imports with prefetch
 const LandingPage = lazy(() => import(/* webpackPrefetch: true */ './LandingPage'));
@@ -118,6 +119,7 @@ const InitialPage = () => {
 
   return (
     <AppProvider>
+      <ThreeScene />
       <div 
         className="min-h-screen flex flex-col items-center justify-center p-4 md:p-6 lg:p-8"
         style={{ background: 'linear-gradient(135deg, #8b5cf626, #0ea5e926)' }}

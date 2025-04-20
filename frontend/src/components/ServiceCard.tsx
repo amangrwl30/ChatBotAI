@@ -1,4 +1,3 @@
-
 import { ReactNode } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,6 +11,7 @@ interface ServiceCardProps {
   color?: string;
   buttonText?: string;
   buttonLink?: string;
+  serviceType?: string;
 }
 
 const ServiceCard = ({
@@ -20,9 +20,23 @@ const ServiceCard = ({
   icon,
   features,
   color = "bg-ai-purple",
-  buttonText = "Learn More",
-  buttonLink = "/services"
+  buttonText = "Get Started",
+  buttonLink = "/services",
+  serviceType
 }: ServiceCardProps) => {
+  const getServiceLink = () => {
+    switch (serviceType) {
+      case 'llm':
+        return '/chatbot/llm';
+      case 'voice':
+        return '/chatbot/voice';
+      case 'crm':
+        return '/chatbot/crm';
+      default:
+        return buttonLink;
+    }
+  };
+
   return (
     <Card className="overflow-hidden transition-all duration-300 h-full hover:shadow-lg border border-gray-200 dark:border-gray-800">
       <div className={`${color} p-1`} />
@@ -49,7 +63,7 @@ const ServiceCard = ({
           className={`w-full group border-slate-300 dark:border-slate-700 hover:border-ai-purple dark:hover:border-ai-purple`}
           asChild
         >
-          <a href={buttonLink}>
+          <a href={getServiceLink()}>
             {buttonText} 
             <ArrowRight size={16} className="ml-2 transform transition-transform group-hover:translate-x-1" />
           </a>

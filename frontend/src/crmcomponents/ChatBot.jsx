@@ -219,8 +219,8 @@ const ChatBot = ({ website }) => {
   }
 
   return (
-    <div className="min-h-screen w-full transition-all flex justify-center items-center p-4 overflow-x-hidden overflow-y-auto">
-      {isUpdatingWebsite ? (
+<div className="min-h-screen w-full transition-all flex justify-center items-center p-4 overflow-x-hidden overflow-y-auto max-h-screen">
+{isUpdatingWebsite ? (
         <LoadingSpinner />
       ) : (
         <div className="container mx-auto flex flex-col lg:flex-row gap-6 lg:gap-12 xl:gap-24 animate-slideIn max-h-[90vh] lg:max-h-[85vh]">
@@ -360,32 +360,27 @@ const ChatBot = ({ website }) => {
             </div>
 
             {/* Messages Area */}
-            <div className={`flex-1 overflow-y-auto p-4 ${isDarkTheme ? 'bg-gray-900' : 'bg-gray-100'} 
-                 transition-colors duration-200`}>
+            <div className={`flex-1 overflow-y-auto p-4 ${isDarkTheme ? 'bg-gray-900' : 'bg-gray-100'} transition-colors duration-200`}>
               {messages.map((message, index) => (
                 <React.Fragment key={index}>
                   <div className={`flex items-start mb-4 ${message.isUser ? "flex-row-reverse" : ""}`}>
                     {/* Profile Icon */}
-                    <div className={`w-10 h-10 flex items-center justify-center mt-[10px]`}>
-                      {message.isUser ? "" : <img src={BotAvatar || "/placeholder.svg"} alt="Bot Avatar" />}
+                    <div className="w-10 h-10 flex items-center justify-center mt-[10px]">
+                      {message.isUser ? "" : <img src={BotAvatar} alt="Bot Avatar" />}
                     </div>
 
                     {/* Message Box */}
-                    <div
-                      className={`ml-3 max-w-[75%] md:max-w-[70%] lg:max-w-[60%] p-3 rounded-lg shadow-sm 
-												${
-                          message.isUser
-                            ? "bg-blue-500 text-white"
-                            : isDarkTheme 
-                              ? 'bg-gray-700 text-white border-gray-600' 
-                              : 'bg-white text-gray-900 border-gray-200'
-                        } 
-												${message.isUser ? "ml-2" : "mr-2"}`}
+                    <div className={`ml-3 max-w-[75%] md:max-w-[70%] lg:max-w-[60%] p-4 rounded-lg shadow-md
+                      ${message.isUser 
+                        ? "bg-blue-600 text-white" 
+                        : isDarkTheme 
+                          ? "bg-gray-800 text-gray-100 border border-gray-700" 
+                          : "bg-white text-gray-900 border border-gray-200"
+                      } 
+                      ${message.isUser ? "ml-2" : "mr-2"}`}
                     >
                       {/* Message Content */}
-                      <div
-                        className={`${!message.isUser && message.links ? "px-3 py-2 rounded-lg mb-2 text-gray-900 dark:text-white" : ""}`}
-                      >
+                      <div className="prose dark:prose-invert max-w-none">
                         {!message.isUser && typeof message.content === "string" ? (
                           <ReactMarkdown
                             remarkPlugins={[remarkGfm]}
@@ -393,9 +388,21 @@ const ChatBot = ({ website }) => {
                               a: ({ node, ...props }) => (
                                 <a
                                   {...props}
-                                  className="text-blue-400 underline"
+                                  className={`${isDarkTheme 
+                                    ? 'text-blue-400 hover:text-blue-300' 
+                                    : 'text-blue-600 hover:text-blue-700'} 
+                                    underline transition-colors`}
                                   target="_blank"
                                   rel="noopener noreferrer"
+                                />
+                              ),
+                              code: ({ node, ...props }) => (
+                                <code
+                                  {...props}
+                                  className={`${isDarkTheme 
+                                    ? 'bg-gray-700 text-gray-100' 
+                                    : 'bg-gray-100 text-gray-800'} 
+                                    px-1 py-0.5 rounded font-mono text-sm`}
                                 />
                               ),
                             }}
@@ -409,8 +416,10 @@ const ChatBot = ({ website }) => {
 
                       {/* Suggested Articles Section */}
                       {message.links && message.links.length > 0 && (
-                        <div className="mt-2 p-2">
-                          <p className="text-md text-gray-800 dark:text-gray-300 font-semibold">Suggested articles:</p>
+                        <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
+                          <p className={`text-sm font-medium ${isDarkTheme ? 'text-gray-300' : 'text-gray-700'}`}>
+                            Suggested articles:
+                          </p>
                           <div className="grid grid-cols-2 gap-2 mt-2">
                             {message.links.map((link, idx) => (
                               <a
@@ -419,11 +428,15 @@ const ChatBot = ({ website }) => {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 title={link.title}
-                                className="flex items-center px-2 py-1 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-sm text-xs font-medium text-gray-900 dark:text-white truncate"
+                                className={`flex items-center px-3 py-2 rounded-lg
+                                  ${isDarkTheme 
+                                    ? 'bg-gray-700 hover:bg-gray-600 text-gray-100' 
+                                    : 'bg-gray-50 hover:bg-gray-100 text-gray-900'}
+                                  transition-colors text-sm font-medium truncate`}
                               >
                                 <FontAwesomeIcon
                                   icon={faExternalLinkAlt}
-                                  className="mr-2 text-xs text-gray-600 dark:text-gray-300"
+                                  className={`mr-2 text-xs ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}
                                 />
                                 {link.title.length > 20 ? `${link.title.slice(0, 20)}...` : link.title}
                               </a>
@@ -435,10 +448,8 @@ const ChatBot = ({ website }) => {
                   </div>
 
                   {/* Timestamp */}
-                  <div
-                    className={`mb-4 text-xs mt-1 text-black dark:text-white ${
-                      message.isUser ? "ml-auto mr-4" : "ml-16"
-                    }`}
+                  <div className={`mb-4 text-xs mt-1 ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'} 
+                    ${message.isUser ? "ml-auto mr-4" : "ml-16"}`}
                   >
                     {!message.isUser && message.timestamp}
                   </div>

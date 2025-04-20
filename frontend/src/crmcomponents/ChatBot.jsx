@@ -80,8 +80,7 @@ const ChatBot = ({ website }) => {
   const [loadingMessageIndex, setLoadingMessageIndex] = useState(0)
 
   const toggleTheme = () => {
-    setSharedState((prev) => ({ ...prev, yellowAiTheme: !prev.yellowAiTheme }))
-    // setIsDarkTheme(!isDarkTheme);
+    setIsDarkTheme(!isDarkTheme)
   }
 
   const isValidWebsite = (url) => {
@@ -226,28 +225,30 @@ const ChatBot = ({ website }) => {
       ) : (
         <div className="container mx-auto flex flex-col lg:flex-row gap-6 lg:gap-12 xl:gap-24 animate-slideIn max-h-[90vh] lg:max-h-[85vh]">
           {/* Side Form */}
-          <div
-            className="bg-white dark:bg-zinc-1100 border border-gray-200 dark:border-[rgba(138,124,184,0.1)] 
-     rounded-2xl w-full lg:w-1/3 lg:max-h-[85vh] order-2 lg:order-1 flex flex-col"
-          >
-            {/* Header - Now with proper height and no overflow issues */}
-            <div className="bg-gray-100 dark:bg-zinc-1100 p-6 rounded-t-lg flex-shrink-0">
-              <p className="text-gray-700 dark:text-gray-300 text-lg mb-4">
+          <div className={`${isDarkTheme ? 'bg-gray-800' : 'bg-white'} 
+               border ${isDarkTheme ? 'border-gray-700' : 'border-gray-200'} 
+               rounded-2xl w-full lg:w-1/3 lg:max-h-[85vh] 
+               order-2 lg:order-1 flex flex-col transition-colors duration-200`}>
+            {/* Header */}
+            <div className={`${isDarkTheme ? 'bg-gray-700' : 'bg-gray-100'} 
+                 p-6 rounded-t-lg flex-shrink-0 transition-colors duration-200`}>
+              <p className={`${isDarkTheme ? 'text-gray-200' : 'text-gray-700'} text-lg mb-4`}>
                 Your bot can answer questions on <span className="text-blue-500 font-semibold">{currentWebsite}</span>
               </p>
               <button
-                className="w-full bg-white dark:bg-gray-800 text-blue-600 dark:text-blue-400 text-base font-medium 
-									 flex items-center justify-center p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 
-									 transition-colors shadow-sm"
+                className={`w-full ${isDarkTheme ? 'bg-gray-800 text-blue-400 hover:bg-gray-900' : 'bg-white text-blue-600 hover:bg-gray-50'} 
+                     text-base font-medium flex items-center justify-center p-4 rounded-lg 
+                     transition-colors shadow-sm`}
                 onClick={() => setIsEditingWebsite(!isEditingWebsite)}
               >
                 <span className="mr-3 text-xl">✏️</span> Change URL
               </button>
             </div>
 
-            {/* Scrollable Content - With proper height calculation */}
+            {/* Scrollable Content */}
             <div className="flex-1 overflow-y-auto">
-              <div className="p-4 space-y-4">
+              <div className={`p-4 space-y-4 ${isDarkTheme ? 'text-gray-100' : 'text-gray-900'} 
+                   transition-colors duration-200`}>
                 {isEditingWebsite && (
                   <form onSubmit={handleWebsiteChange} className="mb-4">
                     <input
@@ -268,53 +269,58 @@ const ChatBot = ({ website }) => {
                 )}
 
                 {/* WhatsApp Form */}
-                <div className="bg-gray-50 dark:bg-zinc-1100 p-4 rounded-lg">
-                  <h3 className="text-gray-800 dark:text-gray-300 text-sm font-semibold mb-2">
+                <div className={`${isDarkTheme ? 'bg-gray-700' : 'bg-gray-50'} p-4 rounded-lg mb-4`}>
+                  <h3 className={`${isDarkTheme ? 'text-gray-200' : 'text-gray-800'} text-sm font-semibold mb-2`}>
                     Try your bot on your WhatsApp phone number
                   </h3>
                   <input
                     type="text"
                     placeholder="Enter your name"
-                    className="w-full  px-3 py-2 focus:outline-none rounded-lg mb-2 text-gray-900 dark:text-white dark:bg-gray-1300  text-sm  h-[40px]"
+                    className={`w-full px-3 py-2 rounded-lg mb-2 h-[40px] 
+                         ${isDarkTheme ? 'bg-gray-800 text-white placeholder-gray-400' : 'bg-white text-gray-900 placeholder-gray-500'} 
+                         focus:outline-none`}
                     onChange={handleChangeName}
                   />
-                  <div
-                    className="flex items-center rounded-lg overflow-hidden border-[rgba(138,124,184,0.2)]
-"
-                  >
-                    <span className="dark:bg-gray-1300 dark:text-[rgb(138,124,184)] px-3 py-2 text-gray-900 text-sm  mr-3 h-[40px]">
+                  <div className="flex items-center rounded-lg overflow-hidden">
+                    <span className={`${isDarkTheme ? 'bg-gray-800 text-gray-300' : 'bg-gray-100 text-gray-900'} 
+                          px-3 py-2 text-sm mr-3 h-[40px]`}>
                       +91
                     </span>
                     <input
                       type="text"
                       placeholder="Enter your phone number"
-                      className="w-full px-3 py-2 text-gray-900 dark:text-white dark:bg-gray-1300  text-sm outline-none h-[40px]"
+                      className={`w-full px-3 py-2 h-[40px] outline-none
+                           ${isDarkTheme ? 'bg-gray-800 text-white placeholder-gray-400' : 'bg-white text-gray-900 placeholder-gray-500'}`}
                       onChange={handleChangePhoneNumber}
                     />
                   </div>
-                  <button
-                    onClick={submitUserInfo}
-                    className="bg-[linear-gradient(to_right,rgb(255,204,51),rgb(245,158,11))] hover:bg-[linear-gradient(to_right,rgb(245,158,11),rgb(255,204,51))]  text-gray-900 dark:text-gray-900 w-full py-2 mt-3 rounded-lg text-sm font-medium h-[40px]"
-                  >
-                    Submit
-                  </button>
                 </div>
 
                 {/* Rating Section */}
-                <div className="bg-gray-100 dark:bg-zinc-1100 p-4 rounded-lg">
-                  <div className="text-gray-700 dark:text-gray-300 text-lg">Rate the experience</div>
+                <div className={`${isDarkTheme ? 'bg-gray-700' : 'bg-gray-100'} p-4 rounded-lg mb-4`}>
+                  <div className={`${isDarkTheme ? 'text-gray-200' : 'text-gray-700'} text-lg`}>
+                    Rate the experience
+                  </div>
                   <div className="flex space-x-2 items-center justify-center mt-3">
-                    <button className="inline-flex items-center justify-center  whitespace-nowrap text-sm font-medium   border bg-background hover:text-accent-foreground w-12 h-12 rounded-full border-light-purple/20 hover:border-bright-purple hover:bg-bright-purple/10 ">
+                    <button className={`inline-flex items-center justify-center w-12 h-12 rounded-full 
+                         ${isDarkTheme ? 'bg-gray-800 hover:bg-gray-900' : 'bg-white hover:bg-gray-50'} 
+                         border ${isDarkTheme ? 'border-gray-600' : 'border-gray-200'} 
+                         transition-colors duration-200`}>
                       👍
                     </button>
-                    <button className="inline-flex items-center justify-center  whitespace-nowrap text-sm font-medium   border bg-background hover:text-accent-foreground w-12 h-12 rounded-full border-light-purple/20 hover:border-bright-purple hover:bg-bright-purple/10 ">
+                    <button className={`inline-flex items-center justify-center w-12 h-12 rounded-full 
+                         ${isDarkTheme ? 'bg-gray-800 hover:bg-gray-900' : 'bg-white hover:bg-gray-50'} 
+                         border ${isDarkTheme ? 'border-gray-600' : 'border-gray-200'} 
+                         transition-colors duration-200`}>
                       👎
                     </button>
                   </div>
                 </div>
 
                 {/* Sign Up Button */}
-                <button className="bg-[linear-gradient(to_right,rgb(255,204,51),rgb(245,158,11))] w-full py-3 rounded-lg">
+                <button className="bg-[linear-gradient(to_right,rgb(255,204,51),rgb(245,158,11))] 
+                       hover:bg-[linear-gradient(to_right,rgb(245,158,11),rgb(255,204,51))] 
+                       text-gray-900 w-full py-3 rounded-lg font-medium transition-all duration-200">
                   Sign up
                 </button>
               </div>
@@ -322,11 +328,10 @@ const ChatBot = ({ website }) => {
           </div>
 
           {/* Chatbot */}
-          <div
-            className="bg-white dark:bg-zinc-1100 w-full lg:w-2/3 flex flex-col rounded-3xl shadow-lg 
-     overflow-hidden order-1 lg:order-2 lg:max-h-[85vh]"
-          >
-            {/* Header - Fixed height, no overflow issues */}
+          <div className={`${isDarkTheme ? 'bg-gray-800' : 'bg-white'} 
+               w-full lg:w-2/3 flex flex-col rounded-3xl shadow-lg overflow-hidden 
+               order-1 lg:order-2 lg:max-h-[85vh] transition-colors duration-200`}>
+            {/* Header */}
             <div className="bg-gradient-to-r from-blue-500 to-purple-500 p-3 md:p-4 flex-shrink-0">
               <div className="flex justify-between items-center">
                 <div className="flex items-center space-x-2 md:space-x-4">
@@ -354,11 +359,9 @@ const ChatBot = ({ website }) => {
               </div>
             </div>
 
-            {/* Messages Area - Proper height calculation */}
-            <div
-              className="flex-1 overflow-y-auto p-4 bg-gray-100 dark:bg-zinc-1100"
-              style={{ maxHeight: "calc(100% - 130px)" }}
-            >
+            {/* Messages Area */}
+            <div className={`flex-1 overflow-y-auto p-4 ${isDarkTheme ? 'bg-gray-900' : 'bg-gray-100'} 
+                 transition-colors duration-200`}>
               {messages.map((message, index) => (
                 <React.Fragment key={index}>
                   <div className={`flex items-start mb-4 ${message.isUser ? "flex-row-reverse" : ""}`}>
@@ -373,7 +376,9 @@ const ChatBot = ({ website }) => {
 												${
                           message.isUser
                             ? "bg-blue-500 text-white"
-                            : "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-4 shadow-md max-w-sm text-black dark:text-white"
+                            : isDarkTheme 
+                              ? 'bg-gray-700 text-white border-gray-600' 
+                              : 'bg-white text-gray-900 border-gray-200'
                         } 
 												${message.isUser ? "ml-2" : "mr-2"}`}
                     >
@@ -463,16 +468,20 @@ const ChatBot = ({ website }) => {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Input Area - Fixed height */}
-            <div className="bg-white dark:bg-zinc-1100 border-t dark:border-gray-700 p-3 md:p-4 flex-shrink-0 sticky bottom-0">
-              <div className="flex space-x-2 bg-gray-100 dark:bg-gray-1200 rounded-lg p-2 md:p-3">
+            {/* Input Area */}
+            <div className={`${isDarkTheme ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} 
+                 border-t p-3 md:p-4 flex-shrink-0 sticky bottom-0 transition-colors duration-200`}>
+              <div className={`flex space-x-2 ${isDarkTheme ? 'bg-gray-700' : 'bg-gray-100'} 
+                   rounded-lg p-2 md:p-3 transition-colors duration-200`}>
                 <input
                   type="text"
-                  className="flex-1 min-w-0 bg-transparent border-none outline-none text-gray-900 dark:text-gray-100"
+                  className={`flex-1 min-w-0 bg-transparent border-none outline-none 
+                       ${isDarkTheme ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'} 
+                       transition-colors duration-200`}
                   placeholder="Type your message..."
                   value={messageInput}
                   onChange={(e) => setMessageInput(e.target.value)}
-                  onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+                  onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                 />
                 <button
                   className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg shadow-md hover:opacity-90 transition-all whitespace-nowrap"

@@ -28,14 +28,14 @@ const ThreeScene = ({ className = '' }: ThreeSceneProps) => {
     const scene = new Scene();
     sceneRef.current = scene;
 
-    // Camera setup with reduced far plane
+    // Camera setup with adjusted field of view and position
     const camera = new PerspectiveCamera(
-      75,
+      65,
       window.innerWidth / window.innerHeight,
       0.1,
-      50 // Reduced from 1000
+      100
     );
-    camera.position.z = 5;
+    camera.position.z = 3.8; // Moved back slightly for better view of small particles
 
     // Renderer setup with optimized settings
     const renderer = new WebGLRenderer({ 
@@ -49,22 +49,23 @@ const ThreeScene = ({ className = '' }: ThreeSceneProps) => {
     mountRef.current.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // Create particles with reduced count
+    // Create particles with smaller settings
     const particlesGeometry = new BufferGeometry();
-    const particleCount = 800; // Reduced from 2000
+    const particleCount = 1000; // Increased count for better detail
     const posArray = new Float32Array(particleCount * 3);
     
     for (let i = 0; i < particleCount * 3; i++) {
-      posArray[i] = (Math.random() - 0.5) * 5; // Reduced spread
+      posArray[i] = (Math.random() - 0.5) * 5.5; // Slightly tighter spread
     }
     
     particlesGeometry.setAttribute('position', new BufferAttribute(posArray, 3));
     
     const particlesMaterial = new PointsMaterial({
-      size: 0.02,
+      size: 0.02, // Reduced size for more delicate appearance
       color: 0x8B5CF6,
       transparent: true,
-      opacity: 0.6,
+      opacity: 0.62, // Slightly reduced opacity
+      sizeAttenuation: true,
     });
     
     const particles = new Points(particlesGeometry, particlesMaterial);
@@ -87,10 +88,10 @@ const ThreeScene = ({ className = '' }: ThreeSceneProps) => {
       frameRef.current = requestAnimationFrame(animate);
 
       if (particlesRef.current) {
-        particlesRef.current.rotation.y += 0.0003;
+        particlesRef.current.rotation.y += 0.0001; // Slower rotation
         particlesRef.current.rotation.x += 0.0001;
-        particlesRef.current.rotation.y += mouseX * 0.0001;
-        particlesRef.current.rotation.x += mouseY * 0.0001;
+        particlesRef.current.rotation.y += mouseX * 0.00005; // More subtle mouse movement
+        particlesRef.current.rotation.x += mouseY * 0.00005;
       }
 
       renderer.render(scene, camera);

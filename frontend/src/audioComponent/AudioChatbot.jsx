@@ -141,33 +141,81 @@ const AudioChatbot = () => {
                     const audioUrl = URL.createObjectURL(audioBlob);
                     const timestamp = new Date();
 
-                    // Add user's audio message
-                    setMessages(prevMessages => [
-                        ...prevMessages,
-                        { type: "user", audio: audioUrl, timestamp }
-                    ]);
-
-                    setLoading(true);
-                    const formData = new FormData();
-                    formData.append("audio", audioBlob, "user_input.wav");
+                    // First get the transcription of user's audio
+                    const transcriptionFormData = new FormData();
+                    transcriptionFormData.append("audio", audioBlob, "user_input.wav");
 
                     try {
+                        // First get the transcription of user's audio
+                        const transcriptionResponse = await axios.post(
+                            import.meta.env.VITE_API_BASE_URL_VCA + "/transcribe-audio",
+                            transcriptionFormData,
+                            {
+                                headers: {
+                                    "Content-Type": "multipart/form-data"
+                                }
+                            }
+                        );
+
+                        // Add user's audio message and its transcription as separate messages
+                        setMessages(prevMessages => [
+                            ...prevMessages,
+                            // First the audio message
+                            { 
+                                type: "user", 
+                                audio: audioUrl,
+                                timestamp 
+                            },
+                            // Then its transcription
+                            {
+                                type: "user",
+                                content: transcriptionResponse.data.transcription,
+                                timestamp: new Date()
+                            }
+                        ]);
+
+                        setLoading(true);
+                        const formData = new FormData();
+                        formData.append("audio", audioBlob, "user_input.wav");
+
                         // Send audio to backend
                         const response = await axios.post(import.meta.env.VITE_API_BASE_URL_VCA + "/process-audio", formData, {
                             headers: {
                                 "Content-Type": "multipart/form-data"
-                            },
-                            responseType: 'blob' // Important: expect binary response
+                            }
                         });
 
-                        // Create URL for bot's audio response
-                        const botAudioUrl = URL.createObjectURL(response.data);
+                        // Then fetch the audio file using the provided URL
+                        const audioResponse = await axios.get(
+                            import.meta.env.VITE_API_BASE_URL_VCA + response.data.audio_file_url, 
+                            {
+                                responseType: 'blob'
+                            }
+                        );
 
-                        // Add bot's audio response
+                        // Create URL for bot's audio response
+                        const botAudioUrl = URL.createObjectURL(audioResponse.data);
+
+                        // First add bot's audio response
                         setMessages(prevMessages => [
                             ...prevMessages,
-                            { type: "bot", audio: botAudioUrl, timestamp: new Date() }
+                            {
+                                type: "bot",
+                                audio: botAudioUrl,
+                                timestamp: new Date()
+                            }
                         ]);
+
+                        // Then add the text response
+                        setMessages(prevMessages => [
+                            ...prevMessages,
+                            {
+                                type: "bot",
+                                content: response.data.response_text,
+                                timestamp: new Date()
+                            }
+                        ]);
+
                     } catch (error) {
                         console.error("Error sending audio message:", error);
                         setMessages(prevMessages => [
@@ -223,21 +271,11 @@ const AudioChatbot = () => {
             setLoading(true);
             try {
                 // Send text message to backend
-                const response = await axios.post(import.meta.env.VITE_API_BASE_URL_VCA + "/chat", {
-                    query: inputMessage
+                const response = await axios.post(import.meta.env.VITE_API_BASE_URL_VCA + "/text-to-text", {
+                    prompt: inputMessage
                 });
 
-                // Add bot's text response
-                setMessages(prevMessages => [
-                    ...prevMessages,
-                    {
-                        type: "bot",
-                        content: response.data.answer,
-                        timestamp: new Date()
-                    }
-                ]);
-
-                // If there's audio response
+                // If there's audio response, show it first
                 if (response.data.audio) {
                     const audioResponse = await axios.get(response.data.audio, {
                         responseType: 'blob'
@@ -253,6 +291,17 @@ const AudioChatbot = () => {
                         }
                     ]);
                 }
+
+                // Then show the text response
+                setMessages(prevMessages => [
+                    ...prevMessages,
+                    {
+                        type: "bot",
+                        content: response.data.response,
+                        timestamp: new Date()
+                    }
+                ]);
+
             } catch (error) {
                 console.error("Error sending text message:", error);
                 setMessages(prevMessages => [

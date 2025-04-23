@@ -4,6 +4,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from dotenv import load_dotenv
 from openai import OpenAI
 from werkzeug.utils import secure_filename
+from pydantic import BaseModel
 
 # Load environment variables
 load_dotenv()
@@ -122,3 +123,22 @@ def download_audio(filename: str):
     if not os.path.exists(file_path):
         raise HTTPException(status_code=404, detail="Audio file not found")
     return FileResponse(path=file_path, media_type="audio/mp3", filename=filename)
+
+
+class TextInput(BaseModel):
+    prompt: str
+
+# ✅ 4. Text-to-Text Endpoint
+@router.post("/text-to-text")
+async def text_to_text(input: TextInput):
+    try:
+        chat_response = client.chat.completions.create(
+            model="gpt-4",
+            messages=[{"role": "user", "content": input.prompt}],
+            max_tokens=200,
+            temperature=0.7
+        )
+        response_text = chat_response.choices[0].message.content
+        return {"response": response_text}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

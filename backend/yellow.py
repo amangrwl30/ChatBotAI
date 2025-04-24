@@ -31,7 +31,7 @@ def google_search(query, api_key, cse_id):
             "q": query,
             "key": api_key,
             "cx": cse_id,
-            "num": 2,
+            "num": 4,
             "sort": "date:r:20230101:20251231"
         }
         response = requests.get(url, params=params)

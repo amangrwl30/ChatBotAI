@@ -418,7 +418,7 @@ const ChatBot = ({ website }) => {
                       {message.links && message.links.length > 0 && (
                         <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
                           <p className={`text-sm font-medium ${isDarkTheme ? 'text-gray-300' : 'text-gray-700'}`}>
-                            Suggested articles:
+                            Website Links:
                           </p>
                           <div className="grid grid-cols-2 gap-2 mt-2">
                             {message.links.map((link, idx) => (

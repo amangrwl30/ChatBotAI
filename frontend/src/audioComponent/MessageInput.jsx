@@ -18,7 +18,7 @@ const MessageInput = ({
         <div className={`${isDarkTheme
             ? 'bg-gradient-to-r from-gray-800 to-gray-900 border-t border-gray-700'
             : 'bg-white border-t border-blue-100'
-            } p-6`}>
+            } p-4`}>
             <div className="flex items-center gap-3">
                 <input
                     type="text"

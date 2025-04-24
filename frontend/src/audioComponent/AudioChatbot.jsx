@@ -27,6 +27,7 @@ const AudioChatbot = () => {
     const MAX_SINGLE_AUDIO_TIME = 30; // 30 seconds limit for a single recording
     const SILENCE_THRESHOLD = 0.05; // Adjust this threshold value as needed
     const SILENCE_TIMEOUT = 2000; // 2 seconds
+    const audioRefs = useRef({});  // Add this to store audio elements
 
     useEffect(() => {
         // Scroll to the bottom when messages change
@@ -243,19 +244,49 @@ const AudioChatbot = () => {
         }
     };
 
-    const togglePlay = (audioUrl, index) => {
-        const audioElement = document.getElementById(`audio-${index}`);
-        if (audioElement) {
+    const togglePlay = async (audioUrl, index) => {
+        try {
+            // Get or create audio element
+            if (!audioRefs.current[index]) {
+                audioRefs.current[index] = new Audio(audioUrl);
+            }
+            const audioElement = audioRefs.current[index];
+
             if (isPlaying === index) {
+                // Pause current audio
                 audioElement.pause();
                 setIsPlaying(null);
             } else {
-                audioElement.play();
+                // Pause previous audio if any
+                if (isPlaying !== null && audioRefs.current[isPlaying]) {
+                    audioRefs.current[isPlaying].pause();
+                }
+                
+                // Play new audio
+                await audioElement.play();
                 setIsPlaying(index);
-                audioElement.onended = () => setIsPlaying(null);
+                
+                // Handle audio ending
+                audioElement.onended = () => {
+                    setIsPlaying(null);
+                };
             }
+        } catch (error) {
+            console.error("Error playing audio:", error);
         }
     };
+
+    // Clean up audio elements when component unmounts
+    useEffect(() => {
+        return () => {
+            Object.values(audioRefs.current).forEach(audio => {
+                if (audio) {
+                    audio.pause();
+                    audio.src = '';
+                }
+            });
+        };
+    }, []);
 
     const handleSendMessage = async () => {
         if (inputMessage.trim()) {
@@ -319,25 +350,49 @@ const AudioChatbot = () => {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-indigo-950">
-            <div className={`w-[800px] h-[85vh] flex flex-col rounded-2xl shadow-2xl overflow-hidden backdrop-blur-sm ${isDarkTheme
-                ? 'bg-gray-900/95 border border-gray-700/50'
-                : 'bg-white/95 border border-blue-100'
-                }`}>
+        <div className={`flex justify-center items-center min-h-screen`}>
+            <div className={`w-[800px] h-[85vh] flex flex-col rounded-2xl shadow-2xl overflow-hidden ${
+                isDarkTheme
+                    ? 'bg-gray-900/90 border border-violet-500/20 shadow-violet-500/10'
+                    : 'bg-white/90 border border-indigo-200 shadow-indigo-500/10'
+            }`}>
                 <ChatHeader isDarkTheme={isDarkTheme} setIsDarkTheme={setIsDarkTheme} />
-                <ChatMessages messages={messages} isDarkTheme={isDarkTheme} isPlaying={isPlaying} togglePlay={togglePlay} loading={loading} messagesEndRef={messagesEndRef} />
-                <MessageInput
-                    inputMessage={inputMessage}
-                    setInputMessage={setInputMessage}
-                    handleSendMessage={handleSendMessage}
-                    isDarkTheme={isDarkTheme}
-                    isRecording={isRecording}
-                    startRecording={startRecording}
-                    stopRecording={stopRecording}
-                    loading={loading}
-                    totalAudioTime={totalAudioTime}
-                    MAX_AUDIO_TIME={MAX_AUDIO_TIME}
-                />
+                
+                {/* Messages Container */}
+                <div className={`flex-1 overflow-y-auto p-6 space-y-4 ${
+                    isDarkTheme
+                        ? 'bg-gradient-to-br from-gray-900 via-gray-900 to-slate-900'
+                        : 'bg-gradient-to-br from-gray-50 via-indigo-50/30 to-violet-50/30'
+                }`}>
+                    <ChatMessages 
+                        messages={messages} 
+                        isDarkTheme={isDarkTheme} 
+                        isPlaying={isPlaying} 
+                        togglePlay={togglePlay} 
+                        loading={loading} 
+                        messagesEndRef={messagesEndRef} 
+                    />
+                </div>
+                
+                {/* Input Section */}
+                <div className={`${
+                    isDarkTheme
+                        ? 'bg-gray-900/90 border-t border-violet-500/10'
+                        : 'bg-white/80 border-t border-indigo-100'
+                }`}>
+                    <MessageInput
+                        inputMessage={inputMessage}
+                        setInputMessage={setInputMessage}
+                        handleSendMessage={handleSendMessage}
+                        isDarkTheme={isDarkTheme}
+                        isRecording={isRecording}
+                        startRecording={startRecording}
+                        stopRecording={stopRecording}
+                        loading={loading}
+                        totalAudioTime={totalAudioTime}
+                        MAX_AUDIO_TIME={MAX_AUDIO_TIME}
+                    />
+                </div>
             </div>
 
             {showLimitPopup && <LimitPopup setShowLimitPopup={setShowLimitPopup} MAX_AUDIO_TIME={MAX_AUDIO_TIME} />}

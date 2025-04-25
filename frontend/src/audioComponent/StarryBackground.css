@@ -1,0 +1,170 @@
+@import url(https://fonts.googleapis.com/css?family=Exo:100);
+
+/* Dark mode animations (stars) */
+@keyframes animStar {
+  from { transform: translateY(0); }
+  to { transform: translateY(-2000px); }
+}
+
+/* Light mode animations (scrolling pattern) */
+@keyframes bg-scrolling-reverse {
+  100% { background-position: 50px 50px; }
+}
+
+@keyframes bg-scrolling {
+  0% { background-position: 50px 50px; }
+}
+
+.container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+/* Dark mode styles */
+.container.dark {
+  background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+  overflow: hidden;
+}
+
+#stars {
+  width: 1px;
+  height: 1px;
+  background: transparent;
+  animation: animStar 50s linear infinite;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+#stars:after {
+  content: " ";
+  position: absolute;
+  top: 2000px;
+  width: 1px;
+  height: 1px;
+  background: transparent;
+}
+
+#stars2 {
+  width: 2px;
+  height: 2px;
+  background: transparent;
+  animation: animStar 100s linear infinite;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+#stars2:after {
+  content: " ";
+  position: absolute;
+  top: 2000px;
+  width: 2px;
+  height: 2px;
+  background: transparent;
+}
+
+#stars3 {
+  width: 3px;
+  height: 3px;
+  background: transparent;
+  animation: animStar 150s linear infinite;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+#stars3:after {
+  content: " ";
+  position: absolute;
+  top: 2000px;
+  width: 3px;
+  height: 3px;
+  background: transparent;
+}
+
+/* Light mode styles */
+.container.light {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, 
+    rgba(240, 249, 255, 0.9), /* Sky blue */
+    rgba(224, 242, 254, 0.9), /* Light blue */
+    rgba(236, 254, 255, 0.9)  /* Cyan */
+  );
+  overflow: hidden;
+}
+
+.ball {
+  position: absolute;
+  border-radius: 100%;
+  opacity: 0.7;
+  filter: blur(1px);
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+/* Add subtle overlay */
+.container.light::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0.2)
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Optional: Add hover effect on balls */
+.ball:hover {
+  opacity: 0.9;
+  filter: blur(0);
+  transform: scale(1.1);
+}
+
+/* Star sizes */
+.small {
+  width: 1px;
+  height: 1px;
+  animation-duration: 50s;
+}
+
+.medium {
+  width: 2px;
+  height: 2px;
+  animation-duration: 100s;
+}
+
+.large {
+  width: 3px;
+  height: 3px;
+  animation-duration: 150s;
+}
+
+/* Hide star layers in light mode */
+.container.light .starLayer {
+  display: none;
+}
+
+/* Add subtle gradient overlay for light mode */
+.container.light::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+  pointer-events: none;
+} 

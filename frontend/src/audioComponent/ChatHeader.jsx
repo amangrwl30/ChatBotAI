@@ -6,7 +6,7 @@ const ChatHeader = ({ isDarkTheme, setIsDarkTheme }) => {
     return (
         <div className={`${isDarkTheme
             ? 'bg-gradient-to-r from-violet-800 via-purple-800 to-indigo-900'
-            : 'bg-gradient-to-r from-blue-400 via-indigo-400 to-violet-400'
+            : 'bg-gradient-to-r from-violet-600 to-blue-500'
             } p-4 flex justify-between items-center shadow-lg relative`}>
             
             {/* Logo and Title Section */}

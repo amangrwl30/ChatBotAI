@@ -2,33 +2,52 @@ import React, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faPause, faUser, faRobot, faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 
-const AudioWaveform = ({ isPlaying }) => {
+const AudioWaveform = ({ isPlaying, type, isDarkTheme }) => {
     const bars = Array.from({ length: 27 }, (_, i) => {
         const height = isPlaying
-            ? 8 + Math.random() * 25 // Increased dynamic height during playback
-            : 8 + (i % 2 === 0 ? 15 : 8); // Increased static heights when not playing
+            ? 8 + Math.random() * 25
+            : 8 + (i % 2 === 0 ? 15 : 8);
 
-        // Enhanced animation and color classes
         const animationClass = isPlaying 
             ? "animate-[wave_1.2s_ease-in-out_infinite]" 
-            : "opacity-100 transition-all duration-300"; // Increased opacity
+            : "opacity-100 transition-all duration-300";
 
-        // Calculate position from bottom with more space
         const yPosition = 40 - height;
+
+        // Enhanced color classes with lighter colors for paused state
+        const getBarColor = () => {
+            if (type === 'user') {
+                if (isDarkTheme) {
+                    return isPlaying 
+                        ? 'fill-blue-400' // Bright blue when playing
+                        : 'fill-blue-400/40' // Lighter blue when paused
+                } else {
+                    return isPlaying
+                        ? 'fill-blue-500'
+                        : 'fill-blue-400/50'
+                }
+            } else {
+                if (isDarkTheme) {
+                    return isPlaying
+                        ? 'fill-violet-400' // Bright violet when playing
+                        : 'fill-violet-400/40' // Lighter violet when paused
+                } else {
+                    return isPlaying
+                        ? 'fill-violet-500'
+                        : 'fill-violet-400/50'
+                }
+            }
+        };
 
         return (
             <rect
                 key={i}
                 x={i * 7}
                 y={yPosition}
-                width={4} // Slightly wider bars
+                width={4}
                 height={height}
                 rx={2}
-                className={`${
-                    isPlaying 
-                        ? 'fill-gray-600 dark:fill-white' 
-                        : 'fill-gray-400 dark:fill-gray-300' // Darker colors for paused state
-                } ${animationClass}`}
+                className={`${getBarColor()} ${animationClass}`}
                 style={{
                     animationDelay: isPlaying ? `${i * 40}ms` : '0ms'
                 }}
@@ -39,7 +58,7 @@ const AudioWaveform = ({ isPlaying }) => {
     return (
         <svg
             aria-hidden="true"
-            className="w-[165px] md:w-[205px] md:h-[45px]" // Increased SVG size
+            className="w-[165px] md:w-[205px] md:h-[45px]"
             viewBox="0 0 185 40"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -92,17 +111,19 @@ const AudioPlayer = ({ audio, isPlaying, onToggle, isDarkTheme, type, timestamp 
     return (
         <div className="flex items-start gap-2.5">
             {/* Avatar */}
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+            <div className={`min-w-[48px] min-h-[48px] w-12 h-12 rounded-full flex items-center justify-center shadow-lg ${
                 type === 'user' 
-                    ? 'bg-gradient-to-br from-blue-500 to-violet-500'
+                    ? 'bg-gradient-to-br from-blue-400 via-indigo-400 to-violet-400' // Lighter, more vibrant gradient
                     : isDarkTheme 
-                        ? 'bg-gradient-to-br from-violet-500 to-purple-600'
-                        : 'bg-gradient-to-br from-indigo-500 to-blue-600'
+                        ? 'bg-gradient-to-br from-violet-400 via-purple-400 to-fuchsia-400' // Brighter purple gradient
+                        : 'bg-gradient-to-br from-indigo-400 via-blue-400 to-cyan-400' // Fresh blue gradient
             }`}>
-                <FontAwesomeIcon 
-                    icon={type === 'user' ? faUser : faRobot} 
-                    className="text-white text-sm"
-                />
+                <div className="flex items-center justify-center w-full h-full p-2">
+                    <FontAwesomeIcon 
+                        icon={type === 'user' ? faUser : faRobot} 
+                        className="text-white w-6 h-6 drop-shadow-md" // Added shadow for depth
+                    />
+                </div>
             </div>
 
             {/* Message Content */}
@@ -115,53 +136,67 @@ const AudioPlayer = ({ audio, isPlaying, onToggle, isDarkTheme, type, timestamp 
                         ? 'bg-gray-700 text-white'
                         : 'bg-white text-gray-900'
             } rounded-xl shadow-sm`}>
-                {/* Header */}
-                <div className="flex items-center space-x-2 rtl:space-x-reverse">
-                    <span className="text-sm font-semibold">
-                        {type === 'user' ? 'You' : 'AI Assistant'}
-                    </span>
-                    <span className={`text-sm font-normal ${
-                        isDarkTheme ? 'text-gray-400' : 'text-gray-500'
-                    }`}>
-                        {timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                    </span>
-                </div>
-
                 {/* Audio Controls */}
-                <div className="flex items-center space-x-3 rtl:space-x-reverse">
-                    <button
-                        onClick={onToggle}
-                        className={`inline-flex items-center justify-center p-2.5 rounded-full transition-all ${
+                <div className="flex flex-col gap-2">
+                    {/* Time and Chat Info */}
+                    <div className="flex justify-between items-center text-xs">
+                        {/* Audio Duration */}
+                        <span className={`font-bold tracking-wide ${
                             type === 'user'
                                 ? isDarkTheme
-                                    ? 'bg-blue-600 hover:bg-blue-500 text-white'
-                                    : 'bg-blue-500 hover:bg-blue-600 text-white'
+                                    ? 'text-blue-300/90'
+                                    : 'text-blue-500/90'
                                 : isDarkTheme
-                                    ? 'bg-violet-600 hover:bg-violet-500 text-white'
-                                    : 'bg-indigo-500 hover:bg-indigo-600 text-white'
-                        }`}
-                    >
-                        <FontAwesomeIcon 
-                            icon={isPlaying ? faPause : faPlay}
-                            className={`w-4 h-4 ${isPlaying ? '' : 'ml-0.5'}`}
-                        />
-                    </button>
+                                    ? 'text-fuchsia-300/90'
+                                    : 'text-violet-500/90'
+                        }`}>
+                            {formatTime(currentTime)}/{formatTime(duration)}
+                        </span>
 
-                    <div className="flex-1">
-                        <div className="flex justify-between mb-1 text-xs">
-                            <span>{formatTime(currentTime)}</span>
-                            <span>{formatTime(duration)}</span>
+                        {/* Chat Time - Matching colors with slightly lower opacity */}
+                        <span className={`font-bold tracking-wide ${
+                            type === 'user'
+                                ? isDarkTheme
+                                    ? 'text-blue-300/70'
+                                    : 'text-blue-500/70'
+                                : isDarkTheme
+                                    ? 'text-fuchsia-300/70'
+                                    : 'text-violet-500/70'
+                        }`}>
+                            {timestamp.toLocaleTimeString([], { 
+                                hour: '2-digit', 
+                                minute: '2-digit' 
+                            })}
+                        </span>
+                    </div>
+
+                    {/* Waveform and Controls Container */}
+                    <div className="flex items-end gap-3">
+                        {/* Play Button */}
+                        <button
+                            onClick={onToggle}
+                            className={`flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full transition-all ${
+                                type === 'user'
+                                    ? isDarkTheme
+                                        ? 'bg-blue-600 hover:bg-blue-500 text-white'
+                                        : 'bg-blue-500 hover:bg-blue-600 text-white'
+                                    : isDarkTheme
+                                        ? 'bg-violet-600 hover:bg-violet-500 text-white'
+                                        : 'bg-indigo-500 hover:bg-indigo-600 text-white'
+                            }`}
+                        >
+                            <FontAwesomeIcon 
+                                icon={isPlaying ? faPause : faPlay}
+                                className={`w-3 h-3 ${isPlaying ? '' : 'ml-0.5'}`}
+                            />
+                        </button>
+
+                        {/* Waveform */}
+                        <div className="flex-1">
+                            <AudioWaveform isPlaying={isPlaying} type={type} isDarkTheme={isDarkTheme} />
                         </div>
-                        <AudioWaveform isPlaying={isPlaying} />
                     </div>
                 </div>
-
-                {/* Status */}
-                <span className={`text-sm font-normal ${
-                    isDarkTheme ? 'text-gray-400' : 'text-gray-500'
-                }`}>
-                    {isPlaying ? 'Playing' : 'Delivered'}
-                </span>
 
                 <audio ref={audioRef} src={audio} />
             </div>

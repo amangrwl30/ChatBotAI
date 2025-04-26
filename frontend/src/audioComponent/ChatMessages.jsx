@@ -116,7 +116,7 @@ const AudioPlayer = ({ audio, isPlaying, onToggle, isDarkTheme, type, timestamp 
                     ? 'bg-gradient-to-br from-blue-400 via-indigo-400 to-violet-400' // Lighter, more vibrant gradient
                     : isDarkTheme 
                         ? 'bg-gradient-to-br from-violet-400 via-purple-400 to-fuchsia-400' // Brighter purple gradient
-                        : 'bg-gradient-to-br from-indigo-400 via-blue-400 to-cyan-400' // Fresh blue gradient
+                        : 'bg-gradient-to-br from-indigo-400 via-blue-400 to-cyan-400'
             }`}>
                 <div className="flex items-center justify-center w-full h-full p-2">
                     <FontAwesomeIcon 

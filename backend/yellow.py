@@ -31,7 +31,7 @@ def google_search(query, api_key, cse_id):
             "q": query,
             "key": api_key,
             "cx": cse_id,
-            "num": 5
+            "num": 3
         }
         response = requests.get(url, params=params)
         response.raise_for_status()
@@ -112,7 +112,7 @@ async def chatbot(query, website, use_site_operator):
     items = [
         item for item in (results.get("items", []) if results else [])
         if 'link=http' not in item.get('link', '')
-    ][:5]
+    ][:3]
     log_duration(process_start, "Processing Search Results")
 
     if not items:

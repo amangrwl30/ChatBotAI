@@ -31,8 +31,7 @@ def google_search(query, api_key, cse_id):
             "q": query,
             "key": api_key,
             "cx": cse_id,
-            "num": 4,
-            "sort": "date:r:20230101:20251231"
+            "num": 4
         }
         response = requests.get(url, params=params)
         response.raise_for_status()
@@ -153,6 +152,7 @@ RULES:
 5. Format clearly with:
    - Direct answer first
    - Supporting points
+   - Use bullet points for lists
 6. Donot explicitly mention **Source x mentions** or **supporting points** or **based on your website** or **Direct answer** in answers.
 7. Add in last of our answers **for more information, check suggested links shared below** .
 

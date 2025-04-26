@@ -5,7 +5,6 @@ import ChatMessages from "./ChatMessages";
 import MessageInput from "./MessageInput";
 import LimitPopup from "./LimitPopup";
 import WarningPopup from "./WarningPopup";
-import StarryBackground from './StarryBackground';
 
 const AudioChatbot = () => {
     const [isRecording, setIsRecording] = useState(false);
@@ -29,7 +28,6 @@ const AudioChatbot = () => {
     const SILENCE_THRESHOLD = 0.05; // Adjust this threshold value as needed
     const SILENCE_TIMEOUT = 2000; // 2 seconds
     const audioRefs = useRef({});  // Add this to store audio elements
-    const [isProcessingAudio, setIsProcessingAudio] = useState(false);
 
     useEffect(() => {
         // Scroll to the bottom when messages change
@@ -239,75 +237,12 @@ const AudioChatbot = () => {
             });
     };
 
-    const stopRecording = async () => {
+    const stopRecording = () => {
         if (mediaRecorderRef.current) {
             mediaRecorderRef.current.stop();
             setIsRecording(false);
-            setIsProcessingAudio(true); // Set when stopping recording
         }
     };
-
-    useEffect(() => {
-        if (mediaRecorderRef.current) {
-            mediaRecorderRef.current.ondataavailable = async (e) => {
-                if (e.data.size > 0) {
-                    try {
-                        const formData = new FormData();
-                        formData.append('audio', e.data, 'recording.wav');
-                        
-                        const response = await axios.post(
-                            import.meta.env.VITE_API_BASE_URL_VCA + "/speech-to-text",
-                            formData,
-                            { headers: { 'Content-Type': 'multipart/form-data' } }
-                        );
-
-                        // Add user's audio message
-                        const userAudioUrl = URL.createObjectURL(e.data);
-                        setMessages(prevMessages => [
-                            ...prevMessages,
-                            {
-                                type: "user",
-                                audio: userAudioUrl,
-                                timestamp: new Date()
-                            }
-                        ]);
-
-                        // Add bot's response
-                        if (response.data.audio) {
-                            const audioResponse = await axios.get(response.data.audio, {
-                                responseType: 'blob'
-                            });
-                            const botAudioUrl = URL.createObjectURL(audioResponse.data);
-
-                            setMessages(prevMessages => [
-                                ...prevMessages,
-                                {
-                                    type: "bot",
-                                    audio: botAudioUrl,
-                                    content: response.data.response,
-                                    timestamp: new Date()
-                                }
-                            ]);
-                        }
-
-                    } catch (error) {
-                        console.error("Error processing audio:", error);
-                        setMessages(prevMessages => [
-                            ...prevMessages,
-                            {
-                                type: "bot",
-                                content: "Sorry, I couldn't process your audio message.",
-                                timestamp: new Date()
-                            }
-                        ]);
-                    } finally {
-                        setIsProcessingAudio(false); // Clear when done processing
-                        audioChunksRef.current = [];
-                    }
-                }
-            };
-        }
-    }, [mediaRecorderRef.current]);
 
     const togglePlay = async (audioUrl, index) => {
         try {
@@ -416,55 +351,47 @@ const AudioChatbot = () => {
 
     return (
         <div className={`flex justify-center items-center min-h-screen`}>
-            <div className={`w-[800px] h-[85vh] flex flex-col rounded-2xl shadow-2xl overflow-hidden relative ${
+            <div className={`w-[800px] h-[85vh] flex flex-col rounded-2xl shadow-2xl overflow-hidden ${
                 isDarkTheme
                     ? 'bg-gray-900/90 border border-violet-500/20 shadow-violet-500/10'
                     : 'bg-white/90 border border-indigo-200 shadow-indigo-500/10'
             }`}>
-                {/* Background Layer */}
-                <div className="absolute inset-0">
-                    <StarryBackground isDarkTheme={isDarkTheme} />
+                <ChatHeader isDarkTheme={isDarkTheme} setIsDarkTheme={setIsDarkTheme} />
+                
+                {/* Messages Container */}
+                <div className={`flex-1 overflow-y-auto p-6 space-y-4 ${
+                    isDarkTheme
+                        ? 'bg-gradient-to-br from-gray-900 via-gray-900 to-slate-900'
+                        : 'bg-gradient-to-br from-gray-50 via-indigo-50/30 to-violet-50/30'
+                }`}>
+                    <ChatMessages 
+                        messages={messages} 
+                        isDarkTheme={isDarkTheme} 
+                        isPlaying={isPlaying} 
+                        togglePlay={togglePlay} 
+                        loading={loading} 
+                        messagesEndRef={messagesEndRef} 
+                    />
                 </div>
-
-                {/* Content Layer */}
-                <div className="relative z-10 flex flex-col h-full">
-                    {/* Header */}
-                    <ChatHeader isDarkTheme={isDarkTheme} setIsDarkTheme={setIsDarkTheme} />
-                    
-                    {/* Messages Container */}
-                    <div className="flex-1 overflow-y-auto">
-                        <div className="p-6 space-y-4">
-                            <ChatMessages 
-                                messages={messages} 
-                                isDarkTheme={isDarkTheme} 
-                                isPlaying={isPlaying} 
-                                togglePlay={togglePlay} 
-                                loading={loading} 
-                                messagesEndRef={messagesEndRef} 
-                            />
-                        </div>
-                    </div>
-                    
-                    {/* Input Section */}
-                    <div className={`${
-                        isDarkTheme
-                            ? 'bg-gray-900/90 border-t border-violet-500/10'
-                            : 'bg-white/80 border-t border-indigo-100'
-                    }`}>
-                        <MessageInput
-                            inputMessage={inputMessage}
-                            setInputMessage={setInputMessage}
-                            handleSendMessage={handleSendMessage}
-                            isDarkTheme={isDarkTheme}
-                            isRecording={isRecording}
-                            startRecording={startRecording}
-                            stopRecording={stopRecording}
-                            loading={loading}
-                            totalAudioTime={totalAudioTime}
-                            MAX_AUDIO_TIME={MAX_AUDIO_TIME}
-                            isProcessingAudio={isProcessingAudio}
-                        />
-                    </div>
+                
+                {/* Input Section */}
+                <div className={`${
+                    isDarkTheme
+                        ? 'bg-gray-900/90 border-t border-violet-500/10'
+                        : 'bg-white/80 border-t border-indigo-100'
+                }`}>
+                    <MessageInput
+                        inputMessage={inputMessage}
+                        setInputMessage={setInputMessage}
+                        handleSendMessage={handleSendMessage}
+                        isDarkTheme={isDarkTheme}
+                        isRecording={isRecording}
+                        startRecording={startRecording}
+                        stopRecording={stopRecording}
+                        loading={loading}
+                        totalAudioTime={totalAudioTime}
+                        MAX_AUDIO_TIME={MAX_AUDIO_TIME}
+                    />
                 </div>
             </div>
 

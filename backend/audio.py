@@ -92,7 +92,7 @@ async def process_audio(audio: UploadFile = File(...)):
         print("Converting to speech...")
         tts_response = client.audio.speech.create(
             model="tts-1",
-            voice="shimmer",
+            voice="fable",
             input=bot_text,
             speed=1.0,
             response_format="mp3"

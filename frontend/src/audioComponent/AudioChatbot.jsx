@@ -70,7 +70,6 @@ const AudioChatbot = () => {
 
                 const scriptProcessor = audioContextRef.current.createScriptProcessor(4096, 1, 1);
                 analyserRef.current.connect(scriptProcessor);
-                scriptProcessor.connect(audioContextRef.current.destination);
 
                 silenceStartRef.current = null;
 

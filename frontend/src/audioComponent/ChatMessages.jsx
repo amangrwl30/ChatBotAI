@@ -49,38 +49,39 @@ const AudioWaveform = ({ isPlaying }) => {
     );
 };
 
-const AudioPlayer = ({ audio, isPlaying, onToggle, isDarkTheme, type, timestamp }) => {
+const AudioPlayer = React.memo(({ audio, isPlaying, onToggle, isDarkTheme, type, timestamp }) => {
+    console.log('audio player render')
     const audioRef = useRef(null);
     const [duration, setDuration] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
 
-    useEffect(() => {
-        const audioElement = audioRef.current;
+    // useEffect(() => {
+    //     const audioElement = audioRef.current;
         
-        // Handle play/pause
-        if (isPlaying) {
-            audioElement.play().catch(err => console.log("Playback failed:", err));
-        } else {
-            audioElement.pause();
-        }
+    //     // Handle play/pause
+    //     if (isPlaying) {
+    //         audioElement.play().catch(err => console.log("Playback failed:", err));
+    //     } else {
+    //         audioElement.pause();
+    //     }
         
-        const handleLoadedMetadata = () => {
-            setDuration(audioElement.duration);
-        };
+    //     const handleLoadedMetadata = () => {
+    //         setDuration(audioElement.duration);
+    //     };
         
-        const handleTimeUpdate = () => {
-            setCurrentTime(audioElement.currentTime);
-        };
+    //     const handleTimeUpdate = () => {
+    //         setCurrentTime(audioElement.currentTime);
+    //     };
         
-        audioElement.addEventListener('loadedmetadata', handleLoadedMetadata);
-        audioElement.addEventListener('timeupdate', handleTimeUpdate);
+    //     audioElement.addEventListener('loadedmetadata', handleLoadedMetadata);
+    //     audioElement.addEventListener('timeupdate', handleTimeUpdate);
         
-        return () => {
-            audioElement.pause();
-            audioElement.removeEventListener('loadedmetadata', handleLoadedMetadata);
-            audioElement.removeEventListener('timeupdate', handleTimeUpdate);
-        };
-    }, [isPlaying, audio]);
+    //     return () => {
+    //         audioElement.pause();
+    //         audioElement.removeEventListener('loadedmetadata', handleLoadedMetadata);
+    //         audioElement.removeEventListener('timeupdate', handleTimeUpdate);
+    //     };
+    // }, [isPlaying, audio]);
 
     const formatTime = (time) => {
         if (!time || isNaN(time)) return '0:00';
@@ -163,7 +164,7 @@ const AudioPlayer = ({ audio, isPlaying, onToggle, isDarkTheme, type, timestamp 
                     {isPlaying ? 'Playing' : 'Delivered'}
                 </span>
 
-                <audio ref={audioRef} src={audio} />
+                <audio ref={audioRef} src={audio}  />
             </div>
 
             {/* Options Button */}
@@ -181,9 +182,10 @@ const AudioPlayer = ({ audio, isPlaying, onToggle, isDarkTheme, type, timestamp 
             </button>
         </div>
     );
-};
+});
 
 const ChatMessages = ({ messages, isDarkTheme, isPlaying, togglePlay, loading, messagesEndRef }) => {
+    console.log("chat message render")
     return (
         <div className="space-y-6">
             {messages.map((message, index) => (

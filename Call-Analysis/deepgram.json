@@ -1,0 +1,1849 @@
+{
+    "metadata": {
+      "transaction_key": "deprecated",
+      "request_id": "e9daad4e-15ff-4879-a646-7c40e8634e9b",
+      "sha256": "234d00fb0d9e373f8f1349f7bdb620713ae097367b7de76bad05d37083caff63",
+      "created": "2025-05-16T18:11:27.452Z",
+      "duration": 77.66931,
+      "channels": 1,
+      "models": [
+        "e431d88f-b691-4c95-bc0d-b04d4b993cc3"
+      ],
+      "model_info": {
+        "e431d88f-b691-4c95-bc0d-b04d4b993cc3": {
+          "name": "2-general-nova",
+          "version": "2023-12-28.30718",
+          "arch": "nova-2"
+        }
+      }
+    },
+    "results": {
+      "channels": [
+        {
+          "alternatives": [
+            {
+              "transcript": "Der Sander, skal ringe fra Torgborg, har et øyeblikk. Ja, det er jo fint. Supert, jeg sendte av mye av 10 din. Jeg ringer bare for å høre om du er fornøyd med på bilabon du har I dag. Joda, det funker greit nok Ja det er bra å høre. Grunnen til at jeg ringer er at mange kunder akkurat nå bytter til Tolkboard fordi vi tilbyr samme dekning som Telenor, men bare til en lavere pris da. Ja ok, så spennende. Hva hvordan er det da? Vi har abonnement fra 249 måneden med Talg By data og det er ingen bindingstilen. Du kan også enkelt overføre ubrukt data. Det er jo billigere enn det jeg betaler nå. Ja ikke sant. Vi kan jo til og med hjelpe deg å flytte nummer automatisk. Det tar under 2 minutter. Ja det høres jo veldig enkelt ut. Skal jeg bare sende, det er så mye med tilbudet og jeg lenker der du kan lese mer omstille når det passer. Ja, kanskje du gjør det? Kjempebra. Da savner jeg den over med en gang, så må jeg takke for praten.",
+              "confidence": 0.97216797,
+              "words": [
+                {
+                  "word": "der",
+                  "start": 1.92,
+                  "end": 2.42,
+                  "confidence": 0.27905273,
+                  "speaker": 0,
+                  "speaker_confidence": 0.5556546,
+                  "punctuated_word": "Der"
+                },
+                {
+                  "word": "sander",
+                  "start": 2.56,
+                  "end": 3.06,
+                  "confidence": 0.6936035,
+                  "speaker": 0,
+                  "speaker_confidence": 0.5556546,
+                  "punctuated_word": "Sander,"
+                },
+                {
+                  "word": "skal",
+                  "start": 3.12,
+                  "end": 3.28,
+                  "confidence": 0.51171875,
+                  "speaker": 0,
+                  "speaker_confidence": 0.5556546,
+                  "punctuated_word": "skal"
+                },
+                {
+                  "word": "ringe",
+                  "start": 3.28,
+                  "end": 3.52,
+                  "confidence": 0.8027344,
+                  "speaker": 0,
+                  "speaker_confidence": 0.5556546,
+                  "punctuated_word": "ringe"
+                },
+                {
+                  "word": "fra",
+                  "start": 3.52,
+                  "end": 3.76,
+                  "confidence": 0.9951172,
+                  "speaker": 0,
+                  "speaker_confidence": 0.5556546,
+                  "punctuated_word": "fra"
+                },
+                {
+                  "word": "torgborg",
+                  "start": 3.76,
+                  "end": 4.24,
+                  "confidence": 0.37325034,
+                  "speaker": 0,
+                  "speaker_confidence": 0.5556546,
+                  "punctuated_word": "Torgborg,"
+                },
+                {
+                  "word": "har",
+                  "start": 4.24,
+                  "end": 4.4,
+                  "confidence": 0.9902344,
+                  "speaker": 0,
+                  "speaker_confidence": 0.5556546,
+                  "punctuated_word": "har"
+                },
+                {
+                  "word": "et",
+                  "start": 4.4,
+                  "end": 4.64,
+                  "confidence": 0.99121094,
+                  "speaker": 0,
+                  "speaker_confidence": 0.5556546,
+                  "punctuated_word": "et"
+                },
+                {
+                  "word": "øyeblikk",
+                  "start": 4.64,
+                  "end": 5.14,
+                  "confidence": 0.8781738,
+                  "speaker": 0,
+                  "speaker_confidence": 0.5556546,
+                  "punctuated_word": "øyeblikk."
+                },
+                {
+                  "word": "ja",
+                  "start": 6.24,
+                  "end": 6.56,
+                  "confidence": 0.97216797,
+                  "speaker": 0,
+                  "speaker_confidence": 0.07844472,
+                  "punctuated_word": "Ja,"
+                },
+                {
+                  "word": "det",
+                  "start": 6.56,
+                  "end": 6.72,
+                  "confidence": 1,
+                  "speaker": 0,
+                  "speaker_confidence": 0.07844472,
+                  "punctuated_word": "det"
+                },
+                {
+                  "word": "er",
+                  "start": 6.72,
+                  "end": 6.7999997,
+                  "confidence": 0.9970703,
+                  "speaker": 0,
+                  "speaker_confidence": 0.07844472,
+                  "punctuated_word": "er"
+                },
+                {
+                  "word": "jo",
+                  "start": 6.7999997,
+                  "end": 6.96,
+                  "confidence": 0.96533203,
+                  "speaker": 0,
+                  "speaker_confidence": 0.07844472,
+                  "punctuated_word": "jo"
+                },
+                {
+                  "word": "fint",
+                  "start": 6.96,
+                  "end": 7.46,
+                  "confidence": 0.9838867,
+                  "speaker": 0,
+                  "speaker_confidence": 0.07844472,
+                  "punctuated_word": "fint."
+                },
+                {
+                  "word": "supert",
+                  "start": 7.9199996,
+                  "end": 8.42,
+                  "confidence": 0.8178711,
+                  "speaker": 0,
+                  "speaker_confidence": 0.34702098,
+                  "punctuated_word": "Supert,"
+                },
+                {
+                  "word": "jeg",
+                  "start": 8.559999,
+                  "end": 8.72,
+                  "confidence": 0.97802734,
+                  "speaker": 0,
+                  "speaker_confidence": 0.34702098,
+                  "punctuated_word": "jeg"
+                },
+                {
+                  "word": "sendte",
+                  "start": 8.72,
+                  "end": 8.96,
+                  "confidence": 0.4807129,
+                  "speaker": 0,
+                  "speaker_confidence": 0.34702098,
+                  "punctuated_word": "sendte"
+                },
+                {
+                  "word": "av",
+                  "start": 8.96,
+                  "end": 9.04,
+                  "confidence": 0.29296875,
+                  "speaker": 0,
+                  "speaker_confidence": 0.34702098,
+                  "punctuated_word": "av"
+                },
+                {
+                  "word": "mye",
+                  "start": 9.04,
+                  "end": 9.16,
+                  "confidence": 0.67333984,
+                  "speaker": 0,
+                  "speaker_confidence": 0.34702098,
+                  "punctuated_word": "mye"
+                },
+                {
+                  "word": "av",
+                  "start": 9.16,
+                  "end": 9.28,
+                  "confidence": 0.97509766,
+                  "speaker": 0,
+                  "speaker_confidence": 0.52249986,
+                  "punctuated_word": "av"
+                },
+                {
+                  "word": "10",
+                  "start": 9.28,
+                  "end": 9.5199995,
+                  "confidence": 0.5185547,
+                  "speaker": 0,
+                  "speaker_confidence": 0.52249986,
+                  "punctuated_word": "10"
+                },
+                {
+                  "word": "din",
+                  "start": 9.5199995,
+                  "end": 9.76,
+                  "confidence": 0.80615234,
+                  "speaker": 0,
+                  "speaker_confidence": 0.52249986,
+                  "punctuated_word": "din."
+                },
+                {
+                  "word": "jeg",
+                  "start": 9.76,
+                  "end": 9.84,
+                  "confidence": 0.5644531,
+                  "speaker": 0,
+                  "speaker_confidence": 0.52249986,
+                  "punctuated_word": "Jeg"
+                },
+                {
+                  "word": "ringer",
+                  "start": 9.84,
+                  "end": 10.08,
+                  "confidence": 0.9941406,
+                  "speaker": 0,
+                  "speaker_confidence": 0.52249986,
+                  "punctuated_word": "ringer"
+                },
+                {
+                  "word": "bare",
+                  "start": 10.08,
+                  "end": 10.16,
+                  "confidence": 0.79296875,
+                  "speaker": 0,
+                  "speaker_confidence": 0.52249986,
+                  "punctuated_word": "bare"
+                },
+                {
+                  "word": "for",
+                  "start": 10.16,
+                  "end": 10.24,
+                  "confidence": 0.68847656,
+                  "speaker": 0,
+                  "speaker_confidence": 0.52249986,
+                  "punctuated_word": "for"
+                },
+                {
+                  "word": "å",
+                  "start": 10.24,
+                  "end": 10.32,
+                  "confidence": 0.7602539,
+                  "speaker": 0,
+                  "speaker_confidence": 0.27087158,
+                  "punctuated_word": "å"
+                },
+                {
+                  "word": "høre",
+                  "start": 10.32,
+                  "end": 10.48,
+                  "confidence": 0.9980469,
+                  "speaker": 0,
+                  "speaker_confidence": 0.27087158,
+                  "punctuated_word": "høre"
+                },
+                {
+                  "word": "om",
+                  "start": 10.48,
+                  "end": 10.559999,
+                  "confidence": 0.94384766,
+                  "speaker": 0,
+                  "speaker_confidence": 0.27087158,
+                  "punctuated_word": "om"
+                },
+                {
+                  "word": "du",
+                  "start": 10.559999,
+                  "end": 10.639999,
+                  "confidence": 0.96435547,
+                  "speaker": 0,
+                  "speaker_confidence": 0.27087158,
+                  "punctuated_word": "du"
+                },
+                {
+                  "word": "er",
+                  "start": 10.639999,
+                  "end": 10.8,
+                  "confidence": 0.9970703,
+                  "speaker": 0,
+                  "speaker_confidence": 0.27087158,
+                  "punctuated_word": "er"
+                },
+                {
+                  "word": "fornøyd",
+                  "start": 10.8,
+                  "end": 11.2,
+                  "confidence": 0.89453125,
+                  "speaker": 0,
+                  "speaker_confidence": 0.27087158,
+                  "punctuated_word": "fornøyd"
+                },
+                {
+                  "word": "med",
+                  "start": 11.2,
+                  "end": 11.36,
+                  "confidence": 0.92089844,
+                  "speaker": 0,
+                  "speaker_confidence": 0.27087158,
+                  "punctuated_word": "med"
+                },
+                {
+                  "word": "på",
+                  "start": 11.36,
+                  "end": 11.44,
+                  "confidence": 0.76171875,
+                  "speaker": 0,
+                  "speaker_confidence": 0.34275496,
+                  "punctuated_word": "på"
+                },
+                {
+                  "word": "bilabon",
+                  "start": 11.44,
+                  "end": 11.92,
+                  "confidence": 0.58569336,
+                  "speaker": 0,
+                  "speaker_confidence": 0.34275496,
+                  "punctuated_word": "bilabon"
+                },
+                {
+                  "word": "du",
+                  "start": 11.92,
+                  "end": 12.4,
+                  "confidence": 0.2298584,
+                  "speaker": 0,
+                  "speaker_confidence": 0.34275496,
+                  "punctuated_word": "du"
+                },
+                {
+                  "word": "har",
+                  "start": 12.4,
+                  "end": 12.9,
+                  "confidence": 1,
+                  "speaker": 0,
+                  "speaker_confidence": 0.34275496,
+                  "punctuated_word": "har"
+                },
+                {
+                  "word": "i",
+                  "start": 13.12,
+                  "end": 13.44,
+                  "confidence": 0.96875,
+                  "speaker": 0,
+                  "speaker_confidence": 0.34275496,
+                  "punctuated_word": "I"
+                },
+                {
+                  "word": "dag",
+                  "start": 13.44,
+                  "end": 13.94,
+                  "confidence": 0.9001465,
+                  "speaker": 0,
+                  "speaker_confidence": 0.34275496,
+                  "punctuated_word": "dag."
+                },
+                {
+                  "word": "joda",
+                  "start": 15.295,
+                  "end": 15.795,
+                  "confidence": 0.91381836,
+                  "speaker": 0,
+                  "speaker_confidence": 0.044974327,
+                  "punctuated_word": "Joda,"
+                },
+                {
+                  "word": "det",
+                  "start": 15.8550005,
+                  "end": 16.095,
+                  "confidence": 0.99902344,
+                  "speaker": 0,
+                  "speaker_confidence": 0.044974327,
+                  "punctuated_word": "det"
+                },
+                {
+                  "word": "funker",
+                  "start": 16.095,
+                  "end": 16.595,
+                  "confidence": 0.64208984,
+                  "speaker": 0,
+                  "speaker_confidence": 0.044974327,
+                  "punctuated_word": "funker"
+                },
+                {
+                  "word": "greit",
+                  "start": 16.655,
+                  "end": 17.155,
+                  "confidence": 0.39453125,
+                  "speaker": 0,
+                  "speaker_confidence": 0.044974327,
+                  "punctuated_word": "greit"
+                },
+                {
+                  "word": "nok",
+                  "start": 17.415,
+                  "end": 17.915,
+                  "confidence": 0.99902344,
+                  "speaker": 0,
+                  "speaker_confidence": 0.044974327,
+                  "punctuated_word": "nok"
+                },
+                {
+                  "word": "ja",
+                  "start": 18.175,
+                  "end": 18.415,
+                  "confidence": 0.80126953,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "Ja"
+                },
+                {
+                  "word": "det",
+                  "start": 18.415,
+                  "end": 18.735,
+                  "confidence": 0.90234375,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "det"
+                },
+                {
+                  "word": "er",
+                  "start": 18.735,
+                  "end": 18.815,
+                  "confidence": 0.9941406,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "er"
+                },
+                {
+                  "word": "bra",
+                  "start": 18.815,
+                  "end": 19.055,
+                  "confidence": 0.99902344,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "bra"
+                },
+                {
+                  "word": "å",
+                  "start": 19.055,
+                  "end": 19.215,
+                  "confidence": 0.9951172,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "å"
+                },
+                {
+                  "word": "høre",
+                  "start": 19.215,
+                  "end": 19.715,
+                  "confidence": 0.99365234,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "høre."
+                },
+                {
+                  "word": "grunnen",
+                  "start": 20.335,
+                  "end": 20.655,
+                  "confidence": 0.99902344,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "Grunnen"
+                },
+                {
+                  "word": "til",
+                  "start": 20.655,
+                  "end": 20.895,
+                  "confidence": 1,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "til"
+                },
+                {
+                  "word": "at",
+                  "start": 20.895,
+                  "end": 21.135,
+                  "confidence": 1,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "at"
+                },
+                {
+                  "word": "jeg",
+                  "start": 21.135,
+                  "end": 21.375,
+                  "confidence": 0.9902344,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "jeg"
+                },
+                {
+                  "word": "ringer",
+                  "start": 21.375,
+                  "end": 21.855,
+                  "confidence": 1,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "ringer"
+                },
+                {
+                  "word": "er",
+                  "start": 21.855,
+                  "end": 22.175,
+                  "confidence": 0.9536133,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "er"
+                },
+                {
+                  "word": "at",
+                  "start": 22.175,
+                  "end": 22.335,
+                  "confidence": 1,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "at"
+                },
+                {
+                  "word": "mange",
+                  "start": 22.335,
+                  "end": 22.735,
+                  "confidence": 1,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "mange"
+                },
+                {
+                  "word": "kunder",
+                  "start": 22.735,
+                  "end": 23.235,
+                  "confidence": 1,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "kunder"
+                },
+                {
+                  "word": "akkurat",
+                  "start": 23.375,
+                  "end": 23.615,
+                  "confidence": 0.96533203,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "akkurat"
+                },
+                {
+                  "word": "nå",
+                  "start": 23.615,
+                  "end": 24.115,
+                  "confidence": 1,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "nå"
+                },
+                {
+                  "word": "bytter",
+                  "start": 24.654999,
+                  "end": 24.975,
+                  "confidence": 0.95166016,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "bytter"
+                },
+                {
+                  "word": "til",
+                  "start": 24.975,
+                  "end": 25.215,
+                  "confidence": 0.99609375,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "til"
+                },
+                {
+                  "word": "tolkboard",
+                  "start": 25.215,
+                  "end": 25.695,
+                  "confidence": 0.27642822,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "Tolkboard"
+                },
+                {
+                  "word": "fordi",
+                  "start": 25.695,
+                  "end": 26.015,
+                  "confidence": 0.8964844,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "fordi"
+                },
+                {
+                  "word": "vi",
+                  "start": 26.015,
+                  "end": 26.175,
+                  "confidence": 0.9951172,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "vi"
+                },
+                {
+                  "word": "tilbyr",
+                  "start": 26.175,
+                  "end": 26.575,
+                  "confidence": 0.9873047,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "tilbyr"
+                },
+                {
+                  "word": "samme",
+                  "start": 26.575,
+                  "end": 26.814999,
+                  "confidence": 0.99902344,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "samme"
+                },
+                {
+                  "word": "dekning",
+                  "start": 26.814999,
+                  "end": 27.135,
+                  "confidence": 0.98291016,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "dekning"
+                },
+                {
+                  "word": "som",
+                  "start": 27.135,
+                  "end": 27.295,
+                  "confidence": 0.8730469,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "som"
+                },
+                {
+                  "word": "telenor",
+                  "start": 27.295,
+                  "end": 27.795,
+                  "confidence": 0.83203125,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "Telenor,"
+                },
+                {
+                  "word": "men",
+                  "start": 28.55,
+                  "end": 28.71,
+                  "confidence": 0.9892578,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "men"
+                },
+                {
+                  "word": "bare",
+                  "start": 28.71,
+                  "end": 28.949999,
+                  "confidence": 0.9941406,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "bare"
+                },
+                {
+                  "word": "til",
+                  "start": 28.949999,
+                  "end": 29.23,
+                  "confidence": 0.7675781,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "til"
+                },
+                {
+                  "word": "en",
+                  "start": 29.23,
+                  "end": 29.509998,
+                  "confidence": 0.96972656,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "en"
+                },
+                {
+                  "word": "lavere",
+                  "start": 29.509998,
+                  "end": 29.67,
+                  "confidence": 1,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "lavere"
+                },
+                {
+                  "word": "pris",
+                  "start": 29.67,
+                  "end": 30.07,
+                  "confidence": 0.9970703,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "pris"
+                },
+                {
+                  "word": "da",
+                  "start": 30.07,
+                  "end": 30.57,
+                  "confidence": 0.984375,
+                  "speaker": 0,
+                  "speaker_confidence": 0.7160529,
+                  "punctuated_word": "da."
+                },
+                {
+                  "word": "ja",
+                  "start": 31.75,
+                  "end": 32.07,
+                  "confidence": 0.9902344,
+                  "speaker": 0,
+                  "speaker_confidence": 0.06562197,
+                  "punctuated_word": "Ja"
+                },
+                {
+                  "word": "ok",
+                  "start": 32.07,
+                  "end": 32.47,
+                  "confidence": 0.49438477,
+                  "speaker": 0,
+                  "speaker_confidence": 0.06562197,
+                  "punctuated_word": "ok,"
+                },
+                {
+                  "word": "så",
+                  "start": 32.47,
+                  "end": 32.71,
+                  "confidence": 0.9951172,
+                  "speaker": 0,
+                  "speaker_confidence": 0.06562197,
+                  "punctuated_word": "så"
+                },
+                {
+                  "word": "spennende",
+                  "start": 32.71,
+                  "end": 33.21,
+                  "confidence": 0.84399414,
+                  "speaker": 0,
+                  "speaker_confidence": 0.06562197,
+                  "punctuated_word": "spennende."
+                },
+                {
+                  "word": "hva",
+                  "start": 33.35,
+                  "end": 33.59,
+                  "confidence": 0.9838867,
+                  "speaker": 0,
+                  "speaker_confidence": 0.06562197,
+                  "punctuated_word": "Hva"
+                },
+                {
+                  "word": "hvordan",
+                  "start": 33.59,
+                  "end": 33.829998,
+                  "confidence": 0.42114258,
+                  "speaker": 0,
+                  "speaker_confidence": 0.06562197,
+                  "punctuated_word": "hvordan"
+                },
+                {
+                  "word": "er",
+                  "start": 33.829998,
+                  "end": 33.91,
+                  "confidence": 0.8701172,
+                  "speaker": 0,
+                  "speaker_confidence": 0.06562197,
+                  "punctuated_word": "er"
+                },
+                {
+                  "word": "det",
+                  "start": 33.91,
+                  "end": 34.149998,
+                  "confidence": 0.99609375,
+                  "speaker": 0,
+                  "speaker_confidence": 0.06562197,
+                  "punctuated_word": "det"
+                },
+                {
+                  "word": "da",
+                  "start": 34.149998,
+                  "end": 34.649998,
+                  "confidence": 0.99658203,
+                  "speaker": 0,
+                  "speaker_confidence": 0.06562197,
+                  "punctuated_word": "da?"
+                },
+                {
+                  "word": "vi",
+                  "start": 35.35,
+                  "end": 35.51,
+                  "confidence": 0.99902344,
+                  "speaker": 0,
+                  "speaker_confidence": 0.26121712,
+                  "punctuated_word": "Vi"
+                },
+                {
+                  "word": "har",
+                  "start": 35.51,
+                  "end": 35.75,
+                  "confidence": 0.99902344,
+                  "speaker": 0,
+                  "speaker_confidence": 0.26121712,
+                  "punctuated_word": "har"
+                },
+                {
+                  "word": "abonnement",
+                  "start": 35.75,
+                  "end": 36.23,
+                  "confidence": 0.71191406,
+                  "speaker": 0,
+                  "speaker_confidence": 0.26121712,
+                  "punctuated_word": "abonnement"
+                },
+                {
+                  "word": "fra",
+                  "start": 36.23,
+                  "end": 36.55,
+                  "confidence": 0.9980469,
+                  "speaker": 0,
+                  "speaker_confidence": 0.26121712,
+                  "punctuated_word": "fra"
+                },
+                {
+                  "word": "249",
+                  "start": 36.55,
+                  "end": 37.53,
+                  "confidence": 0.9963379,
+                  "speaker": 0,
+                  "speaker_confidence": 0.41147858,
+                  "punctuated_word": "249"
+                },
+                {
+                  "word": "måneden",
+                  "start": 37.829998,
+                  "end": 38.309998,
+                  "confidence": 0.53808594,
+                  "speaker": 0,
+                  "speaker_confidence": 0.46156573,
+                  "punctuated_word": "måneden"
+                },
+                {
+                  "word": "med",
+                  "start": 38.309998,
+                  "end": 38.71,
+                  "confidence": 0.9580078,
+                  "speaker": 0,
+                  "speaker_confidence": 0.46156573,
+                  "punctuated_word": "med"
+                },
+                {
+                  "word": "talg",
+                  "start": 38.71,
+                  "end": 39.03,
+                  "confidence": 0.75097656,
+                  "speaker": 0,
+                  "speaker_confidence": 0.46156573,
+                  "punctuated_word": "Talg"
+                },
+                {
+                  "word": "by",
+                  "start": 39.03,
+                  "end": 39.35,
+                  "confidence": 0.18847656,
+                  "speaker": 0,
+                  "speaker_confidence": 0.46156573,
+                  "punctuated_word": "By"
+                },
+                {
+                  "word": "data",
+                  "start": 39.35,
+                  "end": 39.67,
+                  "confidence": 0.93115234,
+                  "speaker": 0,
+                  "speaker_confidence": 0.46156573,
+                  "punctuated_word": "data"
+                },
+                {
+                  "word": "og",
+                  "start": 39.67,
+                  "end": 39.829998,
+                  "confidence": 0.82177734,
+                  "speaker": 0,
+                  "speaker_confidence": 0.46156573,
+                  "punctuated_word": "og"
+                },
+                {
+                  "word": "det",
+                  "start": 39.829998,
+                  "end": 39.91,
+                  "confidence": 0.6303711,
+                  "speaker": 0,
+                  "speaker_confidence": 0.36679763,
+                  "punctuated_word": "det"
+                },
+                {
+                  "word": "er",
+                  "start": 39.91,
+                  "end": 40.07,
+                  "confidence": 0.9921875,
+                  "speaker": 0,
+                  "speaker_confidence": 0.36679763,
+                  "punctuated_word": "er"
+                },
+                {
+                  "word": "ingen",
+                  "start": 40.07,
+                  "end": 40.23,
+                  "confidence": 0.9980469,
+                  "speaker": 0,
+                  "speaker_confidence": 0.36679763,
+                  "punctuated_word": "ingen"
+                },
+                {
+                  "word": "bindingstilen",
+                  "start": 40.23,
+                  "end": 40.73,
+                  "confidence": 0.8434245,
+                  "speaker": 0,
+                  "speaker_confidence": 0.36679763,
+                  "punctuated_word": "bindingstilen."
+                },
+                {
+                  "word": "du",
+                  "start": 40.949997,
+                  "end": 41.11,
+                  "confidence": 0.9951172,
+                  "speaker": 0,
+                  "speaker_confidence": 0.42777145,
+                  "punctuated_word": "Du"
+                },
+                {
+                  "word": "kan",
+                  "start": 41.11,
+                  "end": 41.269997,
+                  "confidence": 0.99902344,
+                  "speaker": 0,
+                  "speaker_confidence": 0.42777145,
+                  "punctuated_word": "kan"
+                },
+                {
+                  "word": "også",
+                  "start": 41.269997,
+                  "end": 41.59,
+                  "confidence": 0.9980469,
+                  "speaker": 0,
+                  "speaker_confidence": 0.42777145,
+                  "punctuated_word": "også"
+                },
+                {
+                  "word": "enkelt",
+                  "start": 41.59,
+                  "end": 41.989998,
+                  "confidence": 0.9951172,
+                  "speaker": 0,
+                  "speaker_confidence": 0.42777145,
+                  "punctuated_word": "enkelt"
+                },
+                {
+                  "word": "overføre",
+                  "start": 41.989998,
+                  "end": 42.47,
+                  "confidence": 0.99902344,
+                  "speaker": 0,
+                  "speaker_confidence": 0.42777145,
+                  "punctuated_word": "overføre"
+                },
+                {
+                  "word": "ubrukt",
+                  "start": 42.47,
+                  "end": 42.949997,
+                  "confidence": 0.99902344,
+                  "speaker": 0,
+                  "speaker_confidence": 0.42777145,
+                  "punctuated_word": "ubrukt"
+                },
+                {
+                  "word": "data",
+                  "start": 42.949997,
+                  "end": 43.449997,
+                  "confidence": 0.99658203,
+                  "speaker": 0,
+                  "speaker_confidence": 0.42777145,
+                  "punctuated_word": "data."
+                },
+                {
+                  "word": "det",
+                  "start": 45.565,
+                  "end": 45.805,
+                  "confidence": 0.8984375,
+                  "speaker": 0,
+                  "speaker_confidence": 0,
+                  "punctuated_word": "Det"
+                },
+                {
+                  "word": "er",
+                  "start": 45.805,
+                  "end": 45.965,
+                  "confidence": 0.94921875,
+                  "speaker": 0,
+                  "speaker_confidence": 0,
+                  "punctuated_word": "er"
+                },
+                {
+                  "word": "jo",
+                  "start": 45.965,
+                  "end": 46.045,
+                  "confidence": 0.9941406,
+                  "speaker": 0,
+                  "speaker_confidence": 0,
+                  "punctuated_word": "jo"
+                },
+                {
+                  "word": "billigere",
+                  "start": 46.045,
+                  "end": 46.445,
+                  "confidence": 0.921875,
+                  "speaker": 0,
+                  "speaker_confidence": 0,
+                  "punctuated_word": "billigere"
+                },
+                {
+                  "word": "enn",
+                  "start": 46.445,
+                  "end": 46.684998,
+                  "confidence": 0.9980469,
+                  "speaker": 0,
+                  "speaker_confidence": 0,
+                  "punctuated_word": "enn"
+                },
+                {
+                  "word": "det",
+                  "start": 46.684998,
+                  "end": 46.925,
+                  "confidence": 0.9892578,
+                  "speaker": 0,
+                  "speaker_confidence": 0,
+                  "punctuated_word": "det"
+                },
+                {
+                  "word": "jeg",
+                  "start": 46.925,
+                  "end": 47.245,
+                  "confidence": 0.99121094,
+                  "speaker": 0,
+                  "speaker_confidence": 0,
+                  "punctuated_word": "jeg"
+                },
+                {
+                  "word": "betaler",
+                  "start": 47.245,
+                  "end": 47.644997,
+                  "confidence": 0.96240234,
+                  "speaker": 0,
+                  "speaker_confidence": 0,
+                  "punctuated_word": "betaler"
+                },
+                {
+                  "word": "nå",
+                  "start": 47.644997,
+                  "end": 48.144997,
+                  "confidence": 0.9484863,
+                  "speaker": 0,
+                  "speaker_confidence": 0,
+                  "punctuated_word": "nå."
+                },
+                {
+                  "word": "ja",
+                  "start": 48.684998,
+                  "end": 49.004997,
+                  "confidence": 0.9892578,
+                  "speaker": 0,
+                  "speaker_confidence": 0.36218768,
+                  "punctuated_word": "Ja"
+                },
+                {
+                  "word": "ikke",
+                  "start": 49.004997,
+                  "end": 49.245,
+                  "confidence": 0.61328125,
+                  "speaker": 0,
+                  "speaker_confidence": 0.36218768,
+                  "punctuated_word": "ikke"
+                },
+                {
+                  "word": "sant",
+                  "start": 49.245,
+                  "end": 49.745,
+                  "confidence": 0.89819336,
+                  "speaker": 0,
+                  "speaker_confidence": 0.36218768,
+                  "punctuated_word": "sant."
+                },
+                {
+                  "word": "vi",
+                  "start": 49.885,
+                  "end": 50.125,
+                  "confidence": 0.9941406,
+                  "speaker": 0,
+                  "speaker_confidence": 0.36218768,
+                  "punctuated_word": "Vi"
+                },
+                {
+                  "word": "kan",
+                  "start": 50.125,
+                  "end": 50.285,
+                  "confidence": 1,
+                  "speaker": 0,
+                  "speaker_confidence": 0.36218768,
+                  "punctuated_word": "kan"
+                },
+                {
+                  "word": "jo",
+                  "start": 50.285,
+                  "end": 50.364998,
+                  "confidence": 0.9291992,
+                  "speaker": 0,
+                  "speaker_confidence": 0.36218768,
+                  "punctuated_word": "jo"
+                },
+                {
+                  "word": "til",
+                  "start": 50.364998,
+                  "end": 50.485,
+                  "confidence": 0.99902344,
+                  "speaker": 0,
+                  "speaker_confidence": 0.20112848,
+                  "punctuated_word": "til"
+                },
+                {
+                  "word": "og",
+                  "start": 50.485,
+                  "end": 50.605,
+                  "confidence": 1,
+                  "speaker": 0,
+                  "speaker_confidence": 0.20112848,
+                  "punctuated_word": "og"
+                },
+                {
+                  "word": "med",
+                  "start": 50.605,
+                  "end": 50.765,
+                  "confidence": 1,
+                  "speaker": 0,
+                  "speaker_confidence": 0.20112848,
+                  "punctuated_word": "med"
+                },
+                {
+                  "word": "hjelpe",
+                  "start": 50.765,
+                  "end": 51.004997,
+                  "confidence": 0.93408203,
+                  "speaker": 0,
+                  "speaker_confidence": 0.20112848,
+                  "punctuated_word": "hjelpe"
+                },
+                {
+                  "word": "deg",
+                  "start": 51.004997,
+                  "end": 51.085,
+                  "confidence": 0.84814453,
+                  "speaker": 0,
+                  "speaker_confidence": 0.20112848,
+                  "punctuated_word": "deg"
+                },
+                {
+                  "word": "å",
+                  "start": 51.085,
+                  "end": 51.164997,
+                  "confidence": 0.9633789,
+                  "speaker": 0,
+                  "speaker_confidence": 0.60310674,
+                  "punctuated_word": "å"
+                },
+                {
+                  "word": "flytte",
+                  "start": 51.164997,
+                  "end": 51.405,
+                  "confidence": 0.99902344,
+                  "speaker": 0,
+                  "speaker_confidence": 0.60310674,
+                  "punctuated_word": "flytte"
+                },
+                {
+                  "word": "nummer",
+                  "start": 51.405,
+                  "end": 51.644997,
+                  "confidence": 0.3984375,
+                  "speaker": 0,
+                  "speaker_confidence": 0.60310674,
+                  "punctuated_word": "nummer"
+                },
+                {
+                  "word": "automatisk",
+                  "start": 51.644997,
+                  "end": 52.144997,
+                  "confidence": 0.85302734,
+                  "speaker": 0,
+                  "speaker_confidence": 0.60310674,
+                  "punctuated_word": "automatisk."
+                },
+                {
+                  "word": "det",
+                  "start": 52.284996,
+                  "end": 52.524998,
+                  "confidence": 0.8618164,
+                  "speaker": 0,
+                  "speaker_confidence": 0.60310674,
+                  "punctuated_word": "Det"
+                },
+                {
+                  "word": "tar",
+                  "start": 52.524998,
+                  "end": 53.024998,
+                  "confidence": 0.9980469,
+                  "speaker": 0,
+                  "speaker_confidence": 0.60310674,
+                  "punctuated_word": "tar"
+                },
+                {
+                  "word": "under",
+                  "start": 53.324997,
+                  "end": 53.565,
+                  "confidence": 0.86279297,
+                  "speaker": 0,
+                  "speaker_confidence": 0.60310674,
+                  "punctuated_word": "under"
+                },
+                {
+                  "word": "2",
+                  "start": 53.565,
+                  "end": 53.885,
+                  "confidence": 0.9980469,
+                  "speaker": 0,
+                  "speaker_confidence": 0.60310674,
+                  "punctuated_word": "2"
+                },
+                {
+                  "word": "minutter",
+                  "start": 53.885,
+                  "end": 54.385,
+                  "confidence": 0.9951172,
+                  "speaker": 0,
+                  "speaker_confidence": 0.60310674,
+                  "punctuated_word": "minutter."
+                },
+                {
+                  "word": "ja",
+                  "start": 55.405,
+                  "end": 55.565,
+                  "confidence": 0.9902344,
+                  "speaker": 0,
+                  "speaker_confidence": 0.037308812,
+                  "punctuated_word": "Ja"
+                },
+                {
+                  "word": "det",
+                  "start": 55.565,
+                  "end": 55.885,
+                  "confidence": 0.6875,
+                  "speaker": 0,
+                  "speaker_confidence": 0.037308812,
+                  "punctuated_word": "det"
+                },
+                {
+                  "word": "høres",
+                  "start": 55.885,
+                  "end": 56.125,
+                  "confidence": 0.99902344,
+                  "speaker": 0,
+                  "speaker_confidence": 0.037308812,
+                  "punctuated_word": "høres"
+                },
+                {
+                  "word": "jo",
+                  "start": 56.125,
+                  "end": 56.364998,
+                  "confidence": 0.9526367,
+                  "speaker": 0,
+                  "speaker_confidence": 0.037308812,
+                  "punctuated_word": "jo"
+                },
+                {
+                  "word": "veldig",
+                  "start": 56.364998,
+                  "end": 56.864998,
+                  "confidence": 0.9970703,
+                  "speaker": 0,
+                  "speaker_confidence": 0.037308812,
+                  "punctuated_word": "veldig"
+                },
+                {
+                  "word": "enkelt",
+                  "start": 56.925,
+                  "end": 57.405,
+                  "confidence": 0.99902344,
+                  "speaker": 0,
+                  "speaker_confidence": 0.037308812,
+                  "punctuated_word": "enkelt"
+                },
+                {
+                  "word": "ut",
+                  "start": 57.405,
+                  "end": 57.905,
+                  "confidence": 0.8640137,
+                  "speaker": 0,
+                  "speaker_confidence": 0.037308812,
+                  "punctuated_word": "ut."
+                },
+                {
+                  "word": "skal",
+                  "start": 57.93,
+                  "end": 58.43,
+                  "confidence": 0.38232422,
+                  "speaker": 0,
+                  "speaker_confidence": 0.037308812,
+                  "punctuated_word": "Skal"
+                },
+                {
+                  "word": "jeg",
+                  "start": 58.89,
+                  "end": 58.97,
+                  "confidence": 0.97265625,
+                  "speaker": 0,
+                  "speaker_confidence": 0.22806591,
+                  "punctuated_word": "jeg"
+                },
+                {
+                  "word": "bare",
+                  "start": 58.97,
+                  "end": 59.05,
+                  "confidence": 0.94921875,
+                  "speaker": 0,
+                  "speaker_confidence": 0.22806591,
+                  "punctuated_word": "bare"
+                },
+                {
+                  "word": "sende",
+                  "start": 59.05,
+                  "end": 59.45,
+                  "confidence": 0.49572754,
+                  "speaker": 0,
+                  "speaker_confidence": 0.22806591,
+                  "punctuated_word": "sende,"
+                },
+                {
+                  "word": "det",
+                  "start": 59.45,
+                  "end": 59.53,
+                  "confidence": 0.7866211,
+                  "speaker": 0,
+                  "speaker_confidence": 0.22806591,
+                  "punctuated_word": "det"
+                },
+                {
+                  "word": "er",
+                  "start": 59.53,
+                  "end": 59.61,
+                  "confidence": 0.984375,
+                  "speaker": 0,
+                  "speaker_confidence": 0.22806591,
+                  "punctuated_word": "er"
+                },
+                {
+                  "word": "så",
+                  "start": 59.61,
+                  "end": 59.69,
+                  "confidence": 0.90771484,
+                  "speaker": 0,
+                  "speaker_confidence": 0.4181276,
+                  "punctuated_word": "så"
+                },
+                {
+                  "word": "mye",
+                  "start": 59.69,
+                  "end": 59.93,
+                  "confidence": 0.43603516,
+                  "speaker": 0,
+                  "speaker_confidence": 0.4181276,
+                  "punctuated_word": "mye"
+                },
+                {
+                  "word": "med",
+                  "start": 59.93,
+                  "end": 60.33,
+                  "confidence": 0.6044922,
+                  "speaker": 0,
+                  "speaker_confidence": 0.4181276,
+                  "punctuated_word": "med"
+                },
+                {
+                  "word": "tilbudet",
+                  "start": 60.33,
+                  "end": 60.73,
+                  "confidence": 0.99609375,
+                  "speaker": 0,
+                  "speaker_confidence": 0.4181276,
+                  "punctuated_word": "tilbudet"
+                },
+                {
+                  "word": "og",
+                  "start": 60.73,
+                  "end": 60.97,
+                  "confidence": 0.8935547,
+                  "speaker": 0,
+                  "speaker_confidence": 0.4181276,
+                  "punctuated_word": "og"
+                },
+                {
+                  "word": "jeg",
+                  "start": 60.97,
+                  "end": 61.05,
+                  "confidence": 0.5097656,
+                  "speaker": 0,
+                  "speaker_confidence": 0.66092706,
+                  "punctuated_word": "jeg"
+                },
+                {
+                  "word": "lenker",
+                  "start": 61.05,
+                  "end": 61.29,
+                  "confidence": 0.43237305,
+                  "speaker": 0,
+                  "speaker_confidence": 0.66092706,
+                  "punctuated_word": "lenker"
+                },
+                {
+                  "word": "der",
+                  "start": 61.29,
+                  "end": 61.45,
+                  "confidence": 0.8769531,
+                  "speaker": 0,
+                  "speaker_confidence": 0.66092706,
+                  "punctuated_word": "der"
+                },
+                {
+                  "word": "du",
+                  "start": 61.45,
+                  "end": 61.69,
+                  "confidence": 0.9838867,
+                  "speaker": 0,
+                  "speaker_confidence": 0.66092706,
+                  "punctuated_word": "du"
+                },
+                {
+                  "word": "kan",
+                  "start": 61.69,
+                  "end": 62.19,
+                  "confidence": 0.99902344,
+                  "speaker": 0,
+                  "speaker_confidence": 0.66092706,
+                  "punctuated_word": "kan"
+                },
+                {
+                  "word": "lese",
+                  "start": 62.33,
+                  "end": 62.65,
+                  "confidence": 0.99609375,
+                  "speaker": 0,
+                  "speaker_confidence": 0.66092706,
+                  "punctuated_word": "lese"
+                },
+                {
+                  "word": "mer",
+                  "start": 62.65,
+                  "end": 62.97,
+                  "confidence": 0.9970703,
+                  "speaker": 0,
+                  "speaker_confidence": 0.66092706,
+                  "punctuated_word": "mer"
+                },
+                {
+                  "word": "omstille",
+                  "start": 62.97,
+                  "end": 63.29,
+                  "confidence": 0.79833984,
+                  "speaker": 0,
+                  "speaker_confidence": 0.66092706,
+                  "punctuated_word": "omstille"
+                },
+                {
+                  "word": "når",
+                  "start": 63.29,
+                  "end": 63.45,
+                  "confidence": 0.99902344,
+                  "speaker": 0,
+                  "speaker_confidence": 0.66092706,
+                  "punctuated_word": "når"
+                },
+                {
+                  "word": "det",
+                  "start": 63.45,
+                  "end": 63.61,
+                  "confidence": 0.91748047,
+                  "speaker": 0,
+                  "speaker_confidence": 0.66092706,
+                  "punctuated_word": "det"
+                },
+                {
+                  "word": "passer",
+                  "start": 63.61,
+                  "end": 64.11,
+                  "confidence": 0.96875,
+                  "speaker": 0,
+                  "speaker_confidence": 0.66092706,
+                  "punctuated_word": "passer."
+                },
+                {
+                  "word": "ja",
+                  "start": 65.05,
+                  "end": 65.37,
+                  "confidence": 0.8286133,
+                  "speaker": 0,
+                  "speaker_confidence": 0.033856273,
+                  "punctuated_word": "Ja,"
+                },
+                {
+                  "word": "kanskje",
+                  "start": 65.37,
+                  "end": 65.87,
+                  "confidence": 0.98535156,
+                  "speaker": 0,
+                  "speaker_confidence": 0.033856273,
+                  "punctuated_word": "kanskje"
+                },
+                {
+                  "word": "du",
+                  "start": 66.25,
+                  "end": 66.41,
+                  "confidence": 0.9873047,
+                  "speaker": 0,
+                  "speaker_confidence": 0.033856273,
+                  "punctuated_word": "du"
+                },
+                {
+                  "word": "gjør",
+                  "start": 66.41,
+                  "end": 66.57,
+                  "confidence": 0.9194336,
+                  "speaker": 0,
+                  "speaker_confidence": 0.033856273,
+                  "punctuated_word": "gjør"
+                },
+                {
+                  "word": "det",
+                  "start": 66.57,
+                  "end": 67.07,
+                  "confidence": 0.7895508,
+                  "speaker": 0,
+                  "speaker_confidence": 0.033856273,
+                  "punctuated_word": "det?"
+                },
+                {
+                  "word": "kjempebra",
+                  "start": 67.53,
+                  "end": 68.01,
+                  "confidence": 0.73986816,
+                  "speaker": 0,
+                  "speaker_confidence": 0.47737443,
+                  "punctuated_word": "Kjempebra."
+                },
+                {
+                  "word": "da",
+                  "start": 68.01,
+                  "end": 68.25,
+                  "confidence": 0.9838867,
+                  "speaker": 0,
+                  "speaker_confidence": 0.47737443,
+                  "punctuated_word": "Da"
+                },
+                {
+                  "word": "savner",
+                  "start": 68.25,
+                  "end": 68.729996,
+                  "confidence": 0.30908203,
+                  "speaker": 0,
+                  "speaker_confidence": 0.47737443,
+                  "punctuated_word": "savner"
+                },
+                {
+                  "word": "jeg",
+                  "start": 68.729996,
+                  "end": 69.21,
+                  "confidence": 0.96875,
+                  "speaker": 0,
+                  "speaker_confidence": 0.47737443,
+                  "punctuated_word": "jeg"
+                },
+                {
+                  "word": "den",
+                  "start": 69.21,
+                  "end": 69.45,
+                  "confidence": 0.58496094,
+                  "speaker": 0,
+                  "speaker_confidence": 0.47737443,
+                  "punctuated_word": "den"
+                },
+                {
+                  "word": "over",
+                  "start": 69.45,
+                  "end": 69.69,
+                  "confidence": 0.99902344,
+                  "speaker": 0,
+                  "speaker_confidence": 0.47737443,
+                  "punctuated_word": "over"
+                },
+                {
+                  "word": "med",
+                  "start": 69.69,
+                  "end": 69.93,
+                  "confidence": 0.9970703,
+                  "speaker": 0,
+                  "speaker_confidence": 0.47737443,
+                  "punctuated_word": "med"
+                },
+                {
+                  "word": "en",
+                  "start": 69.93,
+                  "end": 70.17,
+                  "confidence": 0.96875,
+                  "speaker": 0,
+                  "speaker_confidence": 0.47737443,
+                  "punctuated_word": "en"
+                },
+                {
+                  "word": "gang",
+                  "start": 70.17,
+                  "end": 70.67,
+                  "confidence": 0.8466797,
+                  "speaker": 0,
+                  "speaker_confidence": 0.47737443,
+                  "punctuated_word": "gang,"
+                },
+                {
+                  "word": "så",
+                  "start": 70.729996,
+                  "end": 70.97,
+                  "confidence": 0.6669922,
+                  "speaker": 0,
+                  "speaker_confidence": 0.47737443,
+                  "punctuated_word": "så"
+                },
+                {
+                  "word": "må",
+                  "start": 70.97,
+                  "end": 71.21,
+                  "confidence": 0.9970703,
+                  "speaker": 0,
+                  "speaker_confidence": 0.47737443,
+                  "punctuated_word": "må"
+                },
+                {
+                  "word": "jeg",
+                  "start": 71.21,
+                  "end": 71.37,
+                  "confidence": 1,
+                  "speaker": 0,
+                  "speaker_confidence": 0.47737443,
+                  "punctuated_word": "jeg"
+                },
+                {
+                  "word": "takke",
+                  "start": 71.37,
+                  "end": 71.61,
+                  "confidence": 1,
+                  "speaker": 0,
+                  "speaker_confidence": 0.47737443,
+                  "punctuated_word": "takke"
+                },
+                {
+                  "word": "for",
+                  "start": 71.61,
+                  "end": 71.85,
+                  "confidence": 0.98828125,
+                  "speaker": 0,
+                  "speaker_confidence": 0.47737443,
+                  "punctuated_word": "for"
+                },
+                {
+                  "word": "praten",
+                  "start": 71.85,
+                  "end": 72.35,
+                  "confidence": 0.99560547,
+                  "speaker": 0,
+                  "speaker_confidence": 0.47737443,
+                  "punctuated_word": "praten."
+                }
+              ],
+              "paragraphs": {
+                "transcript": "\nSpeaker 0: Der Sander, skal ringe fra Torgborg, har et øyeblikk. Ja, det er jo fint. Supert, jeg sendte av mye av 10 din. Jeg ringer bare for å høre om du er fornøyd med på bilabon du har I dag. Joda, det funker greit nok Ja det er bra å høre.\n\nGrunnen til at jeg ringer er at mange kunder akkurat nå bytter til Tolkboard fordi vi tilbyr samme dekning som Telenor, men bare til en lavere pris da. Ja ok, så spennende. Hva hvordan er det da? Vi har abonnement fra 249 måneden med Talg By data og det er ingen bindingstilen. Du kan også enkelt overføre ubrukt data.\n\nDet er jo billigere enn det jeg betaler nå. Ja ikke sant. Vi kan jo til og med hjelpe deg å flytte nummer automatisk. Det tar under 2 minutter. Ja det høres jo veldig enkelt ut.\n\nSkal jeg bare sende, det er så mye med tilbudet og jeg lenker der du kan lese mer omstille når det passer. Ja, kanskje du gjør det? Kjempebra. Da savner jeg den over med en gang, så må jeg takke for praten.",
+                "paragraphs": [
+                  {
+                    "sentences": [
+                      {
+                        "text": "Der Sander, skal ringe fra Torgborg, har et øyeblikk.",
+                        "start": 1.92,
+                        "end": 5.14
+                      },
+                      {
+                        "text": "Ja, det er jo fint.",
+                        "start": 6.24,
+                        "end": 7.46
+                      },
+                      {
+                        "text": "Supert, jeg sendte av mye av 10 din.",
+                        "start": 7.9199996,
+                        "end": 9.76
+                      },
+                      {
+                        "text": "Jeg ringer bare for å høre om du er fornøyd med på bilabon du har I dag.",
+                        "start": 9.76,
+                        "end": 13.94
+                      },
+                      {
+                        "text": "Joda, det funker greit nok Ja det er bra å høre.",
+                        "start": 15.295,
+                        "end": 19.715
+                      }
+                    ],
+                    "speaker": 0,
+                    "num_words": 50,
+                    "start": 1.92,
+                    "end": 19.715
+                  },
+                  {
+                    "sentences": [
+                      {
+                        "text": "Grunnen til at jeg ringer er at mange kunder akkurat nå bytter til Tolkboard fordi vi tilbyr samme dekning som Telenor, men bare til en lavere pris da.",
+                        "start": 20.335,
+                        "end": 30.57
+                      },
+                      {
+                        "text": "Ja ok, så spennende.",
+                        "start": 31.75,
+                        "end": 33.21
+                      },
+                      {
+                        "text": "Hva hvordan er det da?",
+                        "start": 33.35,
+                        "end": 34.649998
+                      },
+                      {
+                        "text": "Vi har abonnement fra 249 måneden med Talg By data og det er ingen bindingstilen.",
+                        "start": 35.35,
+                        "end": 40.73
+                      },
+                      {
+                        "text": "Du kan også enkelt overføre ubrukt data.",
+                        "start": 40.949997,
+                        "end": 43.449997
+                      }
+                    ],
+                    "speaker": 0,
+                    "num_words": 59,
+                    "start": 20.335,
+                    "end": 43.449997
+                  },
+                  {
+                    "sentences": [
+                      {
+                        "text": "Det er jo billigere enn det jeg betaler nå.",
+                        "start": 45.565,
+                        "end": 48.144997
+                      },
+                      {
+                        "text": "Ja ikke sant.",
+                        "start": 48.684998,
+                        "end": 49.745
+                      },
+                      {
+                        "text": "Vi kan jo til og med hjelpe deg å flytte nummer automatisk.",
+                        "start": 49.885,
+                        "end": 52.144997
+                      },
+                      {
+                        "text": "Det tar under 2 minutter.",
+                        "start": 52.284996,
+                        "end": 54.385
+                      },
+                      {
+                        "text": "Ja det høres jo veldig enkelt ut.",
+                        "start": 55.405,
+                        "end": 57.905
+                      }
+                    ],
+                    "speaker": 0,
+                    "num_words": 36,
+                    "start": 45.565,
+                    "end": 57.905
+                  },
+                  {
+                    "sentences": [
+                      {
+                        "text": "Skal jeg bare sende, det er så mye med tilbudet og jeg lenker der du kan lese mer omstille når det passer.",
+                        "start": 57.93,
+                        "end": 64.11
+                      },
+                      {
+                        "text": "Ja, kanskje du gjør det?",
+                        "start": 65.05,
+                        "end": 67.07
+                      },
+                      {
+                        "text": "Kjempebra.",
+                        "start": 67.53,
+                        "end": 68.01
+                      },
+                      {
+                        "text": "Da savner jeg den over med en gang, så må jeg takke for praten.",
+                        "start": 68.01,
+                        "end": 72.35
+                      }
+                    ],
+                    "speaker": 0,
+                    "num_words": 42,
+                    "start": 57.93,
+                    "end": 72.35
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }

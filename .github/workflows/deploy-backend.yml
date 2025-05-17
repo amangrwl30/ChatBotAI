@@ -44,6 +44,7 @@ jobs:
           FACEBOOK_VERIFY_TOKEN=${{ secrets.FACEBOOK_VERIFY_TOKEN }}
           GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }}
           GOOGLE_CSE_ID=${{ secrets.GOOGLE_CSE_ID }}
+          DEEPGRAM_API_KEY=${{ secrets.DEEPGRAM_API_KEY }}
           EOT
           sudo docker-compose -f docker-compose.yml down
           sudo docker-compose -f docker-compose.yml up -d --build

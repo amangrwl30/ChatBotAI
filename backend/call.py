@@ -1,6 +1,6 @@
 import os
 import json
-from fastapi import APIRouter, UploadFile, File, HTTPException
+from fastapi import APIRouter, UploadFile, File, HTTPException, Form
 from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -8,7 +8,6 @@ from pydantic import BaseModel
 from werkzeug.utils import secure_filename
 from deepgram import DeepgramClient, PrerecordedOptions, FileSource
 import httpx
-from fastapi import Form
 
 load_dotenv()
 
@@ -92,7 +91,11 @@ async def analyze_call(
         response = deepgram.listen.rest.v("1").transcribe_file(
             payload, options, timeout=httpx.Timeout(300.0, connect=10.0)
         )
-        transcript_text = response["results"]["channels"][0]["alternatives"][0]["transcript"]
+
+        # ✅ Extract paragraph transcript directly from Deepgram response
+        results = response.results.channels[0].alternatives[0]
+        paragraphs_wrapper = getattr(results, "paragraphs", None)
+        transcript_text = getattr(paragraphs_wrapper, "transcript", results.transcript)
 
         print("🧠 Analyzing via GPT-4o...")
         gpt_response = client.chat.completions.create(

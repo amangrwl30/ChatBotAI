@@ -1,3 +1,4 @@
+
 # Core FastAPI and Server
 fastapi==0.104.1
 uvicorn==0.24.0
@@ -34,3 +35,6 @@ SQLAlchemy==2.0.38
 # Utilities
 pydantic==2.10.6
 typing-extensions==4.12.2
+
+#deepgram
+deepgram-sdk

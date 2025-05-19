@@ -9,6 +9,7 @@ const LandingPage = lazy(() => import(/* webpackPrefetch: true */ './LandingPage
 const CRMChatBot = lazy(() => import(/* webpackPrefetch: true */ './CRMChatBot'));
 const AudioChatbot = lazy(() => import(/* webpackPrefetch: true */ '../audioComponent/AudioChatbot'));
 const ChatBot = lazy(() => import(/* webpackPrefetch: true */ './ChatBot'));
+const AudioTranscriptionBot = lazy(() => import(/* webpackPrefetch: true */ '../audioComponent/AudioTranscriptionBot'));
 
 // Optimized loading spinner
 const LoadingSpinner = () => (
@@ -42,6 +43,9 @@ const InitialPage = () => {
         case 'voice':
           setSelectedTile('audioChatbot');
           break;
+        case 'transcription':
+          setSelectedTile('audioTranscription');
+          break;
       }
     } else {
       setSelectedTile(null);
@@ -65,6 +69,9 @@ const InitialPage = () => {
         break;
       case 'audioChatbot':
         navigate('/chatbot/voice');
+        break;
+      case 'audioTranscription':
+        navigate('/chatbot/transcription');
         break;
     }
   };
@@ -92,6 +99,9 @@ const InitialPage = () => {
       case 'audioChatbot':
         import('../audioComponent/AudioChatbot');
         break;
+      case 'audioTranscription':
+        import('../audioComponent/AudioTranscriptionBot');
+        break;
     }
   };
 
@@ -110,6 +120,8 @@ const InitialPage = () => {
           <div className={`chatbot ${theme}`}>
             <CRMChatBot toggleTheme={toggleTheme} theme={theme} />
           </div>
+        ) : selectedTile === 'audioTranscription' ? (
+          <AudioTranscriptionBot />
         ) : (
           <AudioChatbot />
         )}
@@ -165,14 +177,14 @@ const InitialPage = () => {
         )}
 
         {!selectedTile ? (
-          <div className="w-full max-w-4xl mx-auto text-center px-4">
+          <div className="w-full max-w-7xl mx-auto text-center px-4">
             <h1 className="text-3xl md:text-4xl lg:text-6xl font-extrabold mb-4 md:mb-6 lg:mb-10 text-gray-700">
               Select a Feature
             </h1>
-                <p className="text-base md:text-lg lg:text-xl mb-6 font-light text-gray-700">
+            <p className="text-base md:text-lg lg:text-xl mb-6 font-light text-gray-700">
               Choose a feature to proceed.
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+            <div className="flex flex-nowrap gap-6 overflow-x-auto pb-6 px-4 mt-12">
               {[
                 {
                   id: 'landingPage',
@@ -203,6 +215,16 @@ const InitialPage = () => {
                   textColor: 'text-white',
                   gradient: 'from-black to-gray-900',
                   features: ['Voice Recognition', 'Natural Speech', 'Real-time Translation']
+                },
+                {
+                  id: 'audioTranscription',
+                  name: 'Audio Analyzer',
+                  description: 'Transcribe and analyze audio sentiment',
+                  icon: '🎵',
+                  color: 'bg-gradient-to-br from-violet-500 to-purple-600',
+                  textColor: 'text-white',
+                  gradient: 'from-violet-500 to-purple-600',
+                  features: ['Audio Transcription', 'Sentiment Analysis', 'Tone Detection']
                 }
               ].map((feature) => (
                 <div
@@ -212,7 +234,7 @@ const InitialPage = () => {
                   className={`
                     relative group
                     rounded-3xl p-6 md:p-8
-                    aspect-square w-full max-w-[400px] mx-auto
+                    w-[300px] min-w-[300px] aspect-square
                     ${feature.color}
                     ${feature.textColor}
                     border border-white/20

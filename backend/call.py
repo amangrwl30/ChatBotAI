@@ -80,11 +80,11 @@ async def analyze_call(
         payload: FileSource = {"buffer": buffer_data}
 
         options = PrerecordedOptions(
-            model="nova-2",
+            model="whisper",
             language=language,  # 👈 Pass dynamic language from frontend
             smart_format=True,
             diarize=True,
-            punctuate=True
+            paragraphs=True
         )
 
         print(f"🔊 Transcribing via Deepgram using language='{language}'...")

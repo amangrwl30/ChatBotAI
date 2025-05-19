@@ -63,10 +63,25 @@ Return your response in the following JSON format:
 }}
 """
 
+def select_deepgram_model(language: str) -> dict:
+    """
+    Determine the appropriate Deepgram model and optional sentiment flag
+    based on the provided language code.
+    """
+    language = language.lower()
+    if language in ["en-in", "en-gb"]:
+        return {"model": "nova-3", "sentiment": True}
+    elif language == "hi":
+        return {"model": "nova-2", "sentiment": False}
+    elif language == "no":
+        return {"model": "whisper", "sentiment": False}
+    else:
+        return {"model": "nova-2", "sentiment": False}
+
 @router.post("/analyze-call")
 async def analyze_call(
     audio: UploadFile = File(...),
-    language: str = Form(...)  # 👈 receive language as a form field from UI
+    language: str = Form(...)
 ):
     try:
         filename = secure_filename(audio.filename)
@@ -79,20 +94,22 @@ async def analyze_call(
 
         payload: FileSource = {"buffer": buffer_data}
 
+        model_info = select_deepgram_model(language)
+
         options = PrerecordedOptions(
-            model="whisper",
-            language=language,  # 👈 Pass dynamic language from frontend
+            model=model_info["model"],
+            language=language,
             smart_format=True,
             diarize=True,
-            paragraphs=True
+            paragraphs=True,
+            sentiment=model_info.get("sentiment", False)
         )
 
-        print(f"🔊 Transcribing via Deepgram using language='{language}'...")
+        print(f"🔊 Transcribing via Deepgram using model='{model_info['model']}' and language='{language}'...")
         response = deepgram.listen.rest.v("1").transcribe_file(
             payload, options, timeout=httpx.Timeout(300.0, connect=10.0)
         )
 
-        # ✅ Extract paragraph transcript directly from Deepgram response
         results = response.results.channels[0].alternatives[0]
         paragraphs_wrapper = getattr(results, "paragraphs", None)
         transcript_text = getattr(paragraphs_wrapper, "transcript", results.transcript)

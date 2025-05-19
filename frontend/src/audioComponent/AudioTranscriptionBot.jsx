@@ -111,7 +111,7 @@ const AudioTranscriptionBot = () => {
         <div className="w-full bg-gray-200 rounded-full h-2">
           <div
             className={`h-2 rounded-full ${
-              score >= 8 ? 'bg-green-500' : score >= 6 ? 'bg-yellow-500' : 'bg-red-500'
+              score >= 8 ? 'bg-green-500' : score >= 5 ? 'bg-yellow-500' : 'bg-red-500'
             }`}
             style={{ width: `${score * 10}%` }}
           />

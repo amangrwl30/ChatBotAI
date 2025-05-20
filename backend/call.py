@@ -25,15 +25,18 @@ def build_prompt(transcript: str) -> str:
     return f"""
 You are an expert sales manager. Analyze the following call transcript and rate the salesperson on these attributes on a scale from 1 to 10:
 
-1. Tone
-2. Clarity
-3. Persuasiveness
-4. Engagement
-5. Sales Potential
-6. Confidence
-7. Product Knowledge
-8. Objection Handling
-9. Call to Action Clarity
+Definitions:
+- Tone: Friendliness and professionalism of the voice.
+- Soft Spoken: Calm, polite, and non-aggressive tone.
+- Anger: Detect if the salesperson shows frustration, irritation, or hostility. Score 1 for no anger, 10 for extreme anger.
+- Clarity: Clear pronunciation and sentence formation.
+- Persuasiveness: Ability to convince or influence the listener.
+- Engagement: Conversational flow and interest maintained.
+- Sales Potential: Likelihood that the call could lead to a sale.
+- Confidence: Self-assurance and authority in speech.
+- Product Knowledge: Demonstrates understanding of the product.
+- Objection Handling: Ability to respond to concerns effectively.
+- Call to Action Clarity: Whether a clear next step was suggested.
 
 Also provide:
 - An overall score (average)
@@ -48,6 +51,8 @@ Return your response in the following JSON format:
 {{
   "scores": {{
     "Tone": int,
+    "Soft Spoken": int,
+    "Anger": int,
     "Clarity": int,
     "Persuasiveness": int,
     "Engagement": int,

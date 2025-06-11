@@ -59,6 +59,12 @@ const InitialPage = () => {
   };
 
   const handleTileClick = (tile) => {
+    // Handle gym website separately without setting selectedTile
+    if (tile === 'gymWebsite') {
+      window.open('https://684879996eb441053fb10d65--funny-medovik-b01311.netlify.app/', '_blank');
+      return;
+    }
+    
     setSelectedTile(tile);
     switch (tile) {
       case 'landingPage':
@@ -225,6 +231,16 @@ const InitialPage = () => {
                   textColor: 'text-white',
                   gradient: 'from-violet-500 to-purple-600',
                   features: ['Audio Transcription', 'Sentiment Analysis', 'Tone Detection']
+                },
+                {
+                  id: 'gymWebsite',
+                  name: 'Fitness Planner',
+                  description: 'AI-powered workout and nutrition plan generator',
+                  icon: '🏋️‍♂️',
+                  color: 'bg-gradient-to-br from-red-500 to-orange-500',
+                  textColor: 'text-white',
+                  gradient: 'from-red-500 to-orange-500',
+                  features: ['Custom Workout Plans', 'Nutrition Planning', 'Progress Tracking']
                 }
               ].map((feature) => (
                 <div

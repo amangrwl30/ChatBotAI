@@ -76,7 +76,7 @@ const InitialPage = () => {
         navigate('/chatbot/transcription');
         break;
       case 'gymWebsite':
-        navigate('/trainer');
+        navigate('/fitnessgym');
         break;
     }
   };

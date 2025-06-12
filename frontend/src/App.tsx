@@ -32,7 +32,7 @@ const Layout = ({ children }) => {
   const location = useLocation();
   const isInitialPage = location.pathname === '/get-started';
   const isChatbotRoute = location.pathname.startsWith('/chatbot/');
-  const isTrainerRoute = location.pathname === '/trainer';
+  const isTrainerRoute = location.pathname === '/fitnessgym';
 
   return (
     <>
@@ -62,7 +62,7 @@ const App = () => (
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/get-started" element={<InitialPage />} />
                 <Route path="/chatbot/*" element={<InitialPage />} />
-                <Route path="/trainer" element={<Trainer />} />
+                <Route path="/fitnessgym" element={<Trainer />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>

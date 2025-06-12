@@ -60,10 +60,6 @@ const InitialPage = () => {
 
   const handleTileClick = (tile) => {
     // Handle gym website separately without setting selectedTile
-    if (tile === 'gymWebsite') {
-      window.open('https://684879996eb441053fb10d65--funny-medovik-b01311.netlify.app/', '_blank');
-      return;
-    }
     
     setSelectedTile(tile);
     switch (tile) {
@@ -78,6 +74,9 @@ const InitialPage = () => {
         break;
       case 'audioTranscription':
         navigate('/chatbot/transcription');
+        break;
+      case 'gymWebsite':
+        navigate('/fitnessgym');
         break;
     }
   };

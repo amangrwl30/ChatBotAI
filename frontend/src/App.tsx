@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { AppProvider } from './context/AppContext';
+import Trainer from './gymComponent/Trainer.js';
 
 // Lazy load all routes
 const Index = lazy(() => import("./pages/Index"));
@@ -31,12 +32,13 @@ const Layout = ({ children }) => {
   const location = useLocation();
   const isInitialPage = location.pathname === '/get-started';
   const isChatbotRoute = location.pathname.startsWith('/chatbot/');
+  const isTrainerRoute = location.pathname === '/fitnessgym';
 
   return (
     <>
-      {!isInitialPage && !isChatbotRoute && <Navbar />}
+      {!isInitialPage && !isChatbotRoute && !isTrainerRoute && <Navbar />}
       {children}
-      {!isInitialPage && !isChatbotRoute && <Footer />}
+      {!isInitialPage && !isChatbotRoute && !isTrainerRoute && <Footer />}
     </>
   );
 };
@@ -60,6 +62,7 @@ const App = () => (
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/get-started" element={<InitialPage />} />
                 <Route path="/chatbot/*" element={<InitialPage />} />
+                <Route path="/fitnessgym" element={<Trainer />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>

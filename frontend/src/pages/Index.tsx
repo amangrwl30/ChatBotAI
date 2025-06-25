@@ -49,16 +49,7 @@ const Index = () => {
             className="absolute right-10 bottom-0 md:right-20 md:bottom-10 w-64 md:w-80 lg:w-[400px] xl:w-[420px] animate-float duration-1000"
           />
 
-          <div className="fixed bottom-5 right-5 z-50">
-            <img
-              src={robot}
-              alt="Floating Robot"
-              className="w-[80px] animate-float transition-transform duration-500"
-              style={{
-                transform: `perspective(1000px) translateY(${scrollY * 0.1}px) rotateY(${scrollY * 0.1}deg)`,
-              }}
-            />
-          </div>
+
 
         </div>
       </section>

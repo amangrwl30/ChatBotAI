@@ -318,14 +318,7 @@ const InitialPage = () => {
           </div>
         )}
 
-        {/* Robot Image */}
-        <div className="fixed bottom-4 right-4 w-24 h-24 z-10">
-          <img 
-            src={robot} 
-            alt="Robot Assistant" 
-            className="w-full h-full object-contain animate-bounce"
-          />
-        </div>
+
       </div>
     </AppProvider>
   );

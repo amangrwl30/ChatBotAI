@@ -20,6 +20,9 @@ const LandingPage = lazy(() => import('./crmcomponents/LandingPage'));
 const CRMChatBot = lazy(() => import('./crmcomponents/CRMChatBot'));
 const AudioChatbot = lazy(() => import('./audioComponent/AudioChatbot'));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
+const RefundPolicy = lazy(() => import("./pages/RefundPolicy"));
 
 const LoadingSpinner = () => (
   <div className="flex items-center justify-center h-screen">
@@ -60,6 +63,9 @@ const App = () => (
                 <Route path="/pricing" element={<Pricing />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+                <Route path="/refund-policy" element={<RefundPolicy />} />
                 <Route path="/get-started" element={<InitialPage />} />
                 <Route path="/chatbot/*" element={<InitialPage />} />
                 <Route path="/fitnessgym" element={<Trainer />} />

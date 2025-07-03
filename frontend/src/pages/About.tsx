@@ -1,34 +1,35 @@
-
 import ThreeScene from "@/components/ThreeScene";
 import { Button } from "@/components/ui/button";
 import { Bot, Users, Award, Globe, ArrowRight, Twitter, Linkedin, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
+import riteshImg from "../assets/ritesh.jpeg";
+import vishalImg from "../assets/vishal.jpeg"
 
 const About = () => {
   const teamMembers = [
     {
-      name: "Alexandra Chen",
+      name: "Ritesh Agarwal",
       role: "CEO & Founder",
-      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=256&q=80",
+      image: riteshImg,
       bio: "Former AI Research Lead at Google with 10+ years experience in machine learning and natural language processing.",
       links: { twitter: "#", linkedin: "#", email: "#" }
     },
     {
-      name: "Marcus Reynolds",
+      name: "Aman Agarwal",
       role: "CTO",
       image: "https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=256&q=80",
       bio: "Former Lead Engineer at OpenAI with expertise in large language models and conversational AI systems.",
       links: { twitter: "#", linkedin: "#", email: "#" }
     },
     {
-      name: "Priya Sharma",
+      name: "Vishal Singhal",
       role: "Head of Product",
-      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=256&q=80",
+      image: vishalImg,
       bio: "Product visionary with experience at Microsoft and Amazon, focused on making AI accessible and useful.",
       links: { twitter: "#", linkedin: "#", email: "#" }
     },
     {
-      name: "David Washington",
+      name: "Vinay Naugain",
       role: "VP of Sales",
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=256&q=80",
       bio: "20+ years in enterprise sales, previously led global sales teams at Salesforce and Oracle.",
@@ -118,11 +119,11 @@ const About = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {teamMembers.map((member, index) => (
               <div key={index} className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md transition-transform hover:scale-[1.02]">
-                <div className="aspect-square overflow-hidden">
+                <div className="aspect-square overflow-hidden flex items-center justify-center bg-gray-100 dark:bg-gray-700">
                   <img 
                     src={member.image} 
                     alt={member.name} 
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover object-center"
                   />
                 </div>
                 <div className="p-6">

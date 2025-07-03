@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, Linkedin, Mail } from 'lucide-react';
 
@@ -71,8 +70,10 @@ const Footer = () => {
             &copy; {new Date().getFullYear()} AI UmbrellaX. All rights reserved.
           </p>
           <div className="flex space-x-6">
-            <Link to="/" className="text-sm text-gray-600 dark:text-gray-400 hover:text-ai-purple">Privacy Policy</Link>
-            <Link to="/" className="text-sm text-gray-600 dark:text-gray-400 hover:text-ai-purple">Terms of Service</Link>
+            <Link to="/privacy-policy" className="text-sm text-gray-600 dark:text-gray-400 hover:text-ai-purple">Privacy Policy</Link>
+            <Link to="/terms-and-conditions" className="text-sm text-gray-600 dark:text-gray-400 hover:text-ai-purple">Terms & Conditions</Link>
+            <Link to="/refund-policy" className="text-sm text-gray-600 dark:text-gray-400 hover:text-ai-purple">Refund Policy</Link>
+            <Link to="/services" className="text-sm text-gray-600 dark:text-gray-400 hover:text-ai-purple">Services</Link>
           </div>
         </div>
       </div>
